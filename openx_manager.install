@@ -60,8 +60,63 @@ function openx_manager_install() {
  * Implementation of hook_schema().
  */
 function openx_manager_schema() {
+  $schema['openx_manager_advertiser'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'aid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'info_contact' => array(
+        'type'        => 'varchar',
+        'lenght'      => 255,
+        'not null'    => TRUE,
+      ),
+      'info_email' => array(
+        'type'        => 'varchar',
+        'lenght'      => 255,
+        'not null'    => TRUE,
+      ),
+      'report_auto' => array(
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'not null'    => TRUE,
+      ),
+      'report_email' => array(
+        'type'        => 'varchar',
+        'lenght'      => 255,
+        'not null'    => TRUE,
+      ),
+      'report_days' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'not null'    => TRUE,
+      ),
+      'misc_only_one_banner' => array(
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('nid'),
+    'unique keys' => array(
+      'aid' => array('aid'),
+    ),
+    'indexes' = array(
+    ),
+  );
   $schema['openx_manager_campaign'] = array(
     'fields' => array(
+      'nid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
       'cid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
@@ -73,13 +128,21 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
     ),
-    'primary key' => array('cid'),
+    'primary key' => array('nid'),
+    'unique keys' => array(
+      'cid' => array('cid'),
+    ),
     'indexes' = array(
       'aid' => array('aid'),
     ),
   );
   $schema['openx_manager_banner'] = array(
     'fields' => array(
+      'nid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
       'bid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
@@ -91,7 +154,10 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
     ),
-    'primary key' => array('bid'),
+    'primary key' => array('nid'),
+    'unique keys' => array(
+      'bid' => array('bid'),
+    ),
     'indexes' = array(
       'cid' => array('cid'),
     ),
