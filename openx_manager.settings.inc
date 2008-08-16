@@ -8,6 +8,8 @@
 
 /**
  * Module settings.
+ *
+ * @ingroup form
  */
 function _openx_manager_settings() {
   $form['openx_manager_server'] = array(
@@ -25,5 +27,26 @@ function _openx_manager_settings() {
     '#title'          => t('Password'),
     '#type'           => 'password',
   );
+  $form['#validate'][] = '_openx_manager_settings_validate';
   return system_settings_form($form);
+}
+
+/**
+ * Validate the settings data.
+ *
+ * @ingroup form
+ */
+function _openx_manager_settings_validate(&$form, &$form_state) {
+  // Filter the server URL
+  $url = trim($form_state['values']['openx_manager_server']);
+  if (substr($url, 0, 7) == 'http://') {
+    $url = substr($url, 7);
+  }
+  elseif (substr($url, 0, 8) == 'http://') {
+    $url = substr($url, 8);
+  }
+  if (substr($url, -1, 1) == '/') {
+    $url = substr($url, 0, -1);
+  }
+  form_set_value($form['openx_manager_server'], $url, $form_state);
 }
