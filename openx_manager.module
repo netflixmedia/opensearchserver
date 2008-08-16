@@ -111,6 +111,7 @@ function openx_node_advertiser_form(&$node, $form_state) {
  */
 function openx_node_advertiser_insert(&$node) {
   module_load_include('advertiser.inc', 'openx_manager');
+  return _openx_node_advertiser_insert($node);
 }
 
 /**
@@ -120,7 +121,7 @@ function openx_node_advertiser_insert(&$node) {
  */
 function openx_node_advertiser_load(&$node) {
   module_load_include('advertiser.inc', 'openx_manager');
-  return openx_node_advertiser_load($node);
+  return _openx_node_advertiser_load($node);
 }
 
 /**
