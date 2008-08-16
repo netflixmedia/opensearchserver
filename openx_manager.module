@@ -11,7 +11,7 @@
  */
 function openx_manager_exit() {
   // Close the connextion with OpenX server, if opened.
-  if (_openx_manager_session($check_only = FALSE)) {
+  if (_openx_manager_session(TRUE)) {
     xmlrpc(
       'http://'. variable_get('openx_manager_server', '') .'/www/api/v1/xmlrpc/LogonXmlRpcService.php',
       'logoff',
@@ -45,7 +45,7 @@ function openx_manager_menu() {
  */
 function _openx_manager_session($check_only = FALSE) {
   static $session_id;
-  if (!$check_only) {
+  if (!$check_only and !$session_id) {
     $session_id = xmlrpc(
       'http://'. variable_get('openx_manager_server', '') .'/www/api/v1/xmlrpc/LogonXmlRpcService.php',
       'logon',
