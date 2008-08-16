@@ -61,5 +61,7 @@ function _openx_manager_advertiver_nodeapi(&$node, $op, $teaser, $page) {
         }
       }
       return;
+    case 'validate':
+    case 'submit':
   }
 }
