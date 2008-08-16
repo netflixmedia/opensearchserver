@@ -7,11 +7,12 @@
  */
 
 /**
- * @author Bruno Massa http://drupal.org/user/67164
- * @file
- * All direct API communications.
+ * Ask, if not already, a new session ID from OpenX
+ *
+ * @return
+ *   String. The full session ID, used on every further communication
  */
-function openx_manager_session() {
+function _openx_manager_session() {
   static $session_id = xmlrpc(
     'http://'. variable_get('openx_manager_server', '') .'/www/api/v1/xmlrpc/LogonXmlRpcService.php',
     'logon',
