@@ -71,3 +71,16 @@ function _openx_node_advertiser_load($node) {
     }
   }
 }
+
+/**
+ * Implementation of hook_form().
+ *
+ * For Advertisers
+ */
+function _openx_node_advertiser_validate(&$node) {
+  if (!is_numeric($node->report_days)) {
+    form_set_error('report_days', t('It must be numeric'));
+  }
+  else {
+  }
+}

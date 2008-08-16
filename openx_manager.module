@@ -41,22 +41,25 @@ function openx_manager_menu() {
 function openx_manager_node_info() {
   return array(
     'openx_advertiser' => array(
+      'description' => t(''),
+      'has_body'    => FALSE,
       'name'        => t('Advertiser'),
       'module'      => 'openx_node_advertiser',
-      'description' => t(''),
-      'has_body'    => FALSE,
+      'title_label' => t('Advertiser'),
     ),
     'openx_campaign' => array(
-      'name'        => t('Campaign'),
-      'module'      => 'openx_node_campaign',
       'description' => t(''),
       'has_body'    => FALSE,
+      'module'      => 'openx_node_campaign',
+      'name'        => t('Campaign'),
+      'title_label' => t('Campaign'),
     ),
     'openx_banner' => array(
-      'name'        => t('Banner'),
-      'module'      => 'openx_node_banner',
       'description' => t(''),
       'has_body'    => FALSE,
+      'module'      => 'openx_node_banner',
+      'name'        => t('Banner'),
+      'title_label' => t('Banner'),
     ),
   );
 }
@@ -83,6 +86,15 @@ function _openx_manager_session($check_only = FALSE) {
 }
 
 /**
+ * Implementation of hook_delete().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_delete(&$node) {
+  module_load_include('advertiser.inc', 'openx_manager');
+}
+
+/**
  * Implementation of hook_form().
  *
  * For Advertisers
@@ -100,4 +112,32 @@ function openx_node_advertiser_form(&$node, $form_state) {
 function openx_node_advertiser_load(&$node) {
   module_load_include('advertiser.inc', 'openx_manager');
   return openx_node_advertiser_load($node);
+}
+
+/**
+ * Implementation of hook_insert().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_insert(&$node) {
+  module_load_include('advertiser.inc', 'openx_manager');
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_update(&$node) {
+  module_load_include('advertiser.inc', 'openx_manager');
+}
+
+/**
+ * Implementation of hook_validate().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_validate(&$node) {
+  module_load_include('advertiser.inc', 'openx_manager');
+  return _openx_node_advertiser_validate($node);
 }
