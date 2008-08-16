@@ -7,11 +7,26 @@
  */
 
 /**
+ * Implementation of hook_delete().
+ *
+ * For Advertisers
+ */
+function _openx_node_advertiser_delete(&$node) {
+  module_load_include('api.inc', 'openx_manager');
+  _openx_manager_call('Advertiser', 'deleteAdvertiser', $node->aid);
+  db_query('DELETE FROM {openx_manager_advertiser} WHERE nid = %d', $node->nid);
+}
+
+/**
  * Implementation of hook_form().
  *
  * For Advertisers
  */
 function _openx_node_advertiser_form(&$node, $form_state) {
+  $form['aid'] = array(
+    '#value'          => $node->aid,
+    '#type'           => 'value',
+  );
   $form['info'] = array(
     '#title'          => t('Contact'),
     '#type'           => 'fieldset',
@@ -26,36 +41,60 @@ function _openx_node_advertiser_form(&$node, $form_state) {
     '#title'          => t('Contact email'),
     '#type'           => 'textfield',
   );
-  $form['report'] = array(
-    '#title'          => t('Advertiser report'),
-    '#type'           => 'fieldset',
-  );
+//   $form['report'] = array(
+//     '#title'          => t('Advertiser report'),
+//     '#type'           => 'fieldset',
+//   );
   $form['report']['report_auto'] = array(
     '#default_value'  => $node->report_auto,
     '#title'          => t('Email when a campaign is automatically activated/deactivated'),
-    '#type'           => 'checkbox',
+//     '#type'           => 'checkbox',
+    '#type'           => 'value',
   );
   $form['report']['report_email'] = array(
     '#default_value'  => $node->report_email,
     '#title'          => t('Email campaign delivery reports'),
-    '#type'           => 'checkbox',
+//     '#type'           => 'checkbox',
+    '#type'           => 'value',
   );
   $form['report']['report_days'] = array(
     '#description'    => t('Number of days between campaign delivery reports'),
     '#default_value'  => $node->report_days,
     '#title'          => t('Number of days'),
-    '#type'           => 'textfield',
+//     '#type'           => 'textfield',
+    '#type'           => 'value',
   );
-  $form['misc'] = array(
-    '#title'          => t('Miscellaneous'),
-    '#type'           => 'fieldset',
-  );
+//   $form['misc'] = array(
+//     '#title'          => t('Miscellaneous'),
+//     '#type'           => 'fieldset',
+//   );
   $form['misc']['misc_only_one_banner'] = array(
     '#default_value'  => $node->misc_only_one_banner,
     '#title'          => t('Display only one banner from this advertiser on a web page'),
-    '#type'           => 'checkbox',
+//     '#type'           => 'checkbox',
+    '#type'           => 'value',
   );
   return $form;
+}
+
+/**
+ * Implementation of hook_insert().
+ *
+ * For Advertisers
+ */
+function _openx_node_advertiser_insert(&$node) {
+  module_load_include('api.inc', 'openx_manager');
+  $data = array(
+    'advertiserName'  => ($node->title) ? $node->title : "test". rand(),
+    'contactName'     => $node->info_contact,
+    'emailAddress'    => $node->info_email,
+  );
+  db_query("INSERT INTO {openx_manager_advertiser}
+    (nid, aid, info_contact, info_email, report_auto, report_email, report_days, misc_only_one_banner)
+    VALUES (%d, %d, '%s', '%s', %d, %d, %d, %d)",
+    $node->nid, _openx_manager_call('Advertiser', 'addAdvertiser', $data),
+    $node->info_contact, $node->info_email, $node->report_auto, $node->report_email,
+    $node->report_days, $node->misc_only_one_banner);
 }
 
 /**
@@ -64,7 +103,7 @@ function _openx_node_advertiser_form(&$node, $form_state) {
  * For Advertisers
  */
 function _openx_node_advertiser_load($node) {
-  $sql = db_query('SELECT * FROM {openx_advertiser} WHERE nid = %d', $node->nid);
+  $sql = db_query('SELECT * FROM {openx_manager_advertiser} WHERE nid = %d', $node->nid);
   while ($field = db_fetch_array($sql)) {
     foreach ($field as $key => $value) {
       $node->$key = $value;
@@ -78,9 +117,10 @@ function _openx_node_advertiser_load($node) {
  * For Advertisers
  */
 function _openx_node_advertiser_validate(&$node) {
-  if (!is_numeric($node->report_days)) {
-    form_set_error('report_days', t('It must be numeric'));
+  if (!variable_get('openx_manager_server', '')) {
+    form_set_error('title', t('OpenX integration not configured'));
   }
-  else {
+  if (!empty($node->report_days) and !is_numeric($node->report_days)) {
+    form_set_error('report_days', t('It must be numeric'));
   }
 }
