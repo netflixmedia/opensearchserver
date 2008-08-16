@@ -1,0 +1,53 @@
+<?php
+// $Id$
+/**
+ * @file
+ * Install and uninstall all required databases.
+ * Also do incremental database updates.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function openx_manager_install() {
+  // Create some new node types
+  $types = array(
+    array(
+      'type'            => 'openx_campaign',
+      'name'            => t('Campaign'),
+      'module'          => 'openx_manager',
+      'description'     => t('OpenX advertise campaign'),
+      'custom'          => TRUE,
+      'modified'        => TRUE,
+      'locked'          => FALSE,
+      'help'            => '',
+      'min_word_count'  => '',
+    ),
+    array(
+      'type'            => 'openx_banner',
+      'name'            => t('Banner'),
+      'module'          => 'openx_manager',
+      'description'     => t('OpenX advertise banner'),
+      'custom'          => TRUE,
+      'modified'        => TRUE,
+      'locked'          => FALSE,
+      'help'            => '',
+      'min_word_count'  => '',
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = (object) _node_type_set_defaults($type);
+    node_type_save($type);
+  }
+
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function openx_manager_uninstall() {
+  variable_del('openx_manager_server');
+  variable_del('openx_manager_username');
+  variable_del('openx_manager_password');
+}
