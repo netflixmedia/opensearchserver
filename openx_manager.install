@@ -10,8 +10,22 @@
  * Implementation of hook_install().
  */
 function openx_manager_install() {
+  // Install the schema
+  durpal_install_schema('openx_manager');
+
   // Create some new node types
   $types = array(
+    array(
+      'type'            => 'openx_advertiser',
+      'name'            => t('Advertiser'),
+      'module'          => 'node',
+      'description'     => t('OpenX advertiser'),
+      'custom'          => TRUE,
+      'modified'        => TRUE,
+      'locked'          => FALSE,
+      'help'            => '',
+      'min_word_count'  => '',
+    ),
     array(
       'type'            => 'openx_campaign',
       'name'            => t('Campaign'),
@@ -43,9 +57,56 @@ function openx_manager_install() {
 }
 
 /**
+ * Implementation of hook_schema().
+ */
+function openx_manager_schema() {
+  $schema['openx_manager_campaign'] = array(
+    'fields' => array(
+      'cid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'aid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('cid'),
+    'indexes' = array(
+      'aid' => array('aid'),
+    ),
+  );
+  $schema['openx_manager_banner'] = array(
+    'fields' => array(
+      'bid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'cid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('bid'),
+    'indexes' = array(
+      'cid' => array('cid'),
+    ),
+  );
+  return $schema;
+}
+
+/**
  * Implementation of hook_uninstall().
  */
 function openx_manager_uninstall() {
+  // Uninstall the schema
+  durpal_uninstall_schema('openx_manager');
+
+  // Delete variables
   variable_del('openx_manager_server');
   variable_del('openx_manager_username');
   variable_del('openx_manager_password');
