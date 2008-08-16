@@ -15,7 +15,7 @@ function openx_manager_install() {
     array(
       'type'            => 'openx_campaign',
       'name'            => t('Campaign'),
-      'module'          => 'openx_manager',
+      'module'          => 'node',
       'description'     => t('OpenX advertise campaign'),
       'custom'          => TRUE,
       'modified'        => TRUE,
@@ -26,7 +26,7 @@ function openx_manager_install() {
     array(
       'type'            => 'openx_banner',
       'name'            => t('Banner'),
-      'module'          => 'openx_manager',
+      'module'          => 'node',
       'description'     => t('OpenX advertise banner'),
       'custom'          => TRUE,
       'modified'        => TRUE,
@@ -40,7 +40,6 @@ function openx_manager_install() {
     $type = (object) _node_type_set_defaults($type);
     node_type_save($type);
   }
-
 }
 
 /**
