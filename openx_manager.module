@@ -36,20 +36,29 @@ function openx_manager_menu() {
 }
 
 /**
- * Implementation of hook_nodeapi().
+ * Implementation of hook_node_info().
  */
-function openx_manager_nodeapi(&$node, $op, $teaser, $page) {
-  switch ($node->type) {
-    case 'openx_advertiser':
-      module_load_include('advertiser.inc', 'openx_manager');
-      return _openx_manager_advertiver_nodeapi($node, $op, $teaser, $page);
-    case 'openx_campaign':
-      module_load_include('campaign.inc', 'openx_manager');
-      return _openx_manager_campaign_nodeapi($node, $op, $teaser, $page);
-    case 'openx_banner':
-      module_load_include('banner.inc', 'openx_manager');
-      return _openx_manager_banner_nodeapi($node, $op, $teaser, $page);
-  }
+function openx_manager_node_info() {
+  return array(
+    'openx_advertiser' => array(
+      'name'        => t('Advertiser'),
+      'module'      => 'openx_node_advertiser',
+      'description' => t(''),
+      'has_body'    => FALSE,
+    ),
+    'openx_campaign' => array(
+      'name'        => t('Campaign'),
+      'module'      => 'openx_node_campaign',
+      'description' => t(''),
+      'has_body'    => FALSE,
+    ),
+    'openx_banner' => array(
+      'name'        => t('Banner'),
+      'module'      => 'openx_node_banner',
+      'description' => t(''),
+      'has_body'    => FALSE,
+    ),
+  );
 }
 
 /**
@@ -71,4 +80,24 @@ function _openx_manager_session($check_only = FALSE) {
     );
   }
   return $session_id;
+}
+
+/**
+ * Implementation of hook_form().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_form(&$node, $form_state) {
+  module_load_include('advertiser.inc', 'openx_manager');
+  return _openx_node_advertiser_form($node, $form_state);
+}
+
+/**
+ * Implementation of hook_load().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_load(&$node) {
+  module_load_include('advertiser.inc', 'openx_manager');
+  return openx_node_advertiser_load($node);
 }

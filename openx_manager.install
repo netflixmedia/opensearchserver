@@ -12,48 +12,6 @@
 function openx_manager_install() {
   // Install the schema
   drupal_install_schema('openx_manager');
-
-  // Create some new node types
-  $types = array(
-    array(
-      'type'            => 'openx_advertiser',
-      'name'            => t('Advertiser'),
-      'module'          => 'node',
-      'description'     => t('OpenX advertiser'),
-      'custom'          => TRUE,
-      'modified'        => TRUE,
-      'locked'          => FALSE,
-      'help'            => '',
-      'min_word_count'  => '',
-    ),
-    array(
-      'type'            => 'openx_campaign',
-      'name'            => t('Campaign'),
-      'module'          => 'node',
-      'description'     => t('OpenX advertise campaign'),
-      'custom'          => TRUE,
-      'modified'        => TRUE,
-      'locked'          => FALSE,
-      'help'            => '',
-      'min_word_count'  => '',
-    ),
-    array(
-      'type'            => 'openx_banner',
-      'name'            => t('Banner'),
-      'module'          => 'node',
-      'description'     => t('OpenX advertise banner'),
-      'custom'          => TRUE,
-      'modified'        => TRUE,
-      'locked'          => FALSE,
-      'help'            => '',
-      'min_word_count'  => '',
-    ),
-  );
-
-  foreach ($types as $type) {
-    $type = (object) _node_type_set_defaults($type);
-    node_type_save($type);
-  }
 }
 
 /**
