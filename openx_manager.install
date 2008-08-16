@@ -11,7 +11,7 @@
  */
 function openx_manager_install() {
   // Install the schema
-  durpal_install_schema('openx_manager');
+  drupal_install_schema('openx_manager');
 
   // Create some new node types
   $types = array(
@@ -74,12 +74,12 @@ function openx_manager_schema() {
       ),
       'info_contact' => array(
         'type'        => 'varchar',
-        'lenght'      => 255,
+        'length'      => 255,
         'not null'    => TRUE,
       ),
       'info_email' => array(
         'type'        => 'varchar',
-        'lenght'      => 255,
+        'length'      => 255,
         'not null'    => TRUE,
       ),
       'report_auto' => array(
@@ -89,7 +89,7 @@ function openx_manager_schema() {
       ),
       'report_email' => array(
         'type'        => 'varchar',
-        'lenght'      => 255,
+        'length'      => 255,
         'not null'    => TRUE,
       ),
       'report_days' => array(
@@ -107,7 +107,7 @@ function openx_manager_schema() {
     'unique keys' => array(
       'aid' => array('aid'),
     ),
-    'indexes' = array(
+    'indexes' => array(
     ),
   );
   $schema['openx_manager_campaign'] = array(
@@ -132,7 +132,7 @@ function openx_manager_schema() {
     'unique keys' => array(
       'cid' => array('cid'),
     ),
-    'indexes' = array(
+    'indexes' => array(
       'aid' => array('aid'),
     ),
   );
@@ -158,7 +158,7 @@ function openx_manager_schema() {
     'unique keys' => array(
       'bid' => array('bid'),
     ),
-    'indexes' = array(
+    'indexes' => array(
       'cid' => array('cid'),
     ),
   );
@@ -170,7 +170,7 @@ function openx_manager_schema() {
  */
 function openx_manager_uninstall() {
   // Uninstall the schema
-  durpal_uninstall_schema('openx_manager');
+  drupal_uninstall_schema('openx_manager');
 
   // Delete variables
   variable_del('openx_manager_server');
