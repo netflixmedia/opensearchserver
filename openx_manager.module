@@ -20,3 +20,17 @@ function openx_manager_menu() {
   );
   return $items;
 }
+
+/**
+ * Implementation of hook_exit().
+ */
+function openx_manager_exit() {
+  // Close the connextion with OpenX server, if opened.
+  if (_openx_manager_session($check_only = FALSE)) {
+    xmlrpc(
+      'http://'. variable_get('openx_manager_server', '') .'/www/api/v1/xmlrpc/LogonXmlRpcService.php',
+      'logoff',
+      _openx_manager_session()
+    );
+  }
+}
