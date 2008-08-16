@@ -36,6 +36,23 @@ function openx_manager_menu() {
 }
 
 /**
+ * Implementation of hook_nodeapi().
+ */
+function openx_manager_nodeapi(&$node, $op, $teaser, $page) {
+  switch ($node->type) {
+    case 'openx_advertiser':
+      module_load_include('advertiser.inc', 'open_manager');
+      return _openx_manager_advertiver_nodeapi($node, $op, $teaser, $page);
+    case 'openx_campaign':
+      module_load_include('campaign.inc', 'open_manager');
+      return _openx_manager_campaign_nodeapi($node, $op, $teaser, $page);
+    case 'openx_banner':
+      module_load_include('banner.inc', 'open_manager');
+      return _openx_manager_banner_nodeapi($node, $op, $teaser, $page);
+  }
+}
+
+/**
  * Ask, if not already, a new session ID from OpenX
  *
  * @param $check_only
