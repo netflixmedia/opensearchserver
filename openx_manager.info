@@ -1,0 +1,4 @@
+; $Id$
+core            = "6.x"
+description     = "Control a OpenX from distance."
+name            = "OpenX Manager"
