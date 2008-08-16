@@ -92,7 +92,7 @@ function _openx_manager_session($check_only = FALSE) {
  */
 function openx_node_advertiser_delete(&$node) {
   module_load_include('advertiser.inc', 'openx_manager');
-  _openx_node_advertiser_delete($node);
+  return _openx_node_advertiser_delete($node);
 }
 
 /**
@@ -132,6 +132,7 @@ function openx_node_advertiser_load(&$node) {
  */
 function openx_node_advertiser_update(&$node) {
   module_load_include('advertiser.inc', 'openx_manager');
+  return _openx_node_advertiser_update($node);
 }
 
 /**

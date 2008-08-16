@@ -102,13 +102,36 @@ function _openx_node_advertiser_insert(&$node) {
  *
  * For Advertisers
  */
-function _openx_node_advertiser_load($node) {
+function _openx_node_advertiser_load(&$node) {
   $sql = db_query('SELECT * FROM {openx_manager_advertiser} WHERE nid = %d', $node->nid);
   while ($field = db_fetch_array($sql)) {
     foreach ($field as $key => $value) {
       $node->$key = $value;
     }
   }
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * For Advertisers
+ */
+function _openx_node_advertiser_update(&$node) {
+  module_load_include('api.inc', 'openx_manager');
+  $data = array(
+    'advertiserId'    => $node->aid,
+    'advertiserName'  => $node->title,
+    'contactName'     => $node->info_contact,
+    'emailAddress'    => $node->info_email,
+  );
+  _openx_manager_call('Advertiser', 'modifyAdvertiser', $data);
+  db_query("UPDATE {openx_manager_advertiser} SET
+    aid = %d, info_contact = %d, info_email = '%s', report_auto = '%s',
+    report_email = %d, report_days = %d, misc_only_one_banner = %d
+    WHERE nid = %d",
+    $node->aid,
+    $node->info_contact, $node->info_email, $node->report_auto, $node->report_email,
+    $node->report_days, $node->misc_only_one_banner, $node->nid);
 }
 
 /**
