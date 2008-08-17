@@ -45,6 +45,11 @@ function _openx_manager_call_file($op) {
     case 'modifyAdvertiser':
     case 'getAdvertiser':
       return '/www/api/v1/xmlrpc/AdvertiserXmlRpcService.php';
+    case 'addCampaign':
+    case 'deleteCampaign':
+    case 'modifyCampaign':
+    case 'getCampaign':
+      return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
   }
 }
 
