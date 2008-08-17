@@ -7,6 +7,20 @@
  */
 
 /**
+ * The main interface with the OpenX API
+ *
+ * @param $op
+ *   String. The operation to be done
+ * @param ...
+ *   Any. Any needed data to execute the API operation.
+ */
+function _openx_manager_api($op) {
+  module_load_include('api.inc', 'openx_manager');
+  $args = func_get_args();
+  call_user_func_array('_openx_manager_call', $args);
+}
+
+/**
  * Implementation of hook_exit().
  */
 function openx_manager_exit() {

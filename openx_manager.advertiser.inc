@@ -12,8 +12,7 @@
  * For Advertisers
  */
 function _openx_node_advertiser_delete(&$node) {
-  module_load_include('api.inc', 'openx_manager');
-  _openx_manager_call('Advertiser', 'deleteAdvertiser', $node->aid);
+  _openx_manager_api('deleteAdvertiser', (int) $node->aid);
   db_query('DELETE FROM {openx_manager_advertiser} WHERE nid = %d', $node->nid);
 }
 
@@ -33,6 +32,7 @@ function _openx_node_advertiser_form(&$node, $form_state) {
   );
   $form['info']['info_contact'] = array(
     '#default_value'  => $node->info_contact,
+    '#required'       => TRUE,
     '#title'          => t('Contact name'),
     '#type'           => 'textfield',
   );
@@ -83,16 +83,21 @@ function _openx_node_advertiser_form(&$node, $form_state) {
  * For Advertisers
  */
 function _openx_node_advertiser_insert(&$node) {
-  module_load_include('api.inc', 'openx_manager');
   $data = array(
     'advertiserName'  => ($node->title) ? $node->title : "test". rand(),
     'contactName'     => $node->info_contact,
-    'emailAddress'    => $node->info_email,
   );
+  if (!empty($node->info_email)) {
+    $data['emailAddress'] = $node->info_email;
+  }
+  $node->aid = _openx_manager_api('addAdvertiser', $data);
+dpm($node->aid);
+  $node->aid = (int) $node->aid;
+_openx_manager_call_error();
   db_query("INSERT INTO {openx_manager_advertiser}
     (nid, aid, info_contact, info_email, report_auto, report_email, report_days, misc_only_one_banner)
     VALUES (%d, %d, '%s', '%s', %d, %d, %d, %d)",
-    $node->nid, _openx_manager_call('Advertiser', 'addAdvertiser', $data),
+    $node->nid, $node->aid,
     $node->info_contact, $node->info_email, $node->report_auto, $node->report_email,
     $node->report_days, $node->misc_only_one_banner);
 }
@@ -117,16 +122,19 @@ function _openx_node_advertiser_load(&$node) {
  * For Advertisers
  */
 function _openx_node_advertiser_update(&$node) {
-  module_load_include('api.inc', 'openx_manager');
   $data = array(
     'advertiserId'    => $node->aid,
-    'advertiserName'  => $node->title,
+    'advertiserName'  => ($node->title) ? $node->title : "test". rand(),
     'contactName'     => $node->info_contact,
-    'emailAddress'    => $node->info_email,
   );
-  _openx_manager_call('Advertiser', 'modifyAdvertiser', $data);
+  if (!empty($node->info_email)) {
+    $data['emailAddress'] = $node->info_email;
+  }
+  _openx_manager_api('modifyAdvertiser', $data);
+dpm($data);
+_openx_manager_call_error();
   db_query("UPDATE {openx_manager_advertiser} SET
-    aid = %d, info_contact = %d, info_email = '%s', report_auto = '%s',
+    aid = %d, info_contact = '%s', info_email = '%s', report_auto = '%s',
     report_email = %d, report_days = %d, misc_only_one_banner = %d
     WHERE nid = %d",
     $node->aid,
