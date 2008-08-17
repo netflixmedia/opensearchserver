@@ -90,10 +90,7 @@ function _openx_node_advertiser_insert(&$node) {
   if (!empty($node->info_email)) {
     $data['emailAddress'] = $node->info_email;
   }
-  $node->aid = _openx_manager_api('addAdvertiser', $data);
-dpm($node->aid);
-  $node->aid = (int) $node->aid;
-_openx_manager_call_error();
+  $aid = _openx_manager_api('addAdvertiser', $data);
   db_query("INSERT INTO {openx_manager_advertiser}
     (nid, aid, info_contact, info_email, report_auto, report_email, report_days, misc_only_one_banner)
     VALUES (%d, %d, '%s', '%s', %d, %d, %d, %d)",
@@ -131,8 +128,6 @@ function _openx_node_advertiser_update(&$node) {
     $data['emailAddress'] = $node->info_email;
   }
   _openx_manager_api('modifyAdvertiser', $data);
-dpm($data);
-_openx_manager_call_error();
   db_query("UPDATE {openx_manager_advertiser} SET
     aid = %d, info_contact = '%s', info_email = '%s', report_auto = '%s',
     report_email = %d, report_days = %d, misc_only_one_banner = %d
