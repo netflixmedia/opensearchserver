@@ -114,8 +114,9 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'contract_revenue_unit' => array(
-        'type'        => 'varchar',
-        'length'      => 3,
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'priority_level_level' => array(

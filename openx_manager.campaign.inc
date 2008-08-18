@@ -6,6 +6,17 @@
  * Manage all OpenX Campaigns.
  */
 
+// OpenX constants (on constants.php)
+define('MAX_FINANCE_CPM',    1);
+define('MAX_FINANCE_CPC',    2);
+define('MAX_FINANCE_CPA',    3);
+define('MAX_FINANCE_MT',     4); // Monthly Tennancy
+define('MAX_FINANCE_RS',     5); // % Revenue split     (zone-only)
+define('MAX_FINANCE_BV',     6); // % Basket value      (zone-only)
+define('MAX_FINANCE_AI',     7); // Amount per item     (zone-only)
+define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
+define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
+
 /**
  * Implementation of hook_delete().
  *
@@ -71,12 +82,12 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#type'           => 'textfield',
   );
   $form['contract']['contract_revenue_unit'] = array(
-    '#default_value'  => $node->contract_revenue_unit,
+    '#default_value'  => empty($node->contract_revenue_unit) ? MAX_FINANCE_CPM : $node->contract_revenue_unit,
     '#options'        => array(
-      'cpm' => t('CPM'),
-      'cpc' => t('CPC'),
-      'cpa' => t('CPA'),
-      'mt'  => t('Monthly Tenancy'),
+      MAX_FINANCE_CPM   => t('CPM'),
+      MAX_FINANCE_CPC   => t('CPC'),
+      MAX_FINANCE_CPA   => t('CPA'),
+      MAX_FINANCE_MT    => t('Monthly Tenancy'),
     ),
     '#type'           => 'select',
   );
