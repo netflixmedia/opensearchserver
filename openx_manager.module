@@ -162,6 +162,66 @@ function openx_node_advertiser_validate(&$node) {
 /**
  * Implementation of hook_delete().
  *
+ * For Banners
+ */
+function openx_node_banner_delete(&$node) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_delete($node);
+}
+
+/**
+ * Implementation of hook_form().
+ *
+ * For Banners
+ */
+function openx_node_banner_form(&$node, $form_state) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_form($node, $form_state);
+}
+
+/**
+ * Implementation of hook_insert().
+ *
+ * For Banners
+ */
+function openx_node_banner_insert(&$node) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_insert($node);
+}
+
+/**
+ * Implementation of hook_load().
+ *
+ * For Banners
+ */
+function openx_node_banner_load(&$node) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_load($node);
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * For Banners
+ */
+function openx_node_banner_update(&$node) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_update($node);
+}
+
+/**
+ * Implementation of hook_validate().
+ *
+ * For Banners
+ */
+function openx_node_banner_validate(&$node) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_validate($node);
+}
+
+/**
+ * Implementation of hook_delete().
+ *
  * For Campaigns
  */
 function openx_node_campaign_delete(&$node) {
