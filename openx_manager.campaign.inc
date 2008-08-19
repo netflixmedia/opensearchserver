@@ -342,3 +342,46 @@ function _openx_node_campaign_validate(&$node) {
     }
   }
 }
+
+/*
+ * Implementation of hook_load().
+ *
+ * For Advertisers
+ */
+function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
+//   $node = node_prepare($node, $teaser);
+  $node->content['campaign'] = array(
+    '#value'  => theme('campaign', $node),
+    '#weight' => 1,
+  );
+
+  return $node;
+}
+
+/*
+ * Display the Campaign fields
+ */
+function theme_campaign(&$node) {
+  $fields['inventory'] = array(
+    '#title'          => t('Inventory'),
+    '#type'           => 'fieldset',
+  );
+  $fields['inventory']['inventory_impressions'] = array(
+    '#value'          => ($node->inventory_impressions == -1) ? 'unlimited' : $node->inventory_impressions,
+    '#title'          => t('Impressions booked'),
+    '#type'           => 'item',
+  );
+  $fields['inventory']['inventory_clicks'] = array(
+    '#value'          => ($node->inventory_clicks == -1) ? 'unlimited' : $node->inventory_clicks,
+    '#title'          => t('Clicks booked'),
+    '#type'           => 'item',
+  );
+  $fields['inventory']['inventory_conversions'] = array(
+    '#value'          => ($node->inventory_conversions == -1) ? 'unlimited' : $node->inventory_conversions,
+    '#title'          => t('Conversions booked'),
+    '#type'           => 'item',
+  );
+
+  $output = drupal_render($fields);
+  return $output;
+}

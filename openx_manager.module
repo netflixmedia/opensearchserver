@@ -119,6 +119,10 @@ function openx_manager_theme() {
       'file'      => 'openx_manager.advertiser.inc',
       'arguments' => array('node'),
     ),
+    'campaign' => array(
+      'file'      => 'openx_manager.campaign.inc',
+      'arguments' => array('node'),
+    ),
   );
 }
 
@@ -182,7 +186,7 @@ function openx_node_advertiser_validate(&$node) {
   return _openx_node_advertiser_validate($node);
 }
 
-/*
+/**
  * Implementation of hook_view().
  *
  * For Advertisers
@@ -310,4 +314,14 @@ function openx_node_campaign_update(&$node) {
 function openx_node_campaign_validate(&$node) {
   module_load_include('campaign.inc', 'openx_manager');
   return _openx_node_campaign_validate($node);
+}
+
+/**
+ * Implementation of hook_view().
+ *
+ * For Advertisers
+ */
+function openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
+  module_load_include('campaign.inc', 'openx_manager');
+  return _openx_node_campaign_view($node, $teaser, $page);
 }
