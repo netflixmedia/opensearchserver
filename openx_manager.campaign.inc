@@ -388,24 +388,79 @@ function theme_campaign(&$node) {
     '#weight'         => 2,
   );
   $fields['contract']['contract_activation'] = array(
-    '#value'          => $node->contract_activation,
+    '#value'          => format_date($node->contract_activation, 'small'),
     '#title'          => t('Activation date'),
     '#type'           => 'item',
   );
   $fields['contract']['contract_expiration'] = array(
-    '#value'          => $node->contract_expiration,
+    '#value'          => format_date($node->contract_expiration, 'small'),
     '#title'          => t('Expiration date'),
     '#type'           => 'item',
   );
-  $contract_revenue_unit = array(
+  $options = array(
     MAX_FINANCE_CPM   => t('CPM'),
     MAX_FINANCE_CPC   => t('CPC'),
     MAX_FINANCE_CPA   => t('CPA'),
     MAX_FINANCE_MT    => t('Monthly Tenancy'),
   );
   $fields['contract']['contract_revenue'] = array(
-    '#value'          => $node->contract_revenue .' '. $contract_revenue_unit[$node->contract_revenue_unit],
+    '#value'          => $node->contract_revenue .' '. $options[$node->contract_revenue_unit],
     '#title'          => t('Revenue Information'),
+    '#type'           => 'item',
+  );
+  $fields['priority'] = array(
+    '#title'          => t('Priority'),
+    '#type'           => 'fieldset',
+    '#weight'         => 3,
+  );
+  $options = array(
+    -1  => t('Exclusive (Overrides other linked campaigns)'),
+    5   => t('High (Paid campaigns)'),
+    0   => t('Low (House and unpaid campaigns)'),
+  );
+  $fields['priority']['priority_level_level'] = array(
+    '#value'          => $options[$node->priority_level_level],
+    '#title'          => t('Priority'),
+    '#type'           => 'item',
+  );
+  $options = array(
+    t('Automatic - Distribute the remaining inventory evenly over the remaining number of days'),
+    t('Manual'),
+    t('None - Set the campaign weight to'),
+  );
+  $fields['priority']['priority_distribution_level'] = array(
+    '#value'          => $options[$node->priority_distribution_level],
+    '#title'          => t('Distribution'),
+    '#type'           => 'item',
+  );
+  $fields['priority']['priority_misc_hide'] = array(
+    '#value'          => $node->priority_misc_hide,
+    '#title'          => t('Hide the advertiser and websites of this campaign'),
+    '#type'           => 'item',
+  );
+  $fields['priority']['priority_misc_positioning'] = array(
+    '#value'          => $node->priority_misc_positioning,
+    '#title'          => t('Companion positioning'),
+    '#type'           => 'item',
+  );
+  $fields['delivery'] = array(
+    '#title'          => t('Delivery'),
+    '#type'           => 'fieldset',
+    '#weight'         => 4,
+  );
+  $fields['delivery']['delivery_limit_total'] = array(
+    '#value'          => $node->delivery_limit_total,
+    '#title'          => t('Limit campaign views in total'),
+    '#type'           => 'item',
+  );
+  $fields['delivery']['delivery_limit_session'] = array(
+    '#value'          => $node->delivery_limit_session,
+    '#title'          => t('Limit campaign views per session'),
+    '#type'           => 'item',
+  );
+  $fields['delivery']['delivery_reset_view'] = array(
+    '#value'          => $node->delivery_reset_view,
+    '#title'          => t('Reset view counters after'),
     '#type'           => 'item',
   );
 
