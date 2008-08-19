@@ -180,6 +180,69 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
+
+      'keywords' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'weight' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'destination_url' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'destination_target' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'text_status' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'btype' => array(
+        'type'        => 'varchar',
+        'length'      => 4,
+        'not null'    => TRUE,
+      ),
+      'upload_image' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'text_text' => array(
+        'type'        => 'text',
+        'not null'    => TRUE,
+      ),
+      'text_all' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'text_below' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'size_height' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'size_width' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
