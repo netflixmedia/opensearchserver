@@ -97,6 +97,18 @@ function _openx_manager_session($check_only = FALSE) {
 }
 
 /**
+ * Implementation of hook_theme().
+ */
+function openx_manager_theme() {
+  return array(
+    'advertiser' => array(
+      'file'      => 'openx_manager.advertiser.inc',
+      'arguments' => array('node'),
+    ),
+  );
+}
+
+/**
  * Implementation of hook_delete().
  *
  * For Advertisers
@@ -154,6 +166,16 @@ function openx_node_advertiser_update(&$node) {
 function openx_node_advertiser_validate(&$node) {
   module_load_include('advertiser.inc', 'openx_manager');
   return _openx_node_advertiser_validate($node);
+}
+
+/*
+ * Implementation of hook_view().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
+  module_load_include('advertiser.inc', 'openx_manager');
+  return _openx_node_advertiser_view($node, $teaser, $page);
 }
 
 /**

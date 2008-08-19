@@ -157,3 +157,39 @@ function _openx_node_advertiser_validate(&$node) {
     form_set_error('report_days', t('It must be numeric'));
   }
 }
+
+/*
+ * Implementation of hook_load().
+ *
+ * For Advertisers
+ */
+function _openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
+//   $node = node_prepare($node, $teaser);
+  $node->content['advertiser'] = array(
+    '#value'  => theme('advertiser', $node),
+    '#weight' => 1,
+  );
+
+  return $node;
+}
+
+/*
+ * Display the Advertisers fields
+ */
+function theme_advertiser(&$node) {
+  $fields['info_contact'] = array(
+    '#title'  => t('Contact'),
+    '#type'   => 'item',
+    '#value'  => $node->info_contact
+  );
+  if (!empty($node->info_email)) {
+    $fields['info_email'] = array(
+      '#title'  => t('Contact'),
+      '#type'   => 'item',
+      '#value'  => $node->info_email
+    );
+  }
+
+  $output = drupal_render($fields);
+  return $output;
+}
