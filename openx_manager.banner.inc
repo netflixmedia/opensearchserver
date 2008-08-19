@@ -30,14 +30,27 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#weight'         => -5,
   );
   $form['bid'] = array(
-    '#value'          => $node->aid,
+    '#value'          => $node->bid,
     '#type'           => 'value',
   );
+  if (empty($node->cid)) {
+    $cid = $_GET['cid'];
+    $campaign = node_load($_GET['nid']);
+  }
+  else {
+    $cid = $node->cid;
+    $campaign = node_load(db_result(db_query('SELECT nid FROM {openx_manager_campaign}
+      WHERE cid = %d', $cid)));
+  }
   $form['cid'] = array(
-    '#value'          => $node->aid,
+    '#value'          => $cid,
     '#type'           => 'value',
   );
-
+  $form['campaign'] = array(
+    '#value'          => l($campaign->title, 'node/'. $campaign->nid),
+    '#title'          => t('Campaign'),
+    '#type'           => 'item',
+  );
   $form['keywords'] = array(
     '#default_value'  => $node->keywords,
     '#title'          => t('Keywords'),
@@ -78,15 +91,15 @@ function _openx_node_banner_form(&$node, $form_state) {
   );
   $form['upload_image'] = array(
     '#default_value'  => $node->upload_image,
-    '#disabled'       => !(empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web'),
-    '#required'       => (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web'),
+//     '#disabled'       => !(empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web'),
+//     '#required'       => (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web'),
     '#title'          => t('Image'),
     '#type'           => 'file',
   );
   $form['text_text'] = array(
     '#default_value'  => $node->text_text,
-    '#disabled'       => !($node->btype == 'txt'),
-    '#required'       => ($node->btype == 'txt'),
+//     '#disabled'       => !($node->btype == 'txt'),
+//     '#required'       => ($node->btype == 'txt'),
     '#title'          => t('Text'),
     '#type'           => 'textarea',
   );
@@ -102,15 +115,15 @@ function _openx_node_banner_form(&$node, $form_state) {
   );
   $form['size_height'] = array(
     '#default_value'  => $node->size_height,
-    '#disabled'       => !($node->btype == 'html' or $node->btype == 'url'),
-    '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
+//     '#disabled'       => !($node->btype == 'html' or $node->btype == 'url'),
+//     '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
     '#title'          => t('Height'),
     '#type'           => 'textfield',
   );
   $form['size_width'] = array(
     '#default_value'  => $node->size_width,
-    '#disabled'       => !($node->btype == 'html' or $node->btype == 'url'),
-    '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
+//     '#disabled'       => !($node->btype == 'html' or $node->btype == 'url'),
+//     '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
     '#title'          => t('Width'),
     '#type'           => 'textfield',
   );
@@ -128,21 +141,21 @@ function _openx_node_banner_insert(&$node) {
     'campaignId'      => (int) $node->cid,
     'storageType'     => $node->btype,
   );
-  if (!empty($node->upload_image)) {
-    $data['fileName'] = $node->upload_image;
-  }
-  if (!empty($node->text_text)) {
-    $data['imageURL'] = $node->text_text;
-  }
-//   if (!empty($node->html_template)) {
-//     $data['htmlTemplate'] = $node->html_template;
+//   if (!empty($node->upload_image)) {
+//     $data['fileName'] = $node->upload_image;
 //   }
-  if (!empty($node->size_height)) {
-    $data['height'] = (int) $node->size_height;
+//   if (!empty($node->text_text)) {
+//     $data['imageURL'] = $node->text_text;
+//   }
+  if (!empty($node->text_text)) {
+    $data['htmlTemplate'] = $node->text_text;
   }
-  if (!empty($node->size_width)) {
-    $data['width'] = (int) $node->size_width;
-  }
+//   if (!empty($node->size_height)) {
+//     $data['height'] = (int) $node->size_height;
+//   }
+//   if (!empty($node->size_width)) {
+//     $data['width'] = (int) $node->size_width;
+//   }
   if (!empty($node->weight)) {
     $data['weight'] = (int) $node->weight;
   }
@@ -152,7 +165,7 @@ function _openx_node_banner_insert(&$node) {
   $node->bid = _openx_manager_api('addBanner', $data);
 
   db_query("INSERT INTO {openx_manager_banner}
-    (nid, aid, cid,
+    (nid, bid, cid,
     keywords, weight, destination_url, destination_target,
     text_status, btype, upload_image, text_text,
     text_all, text_below, size_height, size_width)
@@ -217,7 +230,7 @@ function _openx_node_banner_update(&$node) {
   _openx_manager_api('modifyBanner', $data);
 
   db_query("UPDATE {openx_manager_banner} SET
-    aid = %d, cid = %d,
+    bid = %d, cid = %d,
     keywords = '%s', weight = %d, destination_url = '%s', destination_target = '%s',
     text_status = '%s', btype = '%s', upload_image = '%s', text_text = '%s',
     text_all = '%s', text_below = '%s', size_height = %d, size_width = %d
