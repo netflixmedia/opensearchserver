@@ -365,6 +365,7 @@ function theme_campaign(&$node) {
   $fields['inventory'] = array(
     '#title'          => t('Inventory'),
     '#type'           => 'fieldset',
+    '#weight'         => 1,
   );
   $fields['inventory']['inventory_impressions'] = array(
     '#value'          => ($node->inventory_impressions == -1) ? 'unlimited' : $node->inventory_impressions,
@@ -379,6 +380,32 @@ function theme_campaign(&$node) {
   $fields['inventory']['inventory_conversions'] = array(
     '#value'          => ($node->inventory_conversions == -1) ? 'unlimited' : $node->inventory_conversions,
     '#title'          => t('Conversions booked'),
+    '#type'           => 'item',
+  );
+  $fields['contract'] = array(
+    '#title'          => t('Contract'),
+    '#type'           => 'fieldset',
+    '#weight'         => 2,
+  );
+  $fields['contract']['contract_activation'] = array(
+    '#value'          => $node->contract_activation,
+    '#title'          => t('Activation date'),
+    '#type'           => 'item',
+  );
+  $fields['contract']['contract_expiration'] = array(
+    '#value'          => $node->contract_expiration,
+    '#title'          => t('Expiration date'),
+    '#type'           => 'item',
+  );
+  $contract_revenue_unit = array(
+    MAX_FINANCE_CPM   => t('CPM'),
+    MAX_FINANCE_CPC   => t('CPC'),
+    MAX_FINANCE_CPA   => t('CPA'),
+    MAX_FINANCE_MT    => t('Monthly Tenancy'),
+  );
+  $fields['contract']['contract_revenue'] = array(
+    '#value'          => $node->contract_revenue .' '. $contract_revenue_unit[$node->contract_revenue_unit],
+    '#title'          => t('Revenue Information'),
     '#type'           => 'item',
   );
 
