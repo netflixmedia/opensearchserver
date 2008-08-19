@@ -344,10 +344,10 @@ function _openx_node_campaign_validate(&$node) {
   }
 }
 
-/*
+/**
  * Implementation of hook_load().
  *
- * For Advertisers
+ * For Campaigns
  */
 function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
   $node->advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
@@ -360,7 +360,7 @@ function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
   return $node;
 }
 
-/*
+/**
  * Display the Campaign fields
  */
 function theme_campaign(&$node) {
@@ -471,6 +471,5 @@ function theme_campaign(&$node) {
     '#type'           => 'item',
   );
 
-  $output = drupal_render($fields);
-  return $output;
+  return drupal_render($fields);
 }
