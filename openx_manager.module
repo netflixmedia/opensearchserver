@@ -59,21 +59,18 @@ function openx_manager_node_info() {
       'has_body'    => FALSE,
       'name'        => t('Advertiser'),
       'module'      => 'openx_node_advertiser',
-      'title_label' => t('Advertiser'),
     ),
     'openx_campaign' => array(
       'description' => t(''),
       'has_body'    => FALSE,
       'module'      => 'openx_node_campaign',
       'name'        => t('Campaign'),
-      'title_label' => t('Campaign'),
     ),
     'openx_banner' => array(
       'description' => t(''),
       'has_body'    => FALSE,
       'module'      => 'openx_node_banner',
       'name'        => t('Banner'),
-      'title_label' => t('Banner'),
     ),
   );
 }

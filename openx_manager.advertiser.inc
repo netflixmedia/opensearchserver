@@ -22,6 +22,13 @@ function _openx_node_advertiser_delete(&$node) {
  * For Advertisers
  */
 function _openx_node_advertiser_form(&$node, $form_state) {
+  $form['title'] = array(
+    '#type'           => 'textfield',
+    '#title'          => t('Advertiser'),
+    '#required'       => TRUE,
+    '#default_value'  => $node->title,
+    '#weight'         => -5,
+  );
   $form['aid'] = array(
     '#value'          => $node->aid,
     '#type'           => 'value',
@@ -84,7 +91,7 @@ function _openx_node_advertiser_form(&$node, $form_state) {
  */
 function _openx_node_advertiser_insert(&$node) {
   $data = array(
-    'advertiserName'  => ($node->title) ? $node->title : "test". rand(),
+    'advertiserName'  => $node->title,
     'contactName'     => $node->info_contact,
   );
   if (!empty($node->info_email)) {
@@ -121,7 +128,7 @@ function _openx_node_advertiser_load(&$node) {
 function _openx_node_advertiser_update(&$node) {
   $data = array(
     'advertiserId'    => $node->aid,
-    'advertiserName'  => ($node->title) ? $node->title : "test". rand(),
+    'advertiserName'  => $node->title,
     'contactName'     => $node->info_contact,
   );
   if (!empty($node->info_email)) {
