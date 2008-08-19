@@ -42,13 +42,27 @@ function _openx_node_campaign_form(&$node, $form_state) {
   );
   // Internal values
   $form['cid'] = array(
-    '#value'          => $node->aid,
+    '#value'          => $node->cid,
     '#type'           => 'value',
   );
+  if (empty($node->aid)) {
+    $aid = $_GET['aid'];
+    $advertiser = node_load($_GET['nid']);
+  }
+  else {
+    $aid = $node->aid;
+    $advertiser = node_load($_GET['nid']);
+  }
   $form['aid'] = array(
-    '#value'          => $node->aid,
+    '#value'          => $aid,
     '#type'           => 'value',
   );
+  $form['advertiser'] = array(
+    '#value'          => l($advertiser->title, 'node/'. $advertiser->nid),
+    '#title'          => t('Advertiser'),
+    '#type'           => 'item',
+  );
+
   $form['inventory'] = array(
     '#description'    => t('-1 for unlimeted'),
     '#title'          => t('Inventory'),
@@ -73,11 +87,25 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#title'          => t('Contract'),
     '#type'           => 'fieldset',
   );
+  if (is_numeric($node->contract_activation)) {
+    $node->contract_activation = array(
+      'day'   => date('j', $node->contract_activation),
+      'month' => date('n', $node->contract_activation),
+      'year'  => date('Y', $node->contract_activation),
+    );
+  }
   $form['contract']['contract_activation'] = array(
     '#default_value'  => $node->contract_activation,
     '#title'          => t('Activation date'),
     '#type'           => 'date',
   );
+  if (is_numeric($node->contract_expiration)) {
+    $node->contract_expiration = array(
+      'day'   => date('j', $node->contract_expiration),
+      'month' => date('n', $node->contract_expiration),
+      'year'  => date('Y', $node->contract_expiration),
+    );
+  }
   $form['contract']['contract_expiration'] = array(
     '#default_value'  => $node->contract_expiration,
     '#title'          => t('Expiration date'),
@@ -109,9 +137,9 @@ function _openx_node_campaign_form(&$node, $form_state) {
   $form['priority']['level']['priority_level_level'] = array(
     '#default_value'  => $node->priority_level_level,
     '#options'        => array(
-      t('Exclusive (Overrides other linked campaigns)'),
-      t('High (Paid campaigns)'),
-      t('Low (House and unpaid campaigns)'),
+      -1  => t('Exclusive (Overrides other linked campaigns)'),
+      5   => t('High (Paid campaigns)'),
+      0   => t('Low (House and unpaid campaigns)'),
     ),
     '#type'           => 'radios',
   );
@@ -170,9 +198,14 @@ function _openx_node_campaign_form(&$node, $form_state) {
  * For Campaigns
  */
 function _openx_node_campaign_insert(&$node) {
+  $node->contract_activation = mktime(0, 0, 0, $node->contract_activation['month'],
+      $node->contract_activation['day'], $node->contract_activation['year']);
+  $node->contract_expiration = mktime(0, 0, 0, $node->contract_expiration['month'],
+      $node->contract_expiration['day'], $node->contract_expiration['year']);
+
   // Required and optional values on OpenX server
   $data = array(
-    'campaignName'  => ($node->title) ? $node->title : "test". rand(),
+    'campaignName'  => $node->title,
     'advertiserId'  => (int) $node->aid,
   );
   if (!empty($node->contract_activation)) {
@@ -237,29 +270,33 @@ function _openx_node_campaign_update(&$node) {
   // Required and optional values on OpenX server
   $data = array(
     'campaignId'    => (int) $node->cid,
-    'campaignName'  => ($node->title) ? $node->title : "test". rand(),
+    'campaignName'  => $node->title,
     'advertiserId'  => (int) $node->aid,
   );
-  if (!empty($node->contract_activation)) {
-    $data['startDate'] = $node->contract_activation;
-  }
-  if (!empty($node->contract_expiration)) {
-    $data['endDate'] = $node->contract_expiration;
-  }
+//   if (!empty($node->contract_activation)) {
+//     $data['startDate'] = $node->contract_activation;
+//   }
+//   if (!empty($node->contract_expiration)) {
+//     $data['endDate'] = $node->contract_expiration;
+//   }
   if (!empty($node->inventory_impressions)) {
     $data['impressions'] = (int) $node->inventory_impressions;
   }
   if (!empty($node->inventory_clicks)) {
     $data['clicks'] = (int) $node->inventory_clicks;
   }
-  if (!empty($node->contract_expiration)) {
-    $data['priority'] = (int) $node->contract_expiration;
+  if (!empty($node->priority_level_level)) {
+    $data['priority'] = (int) $node->priority_level_level;
   }
   if (!empty($node->distribution_weight)) {
     $data['weight'] = (int) $node->distribution_weight;
   }
   _openx_manager_api('modifyCampaign', $data);
 
+  $node->contract_activation = mktime(0, 0, 0, $node->contract_activation['month'],
+      $node->contract_activation['day'], $node->contract_activation['year']);
+  $node->contract_expiration = mktime(0, 0, 0, $node->contract_expiration['month'],
+      $node->contract_expiration['day'], $node->contract_expiration['year']);
   db_query("UPDATE {openx_manager_campaign} SET
     cid = %d, aid = %d, inventory_impressions = %d, inventory_clicks = %d,
     inventory_conversions = %d, contract_activation = %d, contract_expiration = %d,
