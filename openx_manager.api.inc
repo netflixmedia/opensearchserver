@@ -64,5 +64,10 @@ function _openx_manager_call_file($op) {
     case 'modifyCampaign':
     case 'getCampaign':
       return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
+    case 'addBanner':
+    case 'deleteBanner':
+    case 'modifyBanner':
+    case 'getBanner':
+      return '/www/api/v1/xmlrpc/BannerXmlRpcService.php';
   }
 }
