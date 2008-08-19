@@ -178,13 +178,13 @@ function _openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
  */
 function theme_advertiser(&$node) {
   $fields['info_contact'] = array(
-    '#title'  => t('Contact'),
+    '#title'  => t('Contact name'),
     '#type'   => 'item',
     '#value'  => $node->info_contact
   );
   if (!empty($node->info_email)) {
     $fields['info_email'] = array(
-      '#title'  => t('Contact'),
+      '#title'  => t('Contact email'),
       '#type'   => 'item',
       '#value'  => $node->info_email
     );
