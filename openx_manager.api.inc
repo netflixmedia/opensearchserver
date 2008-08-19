@@ -27,7 +27,21 @@ function _openx_manager_call($op) {
   array_unshift($args, 'http://'. variable_get('openx_manager_server', '') . _openx_manager_call_file($op));
 
   // Call the XML-RPC
-  return call_user_func_array('xmlrpc', $args);
+  $result = call_user_func_array('xmlrpc', $args);
+
+  // Show errors, if any
+  if ($error_number = xmlrpc_errno()) {
+    if (function_exists('dpm')) {
+      $func = 'dpm';
+    }
+    else {
+      $func = 'drupal_set_message';
+    }
+    $func($error_number, 'error');
+    $func(xmlrpc_error_msg(), 'error');
+  }
+
+  return $result;
 }
 
 /**
@@ -51,15 +65,4 @@ function _openx_manager_call_file($op) {
     case 'getCampaign':
       return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
   }
-}
-
-function _openx_manager_call_error() {
-  if (function_exists('dpm')) {
-    $func = 'dpm';
-  }
-  else {
-    $func = 'drupal_set_message';
-  }
-  $func(xmlrpc_error_msg());
-  $func(xmlrpc_errno());
 }
