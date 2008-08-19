@@ -35,6 +35,20 @@ function openx_manager_exit() {
 }
 
 /**
+ * Implementation of hook_link().
+ */
+function openx_manager_link($type, $object, $teaser = FALSE) {
+  if ($type == 'node' and $object->type == 'openx_advertiser' and empty($teaser)) {
+    $links['sample_link'] = array(
+      'title'       => t('Create a new Campaign'),
+      'href'        => 'node/add/openx-campaign',
+      'query'       => array('aid' => $object->aid, 'nid' => $object->nid),
+    );
+    return $links;
+  }
+}
+
+/**
  * Implementation of hook_menu().
  */
 function openx_manager_menu() {
