@@ -51,7 +51,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
       $links['create_banner'] = array(
         'title'       => t('Create a new Banner'),
         'href'        => 'node/add/openx-banner',
-        'query'       => array('cid' => $object->aid, 'nid' => $object->nid),
+        'query'       => array('cid' => $object->cid, 'nid' => $object->nid),
       );
       return $links;
     }
