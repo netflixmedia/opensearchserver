@@ -38,13 +38,23 @@ function openx_manager_exit() {
  * Implementation of hook_link().
  */
 function openx_manager_link($type, $object, $teaser = FALSE) {
-  if ($type == 'node' and $object->type == 'openx_advertiser' and empty($teaser)) {
-    $links['sample_link'] = array(
-      'title'       => t('Create a new Campaign'),
-      'href'        => 'node/add/openx-campaign',
-      'query'       => array('aid' => $object->aid, 'nid' => $object->nid),
-    );
-    return $links;
+  if ($type == 'node' and empty($teaser)) {
+    if ($object->type == 'openx_advertiser') {
+      $links['create_campaign'] = array(
+        'title'       => t('Create a new Campaign'),
+        'href'        => 'node/add/openx-campaign',
+        'query'       => array('aid' => $object->aid, 'nid' => $object->nid),
+      );
+      return $links;
+    }
+    elseif ($object->type == 'openx_campaign') {
+      $links['create_banner'] = array(
+        'title'       => t('Create a new Banner'),
+        'href'        => 'node/add/openx-banner',
+        'query'       => array('cid' => $object->aid, 'nid' => $object->nid),
+      );
+      return $links;
+    }
   }
 }
 
@@ -117,6 +127,10 @@ function openx_manager_theme() {
   return array(
     'advertiser' => array(
       'file'      => 'openx_manager.advertiser.inc',
+      'arguments' => array('node'),
+    ),
+    'banner' => array(
+      'file'      => 'openx_manager.banner.inc',
       'arguments' => array('node'),
     ),
     'campaign' => array(
@@ -254,6 +268,16 @@ function openx_node_banner_update(&$node) {
 function openx_node_banner_validate(&$node) {
   module_load_include('banner.inc', 'openx_manager');
   return _openx_node_banner_validate($node);
+}
+
+/**
+ * Implementation of hook_view().
+ *
+ * For Advertisers
+ */
+function openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_view($node, $teaser, $page);
 }
 
 /**
