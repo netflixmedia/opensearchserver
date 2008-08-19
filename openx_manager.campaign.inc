@@ -51,7 +51,8 @@ function _openx_node_campaign_form(&$node, $form_state) {
   }
   else {
     $aid = $node->aid;
-    $advertiser = node_load($_GET['nid']);
+    $advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
+      WHERE aid = %d', $aid)));
   }
   $form['aid'] = array(
     '#value'          => $aid,
@@ -349,7 +350,8 @@ function _openx_node_campaign_validate(&$node) {
  * For Advertisers
  */
 function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
-//   $node = node_prepare($node, $teaser);
+  $node->advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
+    WHERE aid = %d', $node->aid)));
   $node->content['campaign'] = array(
     '#value'  => theme('campaign', $node),
     '#weight' => 1,
@@ -362,6 +364,11 @@ function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
  * Display the Campaign fields
  */
 function theme_campaign(&$node) {
+  $fields['advertiser'] = array(
+    '#value'          => l($node->advertiser->title, 'node/'. $node->advertiser->nid),
+    '#title'          => t('Advertiser'),
+    '#type'           => 'item',
+  );
   $fields['inventory'] = array(
     '#title'          => t('Inventory'),
     '#type'           => 'fieldset',
