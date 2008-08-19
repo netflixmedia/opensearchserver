@@ -150,12 +150,12 @@ function _openx_node_banner_insert(&$node) {
   if (!empty($node->text_text)) {
     $data['htmlTemplate'] = $node->text_text;
   }
-//   if (!empty($node->size_height)) {
-//     $data['height'] = (int) $node->size_height;
-//   }
-//   if (!empty($node->size_width)) {
-//     $data['width'] = (int) $node->size_width;
-//   }
+  if (!empty($node->size_height)) {
+    $data['height'] = (int) $node->size_height;
+  }
+  if (!empty($node->size_width)) {
+    $data['width'] = (int) $node->size_width;
+  }
   if (!empty($node->weight)) {
     $data['weight'] = (int) $node->weight;
   }
@@ -206,15 +206,15 @@ function _openx_node_banner_update(&$node) {
     'campaignId'      => (int) $node->cid,
     'storageType'     => $node->btype,
   );
-  if (!empty($node->upload_image)) {
-    $data['fileName'] = $node->upload_image;
-  }
-  if (!empty($node->text_text)) {
-    $data['imageURL'] = $node->text_text;
-  }
-//   if (!empty($node->html_template)) {
-//     $data['htmlTemplate'] = $node->html_template;
+//   if (!empty($node->upload_image)) {
+//     $data['fileName'] = $node->upload_image;
 //   }
+//   if (!empty($node->text_text)) {
+//     $data['imageURL'] = $node->text_text;
+//   }
+  if (!empty($node->text_text)) {
+    $data['htmlTemplate'] = $node->text_text;
+  }
   if (!empty($node->size_height)) {
     $data['height'] = (int) $node->size_height;
   }
@@ -274,11 +274,77 @@ function _openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
  * Display the Banner fields
  */
 function theme_banner(&$node) {
-  $fields['info_contact'] = array(
-    '#title'  => t('Contact name'),
-    '#type'   => 'item',
-    '#value'  => $node->info_contact
+  $fields['keywords'] = array(
+    '#value'          => check_plain($node->keywords),
+    '#title'          => t('Keywords'),
+    '#type'           => 'item',
+  );
+  $fields['weight'] = array(
+    '#value'          => check_plain($node->weight),
+    '#title'          => t('Weight'),
+    '#type'           => 'item',
+  );
+  $fields['destination_url'] = array(
+    '#value'          => check_plain($node->destination_url),
+    '#title'          => t('Destination URL'),
+    '#type'           => 'item',
+  );
+  $fields['destination_target'] = array(
+    '#value'          => check_plain($node->destination_target),
+    '#title'          => t('Destination Target'),
+    '#type'           => 'item',
+  );
+  $fields['text_status'] = array(
+    '#value'          => check_plain($node->text_status),
+    '#title'          => t('Status Text'),
+    '#type'           => 'item',
+  );
+  $options = array(
+    'sql'   => t('Local banner (SQL)'),
+    'web'   => t('Local banner (Webserver)'),
+    'url'   => t('External banner'),
+    'html'  => t('HTML banner'),
+    'txt'   => t('Text ad'),
+  );
+  $fields['btype'] = array(
+    '#value'          => $options[$node->btype],
+    '#title'          => t('Type'),
+    '#type'           => 'item',
+  );
+  $fields['upload_image'] = array(
+    '#value'          => check_plain($node->upload_image),
+    '#title'          => t('Image'),
+    '#type'           => 'item',
+  );
+  $fields['text_text'] = array(
+    '#value'          => check_plain($node->text_text),
+    '#title'          => t('Text'),
+    '#type'           => 'item',
+  );
+  $fields['text_all'] = array(
+    '#value'          => check_plain($node->text_all),
+    '#title'          => t('All Text'),
+    '#type'           => 'item',
+  );
+  $fields['text_below'] = array(
+    '#value'          => check_plain($node->text_below),
+    '#title'          => t('Below Text'),
+    '#type'           => 'item',
+  );
+  $fields['size_height'] = array(
+    '#value'          => check_plain($node->size_height),
+    '#title'          => t('Height'),
+    '#type'           => 'item',
+  );
+  $fields['size_width'] = array(
+    '#value'          => check_plain($node->size_width),
+    '#title'          => t('Width'),
+    '#type'           => 'item',
   );
 
-  return drupal_render($fields);
+  $output = '';
+  foreach ($fields as $field) {
+    $output .= drupal_render($field);
+  }
+  return $output;
 }
