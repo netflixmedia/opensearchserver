@@ -33,6 +33,13 @@ function _openx_node_campaign_delete(&$node) {
  * For Campaigns
  */
 function _openx_node_campaign_form(&$node, $form_state) {
+  $form['title'] = array(
+    '#type'           => 'textfield',
+    '#title'          => t('Campaign'),
+    '#required'       => TRUE,
+    '#default_value'  => $node->title,
+    '#weight'         => -5,
+  );
   // Internal values
   $form['cid'] = array(
     '#value'          => $node->aid,
