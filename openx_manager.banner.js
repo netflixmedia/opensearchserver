@@ -24,7 +24,7 @@ Drupal.behaviors.openx_manager_banner = function() {
     fields_mask = [0, 0, 1, 1, 1, 0, 1, 0];
   }
   else if ($("#edit-btype").val() == "url") {
-    fields_mask = [0, 0, 1, 1, 1, 0, 0, 1];
+    fields_mask = [1, 1, 1, 1, 1, 0, 0, 1];
   }
   else if ($("#edit-btype").val() == "html") {
     fields_mask = [1, 1, 0, 0, 0, 1, 0, 0];
