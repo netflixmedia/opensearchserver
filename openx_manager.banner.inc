@@ -316,11 +316,6 @@ function theme_banner(&$node) {
     '#title'          => t('Destination Target'),
     '#type'           => 'item',
   );
-  $fields['text_status'] = array(
-    '#value'          => check_plain($node->text_status),
-    '#title'          => t('Status Text'),
-    '#type'           => 'item',
-  );
   $options = array(
     'sql'   => t('Local banner (SQL)'),
     'web'   => t('Local banner (Webserver)'),
@@ -333,36 +328,51 @@ function theme_banner(&$node) {
     '#title'          => t('Type'),
     '#type'           => 'item',
   );
-  $fields['upload_image'] = array(
-    '#value'          => check_plain($node->upload_image),
-    '#title'          => t('Image'),
-    '#type'           => 'item',
-  );
-  $fields['text_text'] = array(
-    '#value'          => check_plain($node->text_text),
-    '#title'          => t('Text'),
-    '#type'           => 'item',
-  );
-  $fields['text_all'] = array(
-    '#value'          => check_plain($node->text_all),
-    '#title'          => t('All Text'),
-    '#type'           => 'item',
-  );
-  $fields['text_below'] = array(
-    '#value'          => check_plain($node->text_below),
-    '#title'          => t('Below Text'),
-    '#type'           => 'item',
-  );
-  $fields['size_height'] = array(
-    '#value'          => check_plain($node->size_height),
-    '#title'          => t('Height'),
-    '#type'           => 'item',
-  );
-  $fields['size_width'] = array(
-    '#value'          => check_plain($node->size_width),
-    '#title'          => t('Width'),
-    '#type'           => 'item',
-  );
+  if ($node->btype == 'sql' or $node->btype == 'web') {
+    $fields['upload_image'] = array(
+      '#value'          => check_plain($node->upload_image),
+      '#title'          => t('Image'),
+      '#type'           => 'item',
+    );
+  }
+  if ($node->btype == 'txt' or $node->btype == 'html') {
+    $fields['text_text'] = array(
+      '#value'          => check_plain($node->text_text),
+      '#title'          => t('Text'),
+      '#type'           => 'item',
+    );
+  }
+  if ($node->btype != 'html') {
+    $fields['text_status'] = array(
+      '#value'          => check_plain($node->text_status),
+      '#title'          => t('Status Text'),
+      '#type'           => 'item',
+    );
+  }
+  if ($node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
+    $fields['text_all'] = array(
+      '#value'          => check_plain($node->text_all),
+      '#title'          => t('All Text'),
+      '#type'           => 'item',
+    );
+    $fields['text_below'] = array(
+      '#value'          => check_plain($node->text_below),
+      '#title'          => t('Below Text'),
+      '#type'           => 'item',
+    );
+  }
+  if ($node->btype == 'html' or $node->btype == 'url') {
+    $fields['size_height'] = array(
+      '#value'          => check_plain($node->size_height),
+      '#title'          => t('Height'),
+      '#type'           => 'item',
+    );
+    $fields['size_width'] = array(
+      '#value'          => check_plain($node->size_width),
+      '#title'          => t('Width'),
+      '#type'           => 'item',
+    );
+  }
 
   // Print all field in the right order
   $output = '';
