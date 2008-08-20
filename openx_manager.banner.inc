@@ -101,6 +101,13 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'select',
     );
   }
+  if (empty($node->btype) or $node->btype != 'url') {
+    $form['data_url'] = array(
+      '#default_value'  => empty($node->data_url) ? 'http://' : $node->data_url,
+      '#title'          => t('Image URL'),
+      '#type'           => 'textfield',
+    );
+  }
   if (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web') {
     $form['data_image'] = array(
       '#default_value'  => $node->data_image,
