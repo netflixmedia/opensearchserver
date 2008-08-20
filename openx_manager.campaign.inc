@@ -471,5 +471,10 @@ function theme_campaign(&$node) {
     '#type'           => 'item',
   );
 
-  return drupal_render($fields);
+  // Print all field in the right order
+  $output = '';
+  foreach ($fields as $field) {
+    $output .= drupal_render($field);
+  }
+  return $output;
 }
