@@ -35,6 +35,14 @@ function openx_manager_exit() {
 }
 
 /**
+ * Implementation of hook_form_alter().
+ */
+function openx_manager_form_openx_banner_node_form_alter(&$form, $form_state) {
+  $form['buttons']['#weight'] = 99;
+  $form['#theme']             = 'banner_form';
+}
+
+/**
  * Implementation of hook_link().
  */
 function openx_manager_link($type, $object, $teaser = FALSE) {
@@ -132,6 +140,10 @@ function openx_manager_theme() {
     'banner' => array(
       'file'      => 'openx_manager.banner.inc',
       'arguments' => array('node'),
+    ),
+    'banner_form' => array(
+      'file'      => 'openx_manager.banner.inc',
+      'arguments' => array('form'),
     ),
     'campaign' => array(
       'file'      => 'openx_manager.campaign.inc',
