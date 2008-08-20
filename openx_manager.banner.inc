@@ -63,6 +63,8 @@ function _openx_node_banner_form(&$node, $form_state) {
   );
   $form['destination_url'] = array(
     '#default_value'  => empty($node->destination_url) ? 'http://' : $node->destination_url,
+    '#description'    => t(''),
+    '#required'       => TRUE,
     '#title'          => t('Destination URL'),
     '#type'           => 'textfield',
   );
@@ -76,33 +78,45 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#title'          => t('Status Text'),
     '#type'           => 'textfield',
   );
-  $form['btype'] = array(
-    '#default_value'  => $node->btype,
-    '#options'        => array(
-      'sql'   => t('Local banner (SQL)'),
-      'web'   => t('Local banner (Webserver)'),
-      'url'   => t('External banner'),
-      'html'  => t('HTML banner'),
-      'txt'   => t('Text ad'),
-    ),
-    '#required'       => TRUE,
-    '#title'          => t('Type'),
-    '#type'           => 'select',
+  $options = array(
+    'sql'   => t('Local banner (SQL)'),
+    'web'   => t('Local banner (Webserver)'),
+    'url'   => t('External banner'),
+    'html'  => t('HTML banner'),
+    'txt'   => t('Text ad'),
   );
-  $form['upload_image'] = array(
-    '#default_value'  => $node->upload_image,
-//     '#disabled'       => !(empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web'),
-//     '#required'       => (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web'),
-    '#title'          => t('Image'),
-    '#type'           => 'file',
-  );
-  $form['text_text'] = array(
-    '#default_value'  => $node->text_text,
-//     '#disabled'       => !($node->btype == 'txt'),
-//     '#required'       => ($node->btype == 'txt'),
-    '#title'          => t('Text'),
-    '#type'           => 'textarea',
-  );
+  if ($node->btype) {
+    $form['text_status'] = array(
+      '#value'          => $options[$node->btype],
+      '#title'          => t('Type'),
+      '#type'           => 'item',
+    );
+  }
+  else {
+    $form['btype'] = array(
+      '#default_value'  => 'sql',
+      '#options'        => $options,
+      '#required'       => TRUE,
+      '#title'          => t('Type'),
+      '#type'           => 'select',
+    );
+  }
+  if (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web') {
+    $form['upload_image'] = array(
+      '#default_value'  => $node->upload_image,
+      '#required'       => ($node->btype == 'sql' or $node->btype == 'web'),
+      '#title'          => t('Image'),
+      '#type'           => 'file',
+    );
+  }
+  if (empty($node->btype) or $node->btype == 'txt' or $node->btype == 'html') {
+    $form['text_text'] = array(
+      '#default_value'  => $node->text_text,
+      '#required'       => ($node->btype == 'txt' or $node->btype == 'html'),
+      '#title'          => t('Text'),
+      '#type'           => 'textarea',
+    );
+  }
   $form['text_all'] = array(
     '#default_value'  => $node->text_all,
     '#title'          => t('All Text'),
@@ -113,20 +127,24 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#title'          => t('Below Text'),
     '#type'           => 'textfield',
   );
-  $form['size_height'] = array(
-    '#default_value'  => $node->size_height,
-//     '#disabled'       => !($node->btype == 'html' or $node->btype == 'url'),
-//     '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
-    '#title'          => t('Height'),
-    '#type'           => 'textfield',
-  );
-  $form['size_width'] = array(
-    '#default_value'  => $node->size_width,
-//     '#disabled'       => !($node->btype == 'html' or $node->btype == 'url'),
-//     '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
-    '#title'          => t('Width'),
-    '#type'           => 'textfield',
-  );
+  if (empty($node->btype) or $node->btype == 'html' or $node->btype == 'url') {
+    $form['size_height'] = array(
+      '#default_value'  => $node->size_height,
+      '#description'    => t('Banner height, in pixels.'),
+      '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
+      '#size'           => 5,
+      '#title'          => t('Height'),
+      '#type'           => 'textfield',
+    );
+    $form['size_width'] = array(
+      '#default_value'  => $node->size_width,
+      '#description'    => t('Banner width, in pixels.'),
+      '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
+      '#size'           => 5,
+      '#title'          => t('Width'),
+      '#type'           => 'textfield',
+    );
+  }
   return $form;
 }
 
@@ -342,6 +360,7 @@ function theme_banner(&$node) {
     '#type'           => 'item',
   );
 
+  // Print all field in the right order
   $output = '';
   foreach ($fields as $field) {
     $output .= drupal_render($field);
