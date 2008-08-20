@@ -22,6 +22,11 @@ function _openx_node_banner_delete(&$node) {
  * For Banners
  */
 function _openx_node_banner_form(&$node, $form_state) {
+  // Add the Javascript if its a new banner
+  if (empty($node->bid)) {
+    drupal_add_js(drupal_get_path('module', 'openx_manager') .'/openx_manager.banner.js');
+  }
+
   $form['title'] = array(
     '#type'           => 'textfield',
     '#title'          => t('Banner'),
@@ -97,16 +102,16 @@ function _openx_node_banner_form(&$node, $form_state) {
     );
   }
   if (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web') {
-    $form['upload_image'] = array(
-      '#default_value'  => $node->upload_image,
+    $form['data_image'] = array(
+      '#default_value'  => $node->data_image,
       '#required'       => ($node->btype == 'sql' or $node->btype == 'web'),
       '#title'          => t('Image'),
       '#type'           => 'file',
     );
   }
   if (empty($node->btype) or $node->btype == 'txt' or $node->btype == 'html') {
-    $form['text_text'] = array(
-      '#default_value'  => $node->text_text,
+    $form['data_text'] = array(
+      '#default_value'  => $node->data_text,
       '#required'       => ($node->btype == 'txt' or $node->btype == 'html'),
       '#title'          => t('Text'),
       '#type'           => 'textarea',
@@ -163,14 +168,14 @@ function _openx_node_banner_insert(&$node) {
     'campaignId'      => (int) $node->cid,
     'storageType'     => $node->btype,
   );
-//   if (!empty($node->upload_image)) {
-//     $data['fileName'] = $node->upload_image;
-//   }
-//   if (!empty($node->text_text)) {
-//     $data['imageURL'] = $node->text_text;
-//   }
-  if (!empty($node->text_text)) {
-    $data['htmlTemplate'] = $node->text_text;
+  if ($node->btype == 'sql' or $node->btype == 'web') {
+    $data['fileName'] = $node->data_image;
+  }
+  if ($node->btype == 'text') {
+    $data['imageURL'] = $node->data_url;
+  }
+  if ($node->btype == 'html') {
+    $data['htmlTemplate'] = $node->data_text;
   }
   if (!empty($node->size_height)) {
     $data['height'] = (int) $node->size_height;
@@ -228,14 +233,14 @@ function _openx_node_banner_update(&$node) {
     'campaignId'      => (int) $node->cid,
     'storageType'     => $node->btype,
   );
-//   if (!empty($node->upload_image)) {
-//     $data['fileName'] = $node->upload_image;
-//   }
-//   if (!empty($node->text_text)) {
-//     $data['imageURL'] = $node->text_text;
-//   }
+  if ($node->btype == 'sql' or $node->btype == 'web') {
+    $data['fileName'] = $node->data_image;
+  }
+  if ($node->btype == 'text') {
+    $data['imageURL'] = $node->data_url;
+  }
   if ($node->btype == 'html') {
-    $data['htmlTemplate'] = $node->text_text;
+    $data['htmlTemplate'] = $node->data_text;
   }
   if (!empty($node->size_height)) {
     $data['height'] = (int) $node->size_height;
