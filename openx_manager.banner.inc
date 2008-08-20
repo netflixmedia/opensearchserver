@@ -340,16 +340,23 @@ function theme_banner(&$node) {
     '#title'          => t('Type'),
     '#type'           => 'item',
   );
+  if ($node->btype != 'url') {
+    $form['data_url'] = array(
+      '#default_value'  => check_plain($node->data_url),
+      '#title'          => t('Image URL'),
+      '#type'           => 'item',
+    );
+  }
   if ($node->btype == 'sql' or $node->btype == 'web') {
-    $fields['upload_image'] = array(
-      '#value'          => check_plain($node->upload_image),
+    $fields['data_image'] = array(
+      '#value'          => check_plain($node->data_image),
       '#title'          => t('Image'),
       '#type'           => 'item',
     );
   }
   if ($node->btype == 'txt' or $node->btype == 'html') {
-    $fields['text_text'] = array(
-      '#value'          => check_plain($node->text_text),
+    $fields['data_text'] = array(
+      '#value'          => check_plain($node->data_text),
       '#title'          => t('Text'),
       '#type'           => 'item',
     );
