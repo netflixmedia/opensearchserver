@@ -22,16 +22,11 @@ function _openx_node_banner_delete(&$node) {
  * For Banners
  */
 function _openx_node_banner_form(&$node, $form_state) {
-  // Add the Javascript if its a new banner
-  if (empty($node->bid)) {
-    drupal_add_js(drupal_get_path('module', 'openx_manager') .'/openx_manager.banner.js');
-  }
-
   $form['title'] = array(
-    '#type'           => 'textfield',
-    '#title'          => t('Banner'),
-    '#required'       => TRUE,
     '#default_value'  => $node->title,
+    '#required'       => TRUE,
+    '#title'          => t('Banner'),
+    '#type'           => 'textfield',
     '#weight'         => -5,
   );
   $form['bid'] = array(
@@ -85,7 +80,7 @@ function _openx_node_banner_form(&$node, $form_state) {
     'html'  => t('HTML banner'),
     'txt'   => t('Text ad'),
   );
-  if ($node->btype) {
+  if ($node->btype and !empty($node->nid)) {
     $form['text_status'] = array(
       '#value'          => $options[$node->btype],
       '#title'          => t('Type'),
@@ -94,21 +89,21 @@ function _openx_node_banner_form(&$node, $form_state) {
   }
   else {
     $form['btype'] = array(
-      '#default_value'  => 'sql',
+      '#default_value'  => empty($node->btype) ? 'sql' : $node->btype,
       '#options'        => $options,
       '#required'       => TRUE,
       '#title'          => t('Type'),
       '#type'           => 'select',
     );
   }
-  if (empty($node->btype) or $node->btype != 'url') {
+  if (empty($node->nid) or $node->btype != 'url') {
     $form['data_url'] = array(
       '#default_value'  => empty($node->data_url) ? 'http://' : $node->data_url,
       '#title'          => t('Image URL'),
       '#type'           => 'textfield',
     );
   }
-  if (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web') {
+  if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
     $form['data_image'] = array(
       '#default_value'  => $node->data_image,
       '#required'       => ($node->btype == 'sql' or $node->btype == 'web'),
@@ -116,7 +111,7 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'file',
     );
   }
-  if (empty($node->btype) or $node->btype == 'txt' or $node->btype == 'html') {
+  if (empty($node->nid) or $node->btype == 'txt' or $node->btype == 'html') {
     $form['data_text'] = array(
       '#default_value'  => $node->data_text,
       '#required'       => ($node->btype == 'txt' or $node->btype == 'html'),
@@ -124,14 +119,14 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'textarea',
     );
   }
-  if (empty($node->btype) or $node->btype != 'html') {
+  if (empty($node->nid) or $node->btype != 'html') {
     $form['text_status'] = array(
       '#default_value'  => $node->text_status,
       '#title'          => t('Status Text'),
       '#type'           => 'textfield',
     );
   }
-  if (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
+  if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
     $form['text_all'] = array(
       '#default_value'  => $node->text_all,
       '#title'          => t('All Text'),
@@ -143,7 +138,7 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'textfield',
     );
   }
-  if (empty($node->btype) or $node->btype == 'html' or $node->btype == 'url') {
+  if (empty($node->nid) or $node->btype == 'html' or $node->btype == 'url') {
     $form['size_height'] = array(
       '#default_value'  => $node->size_height,
       '#description'    => t('Banner height, in pixels.'),
@@ -161,6 +156,7 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'textfield',
     );
   }
+
   return $form;
 }
 
@@ -306,6 +302,8 @@ function _openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
 
 /**
  * Display the Banner fields
+ *
+ * @ingroup themable
  */
 function theme_banner(&$node) {
   $fields['keywords'] = array(
@@ -399,4 +397,18 @@ function theme_banner(&$node) {
     $output .= drupal_render($field);
   }
   return $output;
+}
+
+/**
+ * Display the Banner fields
+ *
+ * @ingroup themable
+ */
+function theme_banner_form(&$form) {
+  // Add the Javascript if its a new banner
+  if (empty($node->nid)) {
+    drupal_add_js(drupal_get_path('module', 'openx_manager') .'/openx_manager.banner.js');
+  }
+
+  return drupal_render($form);
 }
