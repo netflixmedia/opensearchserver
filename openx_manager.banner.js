@@ -39,8 +39,8 @@ Drupal.behaviors.openx_manager_banner = function() {
       $(fields[field]).removeAttr("disabled");
     }
     else {
-      $(fields[field] +"-wrapper").hide();
       $(fields[field]).attr("disabled", "disabled");
+      $(fields[field] +"-wrapper").hide();
     }
   }
 };
