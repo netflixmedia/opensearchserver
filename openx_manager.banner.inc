@@ -22,6 +22,14 @@ function _openx_node_banner_delete(&$node) {
  * For Banners
  */
 function _openx_node_banner_form(&$node, $form_state) {
+  $form['#cache'] = FALSE;
+  if (empty($node->nid) and $form_state['post']) {
+    $values = &$form_state['post'];
+  }
+  else {
+    $values = (array) $node;
+  }
+
   $form['title'] = array(
     '#default_value'  => $node->title,
     '#required'       => TRUE,
@@ -106,7 +114,7 @@ function _openx_node_banner_form(&$node, $form_state) {
   if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
     $form['data_image'] = array(
       '#default_value'  => $node->data_image,
-      '#required'       => ($node->btype == 'sql' or $node->btype == 'web'),
+      '#required'       => ($values['btype'] == 'sql' or $values['btype'] == 'web'),
       '#title'          => t('Image'),
       '#type'           => 'file',
     );
@@ -114,7 +122,7 @@ function _openx_node_banner_form(&$node, $form_state) {
   if (empty($node->nid) or $node->btype == 'txt' or $node->btype == 'html') {
     $form['data_text'] = array(
       '#default_value'  => $node->data_text,
-      '#required'       => ($node->btype == 'txt' or $node->btype == 'html'),
+      '#required'       => ($values['btype'] == 'txt' or $values['btype'] == 'html'),
       '#title'          => t('Text'),
       '#type'           => 'textarea',
     );
@@ -142,7 +150,7 @@ function _openx_node_banner_form(&$node, $form_state) {
     $form['size_height'] = array(
       '#default_value'  => $node->size_height,
       '#description'    => t('Banner height, in pixels.'),
-      '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
+      '#required'       => ($values['btype'] == 'html' or $values['btype'] == 'url'),
       '#size'           => 5,
       '#title'          => t('Height'),
       '#type'           => 'textfield',
@@ -150,7 +158,7 @@ function _openx_node_banner_form(&$node, $form_state) {
     $form['size_width'] = array(
       '#default_value'  => $node->size_width,
       '#description'    => t('Banner width, in pixels.'),
-      '#required'       => ($node->btype == 'html' or $node->btype == 'url'),
+      '#required'       => ($values['btype'] == 'html' or $values['btype'] == 'url'),
       '#size'           => 5,
       '#title'          => t('Width'),
       '#type'           => 'textfield',
