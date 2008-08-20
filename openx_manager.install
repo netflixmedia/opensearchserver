@@ -212,12 +212,17 @@ function openx_manager_schema() {
         'length'      => 4,
         'not null'    => TRUE,
       ),
-      'upload_image' => array(
+      'data_image' => array(
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
-      'text_text' => array(
+      'data_url' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'data_text' => array(
         'type'        => 'text',
         'not null'    => TRUE,
       ),
