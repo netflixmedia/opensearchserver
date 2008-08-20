@@ -30,7 +30,7 @@ Drupal.behaviors.openx_manager_banner = function() {
     fields_mask = [1, 1, 0, 0, 0, 1, 0, 0];
   }
   else if ($("#edit-btype").val() == "txt") {
-    fields_mask = [1, 1, 0, 0, 1, 1, 0, 0];
+    fields_mask = [0, 0, 0, 0, 1, 1, 0, 0];
   }
 
   for (field in fields) {
