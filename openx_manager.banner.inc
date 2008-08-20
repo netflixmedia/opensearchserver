@@ -73,11 +73,6 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#title'          => t('Destination Target'),
     '#type'           => 'textfield',
   );
-  $form['text_status'] = array(
-    '#default_value'  => $node->text_status,
-    '#title'          => t('Status Text'),
-    '#type'           => 'textfield',
-  );
   $options = array(
     'sql'   => t('Local banner (SQL)'),
     'web'   => t('Local banner (Webserver)'),
@@ -117,16 +112,25 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'textarea',
     );
   }
-  $form['text_all'] = array(
-    '#default_value'  => $node->text_all,
-    '#title'          => t('All Text'),
-    '#type'           => 'textfield',
-  );
-  $form['text_below'] = array(
-    '#default_value'  => $node->text_below,
-    '#title'          => t('Below Text'),
-    '#type'           => 'textfield',
-  );
+  if (empty($node->btype) or $node->btype != 'html') {
+    $form['text_status'] = array(
+      '#default_value'  => $node->text_status,
+      '#title'          => t('Status Text'),
+      '#type'           => 'textfield',
+    );
+  }
+  if (empty($node->btype) or $node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
+    $form['text_all'] = array(
+      '#default_value'  => $node->text_all,
+      '#title'          => t('All Text'),
+      '#type'           => 'textfield',
+    );
+    $form['text_below'] = array(
+      '#default_value'  => $node->text_below,
+      '#title'          => t('Below Text'),
+      '#type'           => 'textfield',
+    );
+  }
   if (empty($node->btype) or $node->btype == 'html' or $node->btype == 'url') {
     $form['size_height'] = array(
       '#default_value'  => $node->size_height,
@@ -230,7 +234,7 @@ function _openx_node_banner_update(&$node) {
 //   if (!empty($node->text_text)) {
 //     $data['imageURL'] = $node->text_text;
 //   }
-  if (!empty($node->text_text)) {
+  if ($node->btype == 'html') {
     $data['htmlTemplate'] = $node->text_text;
   }
   if (!empty($node->size_height)) {
