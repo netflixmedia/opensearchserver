@@ -411,7 +411,7 @@ function theme_campaign(&$node) {
     MAX_FINANCE_MT    => t('Monthly Tenancy'),
   );
   $fields['contract']['contract_revenue'] = array(
-    '#value'          => $node->contract_revenue .' '. $options[$node->contract_revenue_unit],
+    '#value'          => check_plain($node->contract_revenue) .' '. $options[$node->contract_revenue_unit],
     '#title'          => t('Revenue Information'),
     '#type'           => 'item',
   );
