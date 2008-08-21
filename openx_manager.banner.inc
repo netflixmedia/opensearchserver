@@ -90,10 +90,14 @@ function _openx_node_banner_form(&$node, $form_state) {
     'txt'   => t('Text ad'),
   );
   if ($node->btype and !empty($node->nid)) {
-    $form['text_status'] = array(
+    $form['btype_text'] = array(
       '#value'          => $options[$node->btype],
       '#title'          => t('Type'),
       '#type'           => 'item',
+    );
+    $form['btype'] = array(
+      '#value'          => $node->btype,
+      '#type'           => 'value',
     );
   }
   else {
@@ -281,6 +285,7 @@ function _openx_node_banner_submit(&$form, &$form_state) {
     $node['bid'] = _openx_manager_api($openx_operation, $data);
   }
   else {
+    $data['bannerId'] = (int) $node['bid'];
     $openx_operation = 'modifyBanner';
   }
   _openx_manager_api($openx_operation, $data);
