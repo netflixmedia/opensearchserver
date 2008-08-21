@@ -189,25 +189,8 @@ function _openx_node_banner_form(&$node, $form_state) {
  * For Banners
  */
 function _openx_node_banner_insert(&$node) {
-  $sql = array(
-    'nid'                 => $node->nid,
-    'bid'                 => $node->bid,
-    'cid'                 => $node->cid,
-    'keywords'            => $node->keywords,
-    'weight'              => $node->weight,
-    'destination_url'     => $node->destination_url,
-    'destination_target'  => $node->destination_target,
-    'btype'               => $node->btype,
-    'text_status'         => $node->text_status,
-    'text_all'            => $node->text_all,
-    'text_below'          => $node->text_below,
-    'data_image'          => $node->data_image,
-    'data_text'           => $node->data_text,
-    'data_url'            => $node->data_url,
-    'size_height'         => $node->size_height,
-    'size_width'          => $node->size_width,
-  );
-  drupal_write_record('openx_manager_banner', $sql);
+  $node->openx_node_fields['nid'] =  $node->nid;
+  drupal_write_record('openx_manager_banner', $node->openx_node_fields);
 }
 
 /**
@@ -287,16 +270,8 @@ function _openx_node_banner_submit(&$form, &$form_state) {
     $data['bannerId'] = (int) $node['bid'];
     _openx_manager_api('modifyBanner', $data);
   }
-}
 
-/**
- * Implementation of hook_update().
- *
- * For Banners
- */
-function _openx_node_banner_update(&$node) {
-  $sql = array(
-    'nid'                 => $node->nid,
+  $node['openx_node_fields'] = array(
     'bid'                 => $node->bid,
     'cid'                 => $node->cid,
     'keywords'            => $node->keywords,
@@ -313,7 +288,16 @@ function _openx_node_banner_update(&$node) {
     'size_height'         => $node->size_height,
     'size_width'          => $node->size_width,
   );
-  drupal_write_record('openx_manager_banner', $sql, 'nid');
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * For Banners
+ */
+function _openx_node_banner_update(&$node) {
+  $node->openx_node_fields['nid'] =  $node->nid;
+  drupal_write_record('openx_manager_banner', $node->openx_node_fields, 'nid');
 }
 
 /**
