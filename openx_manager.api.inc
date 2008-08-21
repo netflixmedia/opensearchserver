@@ -69,5 +69,10 @@ function _openx_manager_call_file($op) {
     case 'modifyBanner':
     case 'getBanner':
       return '/www/api/v1/xmlrpc/BannerXmlRpcService.php';
+    case 'addAgency':
+    case 'deleteAgency':
+    case 'modifyAgency':
+    case 'getAgency':
+      return '/www/api/v1/xmlrpc/AgencyXmlRpcService.php';
   }
 }
