@@ -23,6 +23,7 @@ function _openx_node_banner_delete(&$node) {
  */
 function _openx_node_banner_form(&$node, $form_state) {
   $form['#cache'] = FALSE;
+  $form['#submit'][] = '_openx_node_banner_submit';
   if (empty($node->nid) and $form_state['post']) {
     $values = &$form_state['post'];
   }
@@ -113,7 +114,7 @@ function _openx_node_banner_form(&$node, $form_state) {
   }
   if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
     $form['data_image'] = array(
-      '#default_value'  => $node->data_image,
+//       '#default_value'  => $node->data_image,
 //       '#required'       => ($values['btype'] == 'sql' or $values['btype'] == 'web'),
       '#title'          => t('Image'),
       '#type'           => 'file',
@@ -174,39 +175,6 @@ function _openx_node_banner_form(&$node, $form_state) {
  * For Banners
  */
 function _openx_node_banner_insert(&$node) {
-  $data = array(
-    'bannerName'      => $node->title,
-    'campaignId'      => (int) $node->cid,
-    'storageType'     => $node->btype,
-  );
-dpm($node);
-  if ($node->btype == 'sql' or $node->btype == 'web') {
-    $data['aImage'] = array(
-      'filename'  => $node->data_image,
-      'content'   => $node->data_image,
-      'editswf'   => FALSE, // @todo
-    );
-  }
-  if ($node->btype == 'text') {
-    $data['imageURL'] = $node->data_url;
-  }
-  if ($node->btype == 'html') {
-    $data['htmlTemplate'] = $node->data_text;
-  }
-  if (!empty($node->size_height)) {
-    $data['height'] = (int) $node->size_height;
-  }
-  if (!empty($node->size_width)) {
-    $data['width'] = (int) $node->size_width;
-  }
-  if (!empty($node->weight)) {
-    $data['weight'] = (int) $node->weight;
-  }
-  if (!empty($node->destination_url)) {
-    $data['url'] = $node->destination_url;
-  }
-  $node->bid = _openx_manager_api('addBanner', $data);
-
   $sql = array(
     'nid'                 => $node->nid,
     'bid'                 => $node->bid,
@@ -219,7 +187,7 @@ dpm($node);
     'text_status'         => $node->text_status,
     'text_all'            => $node->text_all,
     'text_below'          => $node->text_below,
-    'data_image'          => $node->data_image,
+    'data_image'          => $node->data_image->fid,
     'data_text'           => $node->data_text,
     'data_url'            => $node->data_url,
     'size_height'         => $node->size_height,
@@ -243,40 +211,64 @@ function _openx_node_banner_load(&$node) {
 }
 
 /**
+ * Unify the hook_insert and hook_update common parts.
+ */
+function _openx_node_banner_submit(&$form, &$form_state) {
+  $node = &$form_state['values'];
+
+  $data = array(
+    'bannerName'      => $node['title'],
+    'campaignId'      => (int) $node['cid'],
+    'storageType'     => $node['btype'],
+  );
+  if ($node['btype'] == 'sql' or $node['btype'] == 'web') {
+    $validators = array(
+      'file_validate_is_image' => array(),
+    );
+    $node['data_image'] = file_save_upload('data_image', $validators, file_directory_path());
+    file_set_status($node['data_image'], FILE_STATUS_PERMANENT);
+    $data['aImage'] = array(
+      'filename'  => $node['data_image']->filename,
+      'content'   => file_get_contents($node['data_image']->filepath, FILE_BINARY),
+      'editswf'   => FALSE, // @todo
+    );
+  }
+  if ($node['btype'] == 'text') {
+    $data['imageURL'] = $node['data_url'];
+  }
+  if ($node['btype'] == 'html') {
+    $data['htmlTemplate'] = $node['data_text'];
+  }
+  if (!empty($node['size_height'])) {
+    $data['height'] = (int) $node['size_height'];
+  }
+  if (!empty($node['size_width'])) {
+    $data['width'] = (int) $node['size_width'];
+  }
+  if (!empty($node['weight)'])) {
+    $data['weight'] = (int) $node['weight'];
+  }
+  if (!empty($node['destination_url'])) {
+    $data['url'] = $node['destination_url'];
+  }
+
+  // Update or insert
+  if (empty($node['nid'])) {
+    $openx_operation = 'addBanner';
+    $node['bid'] = _openx_manager_api($openx_operation, $data);
+  }
+  else {
+    $openx_operation = 'modifyBanner';
+  }
+  _openx_manager_api($openx_operation, $data);
+}
+
+/**
  * Implementation of hook_update().
  *
  * For Banners
  */
 function _openx_node_banner_update(&$node) {
-  $data = array(
-    'bannerId'        => (int) $node->bid,
-    'bannerName'      => $node->title,
-    'campaignId'      => (int) $node->cid,
-    'storageType'     => $node->btype,
-  );
-  if ($node->btype == 'sql' or $node->btype == 'web') {
-    $data['fileName'] = $node->data_image;
-  }
-  if ($node->btype == 'text') {
-    $data['imageURL'] = $node->data_url;
-  }
-  if ($node->btype == 'html') {
-    $data['htmlTemplate'] = $node->data_text;
-  }
-  if (!empty($node->size_height)) {
-    $data['height'] = (int) $node->size_height;
-  }
-  if (!empty($node->size_width)) {
-    $data['width'] = (int) $node->size_width;
-  }
-  if (!empty($node->weight)) {
-    $data['weight'] = (int) $node->weight;
-  }
-  if (!empty($node->destination_url)) {
-    $data['url'] = $node->destination_url;
-  }
-  _openx_manager_api('modifyBanner', $data);
-
   $sql = array(
     'nid'                 => $node->nid,
     'bid'                 => $node->bid,
@@ -289,7 +281,7 @@ function _openx_node_banner_update(&$node) {
     'text_status'         => $node->text_status,
     'text_all'            => $node->text_all,
     'text_below'          => $node->text_below,
-    'data_image'          => $node->data_image,
+    'data_image'          => $node->data_image->fid,
     'data_text'           => $node->data_text,
     'data_url'            => $node->data_url,
     'size_height'         => $node->size_height,
@@ -307,8 +299,13 @@ function _openx_node_banner_validate(&$node) {
   if (!variable_get('openx_manager_server', '')) {
     form_set_error('title', t('OpenX integration not configured'));
   }
-  if (!empty($node->report_days) and !is_numeric($node->report_days)) {
-    form_set_error('report_days', t('It must be numeric'));
+  if ($node->btype == 'sql' or $node->btype == 'web') {
+    $validators = array(
+      'file_validate_is_image' => array(),
+    );
+    if (!$file = file_save_upload('data_image', $validators, file_directory_temp())) {
+      form_set_error('data_image', t('Problem on uploading the image'));
+    }
   }
 }
 
