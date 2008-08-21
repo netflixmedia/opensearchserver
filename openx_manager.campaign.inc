@@ -190,6 +190,9 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#title'          => t('Reset view counters after'),
     '#type'           => 'date',
   );
+
+
+  $form['#submit'][] = '_openx_node_campaign_submit';
   return $form;
 }
 
@@ -199,25 +202,7 @@ function _openx_node_campaign_form(&$node, $form_state) {
  * For Campaigns
  */
 function _openx_node_campaign_insert(&$node) {
-  $sql = array(
-    'nid'                         => $node->nid,
-    'cid'                         => $node->cid,
-    'aid'                         => $node->aid,
-    'inventory_impressions'       => $node->inventory_impressions,
-    'inventory_clicks'            => $node->inventory_clicks,
-    'inventory_conversions'       => $node->inventory_conversions,
-    'contract_activation'         => $node->contract_activation,
-    'contract_expiration'         => $node->contract_expiration,
-    'contract_revenue'            => $node->contract_revenue,
-    'contract_revenue_unit'       => $node->contract_revenue_unit,
-    'priority_level_level'        => $node->priority_level_level,
-    'priority_distribution_level' => $node->priority_distribution_level,
-    'priority_misc_hide'          => $node->priority_misc_hide,
-    'priority_misc_positioning'   => $node->priority_misc_positioning,
-    'delivery_limit_total'        => $node->delivery_limit_total,
-    'delivery_limit_session'      => $node->delivery_limit_session,
-    'delivery_reset_view'         => $node->delivery_reset_view,
-  );
+  $node->openx_node_fields['nid'] =  $node->nid;
   drupal_write_record('openx_manager_campaign', $sql);
 }
 
@@ -280,6 +265,25 @@ function _openx_node_campaign_submit(&$form, &$form_state) {
     $data['campaignId'] = (int) $node['cid'];
     _openx_manager_api('modifyCampaign', $data);
   }
+
+  $node['openx_node_fields'] = array(
+    'cid'                         => $node['cid'],
+    'aid'                         => $node['aid'],
+    'inventory_impressions'       => $node['inventory_impressions'],
+    'inventory_clicks'            => $node['inventory_clicks'],
+    'inventory_conversions'       => $node['inventory_conversions'],
+    'contract_activation'         => $node['contract_activation'],
+    'contract_expiration'         => $node['contract_expiration'],
+    'contract_revenue'            => $node['contract_revenue'],
+    'contract_revenue_unit'       => $node['contract_revenue_unit'],
+    'priority_level_level'        => $node['priority_level_level'],
+    'priority_distribution_level' => $node['priority_distribution_level'],
+    'priority_misc_hide'          => $node['priority_misc_hide'],
+    'priority_misc_positioning'   => $node['priority_misc_positioning'],
+    'delivery_limit_total'        => $node['delivery_limit_total'],
+    'delivery_limit_session'      => $node['delivery_limit_session'],
+    'delivery_reset_view'         => $node['delivery_reset_view'],
+  );
 }
 
 /**
@@ -288,26 +292,8 @@ function _openx_node_campaign_submit(&$form, &$form_state) {
  * For Campaigns
  */
 function _openx_node_campaign_update(&$node) {
-  $sql = array(
-    'nid'                         => $node->nid,
-    'cid'                         => $node->cid,
-    'aid'                         => $node->aid,
-    'inventory_impressions'       => $node->inventory_impressions,
-    'inventory_clicks'            => $node->inventory_clicks,
-    'inventory_conversions'       => $node->inventory_conversions,
-    'contract_activation'         => $node->contract_activation,
-    'contract_expiration'         => $node->contract_expiration,
-    'contract_revenue'            => $node->contract_revenue,
-    'contract_revenue_unit'       => $node->contract_revenue_unit,
-    'priority_level_level'        => $node->priority_level_level,
-    'priority_distribution_level' => $node->priority_distribution_level,
-    'priority_misc_hide'          => $node->priority_misc_hide,
-    'priority_misc_positioning'   => $node->priority_misc_positioning,
-    'delivery_limit_total'        => $node->delivery_limit_total,
-    'delivery_limit_session'      => $node->delivery_limit_session,
-    'delivery_reset_view'         => $node->delivery_reset_view,
-  );
-  drupal_write_record('openx_manager_campaign', $sql, 'nid');
+  $node->openx_node_fields['nid'] =  $node->nid;
+  drupal_write_record('openx_manager_campaign', $node->openx_node_fields, 'nid');
 }
 
 /**
