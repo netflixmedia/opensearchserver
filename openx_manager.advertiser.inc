@@ -98,12 +98,18 @@ function _openx_node_advertiser_insert(&$node) {
     $data['emailAddress'] = $node->info_email;
   }
   $node->aid = _openx_manager_api('addAdvertiser', $data);
-  db_query("INSERT INTO {openx_manager_advertiser}
-    (nid, aid, info_contact, info_email, report_auto, report_email, report_days, misc_only_one_banner)
-    VALUES (%d, %d, '%s', '%s', %d, %d, %d, %d)",
-    $node->nid, $node->aid,
-    $node->info_contact, $node->info_email, $node->report_auto, $node->report_email,
-    $node->report_days, $node->misc_only_one_banner);
+
+  $sql = array(
+    'nid'                   => $node->nid,
+    'aid'                   => $node->aid,
+    'info_contact'          => $node->info_contact,
+    'info_email'            => $node->info_email,
+    'report_auto'           => $node->report_auto,
+    'report_email'          => $node->report_email,
+    'report_days'           => $node->report_days,
+    'misc_only_one_banner'  => $node->misc_only_one_banner,
+  );
+  drupal_write_record('openx_manager_advertiser', $sql);
 }
 
 /**
@@ -135,13 +141,18 @@ function _openx_node_advertiser_update(&$node) {
     $data['emailAddress'] = $node->info_email;
   }
   _openx_manager_api('modifyAdvertiser', $data);
-  db_query("UPDATE {openx_manager_advertiser} SET
-    aid = %d, info_contact = '%s', info_email = '%s', report_auto = '%s',
-    report_email = %d, report_days = %d, misc_only_one_banner = %d
-    WHERE nid = %d",
-    $node->aid,
-    $node->info_contact, $node->info_email, $node->report_auto, $node->report_email,
-    $node->report_days, $node->misc_only_one_banner, $node->nid);
+
+  $sql = array(
+    'nid'                   => $node->nid,
+    'aid'                   => $node->aid,
+    'info_contact'          => $node->info_contact,
+    'info_email'            => $node->info_email,
+    'report_auto'           => $node->report_auto,
+    'report_email'          => $node->report_email,
+    'report_days'           => $node->report_days,
+    'misc_only_one_banner'  => $node->misc_only_one_banner,
+  );
+  drupal_write_record('openx_manager_advertiser', $sql, 'nid');
 }
 
 /**

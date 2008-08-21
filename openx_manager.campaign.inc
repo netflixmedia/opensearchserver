@@ -229,23 +229,26 @@ function _openx_node_campaign_insert(&$node) {
   }
   $node->cid = _openx_manager_api('addCampaign', $data);
 
-  db_query("INSERT INTO {openx_manager_campaign}
-    (nid, cid, aid, inventory_impressions, inventory_clicks,
-    inventory_conversions, contract_activation, contract_expiration,
-    contract_revenue, contract_revenue_unit, priority_level_level,
-    priority_distribution_level, priority_misc_hide, priority_misc_positioning,
-    delivery_limit_total, delivery_limit_session, delivery_reset_view)
-    VALUES (%d, %d, %d, %d, %d,
-    %d, %d, %d,
-    %d, %d, %d,
-    %d, %d, %d,
-    %d, %d, %d)",
-    $node->nid, $node->cid, $node->aid, $node->inventory_impressions, $node->inventory_clicks,
-    $node->inventory_conversions, $node->contract_activation, $node->contract_expiration,
-    $node->contract_revenue, $node->contract_revenue_unit, $node->priority_level_level,
-    $node->priority_distribution_level, $node->priority_misc_hide, $node->priority_misc_positioning,
-    $node->delivery_limit_total, $node->delivery_limit_session, $node->delivery_reset_view
+  $sql = array(
+    'nid'                         => $node->nid,
+    'cid'                         => $node->cid,
+    'aid'                         => $node->aid,
+    'inventory_impressions'       => $node->inventory_impressions,
+    'inventory_clicks'            => $node->inventory_clicks,
+    'inventory_conversions'       => $node->inventory_conversions,
+    'contract_activation'         => $node->contract_activation,
+    'contract_expiration'         => $node->contract_expiration,
+    'contract_revenue'            => $node->contract_revenue,
+    'contract_revenue_unit'       => $node->contract_revenue_unit,
+    'priority_level_level'        => $node->priority_level_level,
+    'priority_distribution_level' => $node->priority_distribution_level,
+    'priority_misc_hide'          => $node->priority_misc_hide
+    'priority_misc_positioning'   => $node->priority_misc_positioning,
+    'delivery_limit_total'        => $node->delivery_limit_total,
+    'delivery_limit_session'      => $node->delivery_limit_session,
+    'delivery_reset_view'         => $node->delivery_reset_view,
   );
+  drupal_write_record('openx_manager_campaign', $sql);
 }
 
 /**
@@ -298,20 +301,27 @@ function _openx_node_campaign_update(&$node) {
       $node->contract_activation['day'], $node->contract_activation['year']);
   $node->contract_expiration = mktime(0, 0, 0, $node->contract_expiration['month'],
       $node->contract_expiration['day'], $node->contract_expiration['year']);
-  db_query("UPDATE {openx_manager_campaign} SET
-    cid = %d, aid = %d, inventory_impressions = %d, inventory_clicks = %d,
-    inventory_conversions = %d, contract_activation = %d, contract_expiration = %d,
-    contract_revenue = %d, contract_revenue_unit = %d, priority_level_level = %d,
-    priority_distribution_level = %d, priority_misc_hide = %d, priority_misc_positioning = %d,
-    delivery_limit_total = %d, delivery_limit_session = %d, delivery_reset_view = %d
-    WHERE nid = %d",
-    $node->cid, $node->aid, $node->inventory_impressions, $node->inventory_clicks,
-    $node->inventory_conversions, $node->contract_activation, $node->contract_expiration,
-    $node->contract_revenue, $node->contract_revenue_unit, $node->priority_level_level,
-    $node->priority_distribution_level, $node->priority_misc_hide, $node->priority_misc_positioning,
-    $node->delivery_limit_total, $node->delivery_limit_session, $node->delivery_reset_view,
-    $node->nid
+
+  $sql = array(
+    'nid'                         => $node->nid,
+    'cid'                         => $node->cid,
+    'aid'                         => $node->aid,
+    'inventory_impressions'       => $node->inventory_impressions,
+    'inventory_clicks'            => $node->inventory_clicks,
+    'inventory_conversions'       => $node->inventory_conversions,
+    'contract_activation'         => $node->contract_activation,
+    'contract_expiration'         => $node->contract_expiration,
+    'contract_revenue'            => $node->contract_revenue,
+    'contract_revenue_unit'       => $node->contract_revenue_unit,
+    'priority_level_level'        => $node->priority_level_level,
+    'priority_distribution_level' => $node->priority_distribution_level,
+    'priority_misc_hide'          => $node->priority_misc_hide
+    'priority_misc_positioning'   => $node->priority_misc_positioning,
+    'delivery_limit_total'        => $node->delivery_limit_total,
+    'delivery_limit_session'      => $node->delivery_limit_session,
+    'delivery_reset_view'         => $node->delivery_reset_view,
   );
+  drupal_write_record('openx_manager_campaign', $sql, 'nid');
 }
 
 /**
