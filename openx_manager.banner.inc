@@ -114,7 +114,7 @@ function _openx_node_banner_form(&$node, $form_state) {
   if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
     $form['data_image'] = array(
       '#default_value'  => $node->data_image,
-      '#required'       => ($values['btype'] == 'sql' or $values['btype'] == 'web'),
+//       '#required'       => ($values['btype'] == 'sql' or $values['btype'] == 'web'),
       '#title'          => t('Image'),
       '#type'           => 'file',
     );
@@ -179,8 +179,13 @@ function _openx_node_banner_insert(&$node) {
     'campaignId'      => (int) $node->cid,
     'storageType'     => $node->btype,
   );
+dpm($node);
   if ($node->btype == 'sql' or $node->btype == 'web') {
-    $data['fileName'] = $node->data_image;
+    $data['aImage'] = array(
+      'filename'  => $node->data_image,
+      'content'   => $node->data_image,
+      'editswf'   => FALSE, // @todo
+    );
   }
   if ($node->btype == 'text') {
     $data['imageURL'] = $node->data_url;
@@ -203,18 +208,24 @@ function _openx_node_banner_insert(&$node) {
   $node->bid = _openx_manager_api('addBanner', $data);
 
   db_query("INSERT INTO {openx_manager_banner}
-    (nid, bid, cid,
+    (bid, cid,
     keywords, weight, destination_url, destination_target,
-    text_status, btype, upload_image, text_text,
-    text_all, text_below, size_height, size_width)
-    VALUES (%d, %d, %d,
+    btype, text_status, text_all, text_below,
+    data_image, data_text, data_url,
+    size_height, size_width,
+    nid)
+    VALUES (%d, %d,
     '%s', %d, '%s', '%s',
     '%s', '%s', '%s', '%s',
-    '%s', '%s', %d, %d)",
-    $node->nid, $node->bid, $node->cid,
+    '%s', '%s', '%s',
+    %d, %d,
+    %d)",
+    $node->bid, $node->cid,
     $node->keywords, $node->weight, $node->destination_url, $node->destination_target,
-    $node->text_status, $node->btype, $node->upload_image, $node->text_text,
-    $node->text_all, $node->text_below, $node->size_height, $node->size_width
+    $node->btype, $node->text_status, $node->text_all, $node->text_below,
+    $node->data_image, $node->data_text,  $node->data_url,
+    $node->size_height, $node->size_width,
+    $node->nid
   );
 }
 
@@ -270,13 +281,16 @@ function _openx_node_banner_update(&$node) {
   db_query("UPDATE {openx_manager_banner} SET
     bid = %d, cid = %d,
     keywords = '%s', weight = %d, destination_url = '%s', destination_target = '%s',
-    text_status = '%s', btype = '%s', upload_image = '%s', text_text = '%s',
-    text_all = '%s', text_below = '%s', size_height = %d, size_width = %d
+    btype = '%s', text_status = '%s', text_all = '%s', text_below = '%s',
+    data_image = '%s', data_text = '%s', data_url = '%s',
+    size_height = %d, size_width = %d
     WHERE nid = %d",
-    $node->nid, $node->bid, $node->cid,
+    $node->bid, $node->cid,
     $node->keywords, $node->weight, $node->destination_url, $node->destination_target,
-    $node->text_status, $node->btype, $node->upload_image, $node->text_text,
-    $node->text_all, $node->text_below, $node->size_height, $node->size_width
+    $node->btype, $node->text_status, $node->text_all, $node->text_below,
+    $node->data_image, $node->data_text,  $node->data_url,
+    $node->size_height, $node->size_width,
+    $node->nid
   );
 }
 
