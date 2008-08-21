@@ -207,26 +207,25 @@ dpm($node);
   }
   $node->bid = _openx_manager_api('addBanner', $data);
 
-  db_query("INSERT INTO {openx_manager_banner}
-    (bid, cid,
-    keywords, weight, destination_url, destination_target,
-    btype, text_status, text_all, text_below,
-    data_image, data_text, data_url,
-    size_height, size_width,
-    nid)
-    VALUES (%d, %d,
-    '%s', %d, '%s', '%s',
-    '%s', '%s', '%s', '%s',
-    '%s', '%s', '%s',
-    %d, %d,
-    %d)",
-    $node->bid, $node->cid,
-    $node->keywords, $node->weight, $node->destination_url, $node->destination_target,
-    $node->btype, $node->text_status, $node->text_all, $node->text_below,
-    $node->data_image, $node->data_text,  $node->data_url,
-    $node->size_height, $node->size_width,
-    $node->nid
+  $sql = array(
+    'nid'                 => $node->nid,
+    'bid'                 => $node->bid,
+    'cid'                 => $node->cid,
+    'keywords'            => $node->keywords,
+    'weight'              => $node->weight,
+    'destination_url'     => $node->destination_url,
+    'destination_target'  => $node->destination_target,
+    'btype'               => $node->btype,
+    'text_status'         => $node->text_status,
+    'text_all'            => $node->text_all,
+    'text_below'          => $node->text_below,
+    'data_image'          => $node->data_image,
+    'data_text'           => $node->data_text,
+    'data_url'            => $node->data_url,
+    'size_height'         => $node->size_height,
+    'size_width'          => $node->size_width,
   );
+  drupal_write_record('openx_manager_banner', $sql);
 }
 
 /**
@@ -278,20 +277,25 @@ function _openx_node_banner_update(&$node) {
   }
   _openx_manager_api('modifyBanner', $data);
 
-  db_query("UPDATE {openx_manager_banner} SET
-    bid = %d, cid = %d,
-    keywords = '%s', weight = %d, destination_url = '%s', destination_target = '%s',
-    btype = '%s', text_status = '%s', text_all = '%s', text_below = '%s',
-    data_image = '%s', data_text = '%s', data_url = '%s',
-    size_height = %d, size_width = %d
-    WHERE nid = %d",
-    $node->bid, $node->cid,
-    $node->keywords, $node->weight, $node->destination_url, $node->destination_target,
-    $node->btype, $node->text_status, $node->text_all, $node->text_below,
-    $node->data_image, $node->data_text,  $node->data_url,
-    $node->size_height, $node->size_width,
-    $node->nid
+  $sql = array(
+    'nid'                 => $node->nid,
+    'bid'                 => $node->bid,
+    'cid'                 => $node->cid,
+    'keywords'            => $node->keywords,
+    'weight'              => $node->weight,
+    'destination_url'     => $node->destination_url,
+    'destination_target'  => $node->destination_target,
+    'btype'               => $node->btype,
+    'text_status'         => $node->text_status,
+    'text_all'            => $node->text_all,
+    'text_below'          => $node->text_below,
+    'data_image'          => $node->data_image,
+    'data_text'           => $node->data_text,
+    'data_url'            => $node->data_url,
+    'size_height'         => $node->size_height,
+    'size_width'          => $node->size_width,
   );
+  drupal_write_record('openx_manager_banner', $sql, 'nid');
 }
 
 /**
