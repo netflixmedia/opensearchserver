@@ -213,8 +213,8 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'data_image' => array(
-        'type'        => 'varchar',
-        'length'      => 255,
+        'type'        => 'int',
+        'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'data_url' => array(
