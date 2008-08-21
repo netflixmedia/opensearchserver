@@ -112,24 +112,24 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'textfield',
     );
   }
+  $form['data_image'] = array(
+    '#value'          => $node->data_image,
+    '#type'           => 'value',
+  );
+  if ($node->btype == 'sql' or $node->btype == 'web') {
+    $url = file_create_url(db_result(db_query("SELECT filepath FROM {files} WHERE fid = %d", $node->data_image)));
+    $form['data_image_preview'] = array(
+      '#value'          => theme('image', $url, $node->title, $node->title),
+      '#title'          => t('Current Image'),
+      '#type'           => 'item',
+    );
+  }
   if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
     $form['new_data_image'] = array(
       '#title'          => t('Image'),
       '#type'           => 'file',
     );
   }
-  if ($node->btype == 'sql' or $node->btype == 'web') {
-    $url = file_create_url(db_result(db_query("SELECT filepath FROM {files} WHERE fid = %d", $node->data_image)));
-    $form['image'] = array(
-      '#value'          => theme('image', $url, $node->title, $node->title),
-      '#title'          => t('Current Image'),
-      '#type'           => 'item',
-    );
-  }
-  $form['data_image'] = array(
-    '#value'          => $node->data_image,
-    '#type'           => 'value',
-  );
   if (empty($node->nid) or $node->btype == 'txt' or $node->btype == 'html') {
     $form['data_text'] = array(
       '#default_value'  => $node->data_text,
@@ -384,8 +384,10 @@ function theme_banner(&$node) {
     );
   }
   if ($node->btype == 'sql' or $node->btype == 'web') {
-    $fields['data_image'] = array(
-      '#value'          => check_plain($node->data_image),
+    $url = file_create_url(db_result(db_query("SELECT filepath FROM {files}
+      WHERE fid = %d", $node->data_image)));
+    $fields['data_image_preview'] = array(
+      '#value'          => theme('image', $url, $node->title, $node->title),
       '#title'          => t('Image'),
       '#type'           => 'item',
     );
