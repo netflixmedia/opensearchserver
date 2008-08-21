@@ -227,10 +227,12 @@ function _openx_node_banner_submit(&$form, &$form_state) {
     );
     $node['data_image'] = file_save_upload('data_image', $validators, file_directory_path());
     file_set_status($node['data_image'], FILE_STATUS_PERMANENT);
+    global $base_url;
+    include_once $base_url .'/includes/xmlrpc.inc';
     $data['aImage'] = array(
       'filename'  => $node['data_image']->filename,
-      'content'   => file_get_contents($node['data_image']->filepath, FILE_BINARY),
-      'editswf'   => FALSE, // @todo
+      'content'   => xmlrpc_base64(file_get_contents($node['data_image']->filepath)),
+      'editswf'   => FALSE, /// @todo check if it is Flash files
     );
   }
   if ($node['btype'] == 'text') {
