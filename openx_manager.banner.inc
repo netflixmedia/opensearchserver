@@ -233,7 +233,7 @@ function _openx_node_banner_submit(&$form, &$form_state) {
       'content'   => (object) array(
         'is_base64' => TRUE,
         'data'      => file_get_contents($file->filepath),
-      )
+      ),
       'editswf'   => FALSE, /// @todo check if it is Flash files
     );
   }
@@ -433,7 +433,7 @@ function theme_banner(&$node) {
  */
 function theme_banner_form(&$form) {
   // Add the Javascript if its a new banner
-  if (empty($node->nid)) {
+  if (empty($form['#node']->nid)) {
     drupal_add_js(drupal_get_path('module', 'openx_manager') .'/openx_manager.banner.js');
   }
 
