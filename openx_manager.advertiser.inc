@@ -7,6 +7,23 @@
  */
 
 /**
+ * Implementation of hook_access().
+ *
+ * For Advertisers
+ */
+function _openx_node_advertiser_access($op, $node, $account) {
+  if ($op == 'create') {
+    return user_access('create openx advertisers', $account);
+  }
+
+  if ($op == 'update' or $op == 'delete') {
+    if (user_access('edit own openx advertisers', $account) and ($account->uid == $node->uid)) {
+      return TRUE;
+    }
+  }
+}
+
+/**
  * Implementation of hook_delete().
  *
  * For Advertisers

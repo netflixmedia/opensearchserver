@@ -18,6 +18,23 @@ define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
 define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
 
 /**
+ * Implementation of hook_access().
+ *
+ * For Campaigns
+ */
+function _openx_node_campaign_access($op, $node, $account) {
+  if ($op == 'create') {
+    return user_access('create openx campaigns', $account);
+  }
+
+  if ($op == 'update' or $op == 'delete') {
+    if (user_access('edit own openx campaigns', $account) and ($account->uid == $node->uid)) {
+      return TRUE;
+    }
+  }
+}
+
+/**
  * Implementation of hook_delete().
  *
  * For Campaigns

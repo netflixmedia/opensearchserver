@@ -108,6 +108,14 @@ function openx_manager_node_info() {
 }
 
 /**
+ * Implementation of hook_perm().
+ */
+function openx_manager_perm() {
+  return array('create openx advertisers', 'create openx banners', 'create openx campaigns',
+    'edit own openx advertisers', 'edit own openx banners', 'edit own openx campaigns');
+}
+
+/**
  * Ask, if not already, a new session ID from OpenX
  *
  * @param $check_only
@@ -150,6 +158,16 @@ function openx_manager_theme() {
       'arguments' => array('node'),
     ),
   );
+}
+
+/**
+ * Implementation of hook_access().
+ *
+ * For Advertisers
+ */
+function openx_node_advertiser_access($op, $node, $account) {
+  module_load_include('advertiser.inc', 'openx_manager');
+  return _openx_node_advertiser_access($op, $node, $account);
 }
 
 /**
@@ -223,6 +241,16 @@ function openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
 }
 
 /**
+ * Implementation of hook_access().
+ *
+ * For Banners
+ */
+function openx_node_banner_access($op, $node, $account) {
+  module_load_include('banner.inc', 'openx_manager');
+  return _openx_node_banner_access($op, $node, $account);
+}
+
+/**
  * Implementation of hook_delete().
  *
  * For Banners
@@ -290,6 +318,16 @@ function openx_node_banner_validate(&$node) {
 function openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
   module_load_include('banner.inc', 'openx_manager');
   return _openx_node_banner_view($node, $teaser, $page);
+}
+
+/**
+ * Implementation of hook_access().
+ *
+ * For Campaigns
+ */
+function openx_node_campaign_access($op, $node, $account) {
+  module_load_include('campaign.inc', 'openx_manager');
+  return _openx_node_campaign_access($op, $node, $account);
 }
 
 /**

@@ -7,6 +7,23 @@
  */
 
 /**
+ * Implementation of hook_access().
+ *
+ * For Banners
+ */
+function _openx_node_banner_access($op, $node, $account) {
+  if ($op == 'create') {
+    return user_access('create openx banners', $account);
+  }
+
+  if ($op == 'update' or $op == 'delete') {
+    if (user_access('edit own openx banners', $account) and ($account->uid == $node->uid)) {
+      return TRUE;
+    }
+  }
+}
+
+/**
  * Implementation of hook_delete().
  *
  * For Banners
