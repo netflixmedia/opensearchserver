@@ -203,7 +203,7 @@ function _openx_node_campaign_form(&$node, $form_state) {
  */
 function _openx_node_campaign_insert(&$node) {
   $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_campaign', $sql);
+  drupal_write_record('openx_manager_campaign', $node->openx_node_fields);
 }
 
 /**
