@@ -281,14 +281,12 @@ function _openx_node_banner_submit(&$form, &$form_state) {
 
   // Update or insert
   if (empty($node['nid'])) {
-    $openx_operation = 'addBanner';
-    $node['bid'] = _openx_manager_api($openx_operation, $data);
+    $node['bid'] = _openx_manager_api('addBanner', $data);
   }
   else {
     $data['bannerId'] = (int) $node['bid'];
-    $openx_operation = 'modifyBanner';
+    _openx_manager_api('modifyBanner', $data);
   }
-  _openx_manager_api($openx_operation, $data);
 }
 
 /**
