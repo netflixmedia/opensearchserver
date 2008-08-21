@@ -117,8 +117,12 @@ function openx_manager_node_info() {
  * Implementation of hook_perm().
  */
 function openx_manager_perm() {
-  return array('create openx advertisers', 'create openx banners', 'create openx campaigns',
-    'edit own openx advertisers', 'edit own openx banners', 'edit own openx campaigns');
+  return array(
+    'create openx advertisers', 'edit own openx advertisers',
+    'create openx banners',     'edit own openx banners',
+    'create openx campaigns',   'edit own openx campaigns',
+    'create openx managers',    'edit own openx managers',
+  );
 }
 
 /**
