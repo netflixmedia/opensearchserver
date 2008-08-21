@@ -113,13 +113,23 @@ function _openx_node_banner_form(&$node, $form_state) {
     );
   }
   if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
-    $form['data_image'] = array(
-//       '#default_value'  => $node->data_image,
-//       '#required'       => ($values['btype'] == 'sql' or $values['btype'] == 'web'),
+    $form['new_data_image'] = array(
       '#title'          => t('Image'),
       '#type'           => 'file',
     );
   }
+  if ($node->btype == 'sql' or $node->btype == 'web') {
+    $url = file_create_url(db_result(db_query("SELECT filepath FROM {files} WHERE fid = %d", $node->data_image)));
+    $form['image'] = array(
+      '#value'          => theme('image', $url, $node->title, $node->title),
+      '#title'          => t('Current Image'),
+      '#type'           => 'item',
+    );
+  }
+  $form['data_image'] = array(
+    '#value'          => $node->data_image,
+    '#type'           => 'value',
+  );
   if (empty($node->nid) or $node->btype == 'txt' or $node->btype == 'html') {
     $form['data_text'] = array(
       '#default_value'  => $node->data_text,
@@ -225,17 +235,26 @@ function _openx_node_banner_submit(&$form, &$form_state) {
     $validators = array(
       'file_validate_is_image' => array(),
     );
-    $file = file_save_upload('data_image', $validators, file_directory_path());
-    file_set_status($file, FILE_STATUS_PERMANENT);
-    $node['data_image'] = $file->fid;
-    $data['aImage'] = array(
-      'filename'  => $node['data_image']->filename,
-      'content'   => (object) array(
-        'is_base64' => TRUE,
-        'data'      => file_get_contents($file->filepath),
-      ),
-      'editswf'   => FALSE, /// @todo check if it is Flash files
-    );
+    if ($file = file_save_upload('new_data_image', $validators, file_directory_path())) {
+      // Delete the old image
+      if (!empty($node['data_image'])) {
+        $file_old = db_fetch_object(db_query('SELECT * FROM {files}
+          WHERE fid = %d', $node['data_image']));
+        file_delete($file_old->filepath);
+        db_query('DELETE FROM {files} WHERE fid = %d', $node['data_image']);
+      }
+
+      file_set_status($file, FILE_STATUS_PERMANENT);
+      $node['data_image'] = $file->fid;
+      $data['aImage'] = array(
+        'filename'  => $file->filename,
+        'content'   => (object) array(
+          'is_base64' => TRUE,
+          'data'      => file_get_contents($file->filepath),
+        ),
+        'editswf'   => FALSE, /// @todo check if it is Flash files
+      );
+    }
   }
   if ($node['btype'] == 'text') {
     $data['imageURL'] = $node['data_url'];
@@ -302,14 +321,6 @@ function _openx_node_banner_update(&$node) {
 function _openx_node_banner_validate(&$node) {
   if (!variable_get('openx_manager_server', '')) {
     form_set_error('title', t('OpenX integration not configured'));
-  }
-  if ($node->btype == 'sql' or $node->btype == 'web') {
-    $validators = array(
-      'file_validate_is_image' => array(),
-    );
-    if (!$file = file_save_upload('data_image', $validators, file_directory_temp())) {
-      form_set_error('data_image', t('Problem on uploading the image'));
-    }
   }
 }
 
