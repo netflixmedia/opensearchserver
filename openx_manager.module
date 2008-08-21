@@ -483,3 +483,13 @@ function openx_node_manager_validate(&$node) {
   module_load_include('manager.inc', 'openx_manager');
   return _openx_node_manager_validate($node);
 }
+
+/**
+ * Implementation of hook_view().
+ *
+ * For Advertisers
+ */
+function openx_node_manager_view(&$node, $teaser = FALSE, $page = FALSE) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_view($node, $teaser, $page);
+}
