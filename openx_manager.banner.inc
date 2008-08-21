@@ -201,7 +201,7 @@ function _openx_node_banner_insert(&$node) {
     'text_status'         => $node->text_status,
     'text_all'            => $node->text_all,
     'text_below'          => $node->text_below,
-    'data_image'          => $node->data_image->fid,
+    'data_image'          => $node->data_image,
     'data_text'           => $node->data_text,
     'data_url'            => $node->data_url,
     'size_height'         => $node->size_height,
@@ -228,6 +228,7 @@ function _openx_node_banner_load(&$node) {
  * Unify the hook_insert and hook_update common parts.
  */
 function _openx_node_banner_submit(&$form, &$form_state) {
+  // Increase the code readability
   $node = &$form_state['values'];
 
   $data = array(
@@ -247,7 +248,6 @@ function _openx_node_banner_submit(&$form, &$form_state) {
         file_delete($file_old->filepath);
         db_query('DELETE FROM {files} WHERE fid = %d', $node['data_image']);
       }
-
       file_set_status($file, FILE_STATUS_PERMANENT);
       $node['data_image'] = $file->fid;
       $data['aImage'] = array(
@@ -309,7 +309,7 @@ function _openx_node_banner_update(&$node) {
     'text_status'         => $node->text_status,
     'text_all'            => $node->text_all,
     'text_below'          => $node->text_below,
-    'data_image'          => $node->data_image->fid,
+    'data_image'          => $node->data_image,
     'data_text'           => $node->data_text,
     'data_url'            => $node->data_url,
     'size_height'         => $node->size_height,
