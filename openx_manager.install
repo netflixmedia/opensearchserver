@@ -68,6 +68,100 @@ function openx_manager_schema() {
     'indexes' => array(
     ),
   );
+  $schema['openx_manager_banner'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'bid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'cid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+
+      'keywords' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'weight' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'destination_url' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'destination_target' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'text_status' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'btype' => array(
+        'type'        => 'varchar',
+        'length'      => 4,
+        'not null'    => TRUE,
+      ),
+      'data_image' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'data_url' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'data_text' => array(
+        'type'        => 'text',
+        'not null'    => TRUE,
+      ),
+      'text_all' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'text_below' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'size_height' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'size_width' => array(
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('nid'),
+    'unique keys' => array(
+      'bid' => array('bid'),
+    ),
+    'indexes' => array(
+      'cid' => array('cid'),
+    ),
+  );
   $schema['openx_manager_campaign'] = array(
     'fields' => array(
       'nid' => array(
@@ -163,98 +257,42 @@ function openx_manager_schema() {
       'aid' => array('aid'),
     ),
   );
-  $schema['openx_manager_banner'] = array(
+  $schema['openx_manager_manager'] = array(
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'bid' => array(
+      'mid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'cid' => array(
-        'type'        => 'int',
-        'unsigned'    => TRUE,
-        'not null'    => TRUE,
-      ),
-
-      'keywords' => array(
+      'contact' => array(
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
-      'weight' => array(
-        'type'        => 'int',
-        'size'        => 'small',
-        'unsigned'    => TRUE,
-        'not null'    => TRUE,
-      ),
-      'destination_url' => array(
+      'email' => array(
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
-      'destination_target' => array(
+      'username' => array(
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
-      'text_status' => array(
+      'password' => array(
         'type'        => 'varchar',
         'length'      => 255,
-        'not null'    => TRUE,
-      ),
-      'btype' => array(
-        'type'        => 'varchar',
-        'length'      => 4,
-        'not null'    => TRUE,
-      ),
-      'data_image' => array(
-        'type'        => 'int',
-        'unsigned'    => TRUE,
-        'not null'    => TRUE,
-      ),
-      'data_url' => array(
-        'type'        => 'varchar',
-        'length'      => 255,
-        'not null'    => TRUE,
-      ),
-      'data_text' => array(
-        'type'        => 'text',
-        'not null'    => TRUE,
-      ),
-      'text_all' => array(
-        'type'        => 'varchar',
-        'length'      => 255,
-        'not null'    => TRUE,
-      ),
-      'text_below' => array(
-        'type'        => 'varchar',
-        'length'      => 255,
-        'not null'    => TRUE,
-      ),
-      'size_height' => array(
-        'type'        => 'int',
-        'size'        => 'small',
-        'unsigned'    => TRUE,
-        'not null'    => TRUE,
-      ),
-      'size_width' => array(
-        'type'        => 'int',
-        'size'        => 'small',
-        'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'bid' => array('bid'),
-    ),
-    'indexes' => array(
-      'cid' => array('cid'),
+      'bid' => array('mid'),
     ),
   );
   return $schema;
