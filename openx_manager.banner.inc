@@ -225,13 +225,15 @@ function _openx_node_banner_submit(&$form, &$form_state) {
     $validators = array(
       'file_validate_is_image' => array(),
     );
-    $node['data_image'] = file_save_upload('data_image', $validators, file_directory_path());
-    file_set_status($node['data_image'], FILE_STATUS_PERMANENT);
-    global $base_url;
-    include_once $base_url .'/includes/xmlrpc.inc';
+    $file = file_save_upload('data_image', $validators, file_directory_path());
+    file_set_status($file, FILE_STATUS_PERMANENT);
+    $node['data_image'] = $file->fid;
     $data['aImage'] = array(
       'filename'  => $node['data_image']->filename,
-      'content'   => xmlrpc_base64(file_get_contents($node['data_image']->filepath)),
+      'content'   => (object) array(
+        'is_base64' => TRUE,
+        'data'      => file_get_contents($file->filepath),
+      )
       'editswf'   => FALSE, /// @todo check if it is Flash files
     );
   }
