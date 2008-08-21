@@ -121,9 +121,9 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#type'           => 'value',
   );
   if ($node->btype == 'sql' or $node->btype == 'web') {
-    $url = file_create_url(db_result(db_query("SELECT filepath FROM {files} WHERE fid = %d", $node->data_image)));
+    $url = db_result(db_query("SELECT filepath FROM {files} WHERE fid = %d", $node->data_image));
     $form['data_image_preview'] = array(
-      '#value'          => theme('image', $url, $node->title, $node->title),
+      '#value'          => theme('image', $url, $node->title),
       '#title'          => t('Current Image'),
       '#type'           => 'item',
     );
@@ -383,16 +383,16 @@ function theme_banner(&$node) {
   );
   if ($node->btype != 'url') {
     $form['data_url'] = array(
-      '#default_value'  => check_plain($node->data_url),
+      '#value'          => check_plain($node->data_url),
       '#title'          => t('Image URL'),
       '#type'           => 'item',
     );
   }
   if ($node->btype == 'sql' or $node->btype == 'web') {
-    $url = file_create_url(db_result(db_query("SELECT filepath FROM {files}
-      WHERE fid = %d", $node->data_image)));
+    $url = db_result(db_query("SELECT filepath FROM {files}
+      WHERE fid = %d", $node->data_image));
     $fields['data_image_preview'] = array(
-      '#value'          => theme('image', $url, $node->title, $node->title),
+      '#value'          => theme('image', $url, $node->title),
       '#title'          => t('Image'),
       '#type'           => 'item',
     );
