@@ -89,8 +89,14 @@ function openx_manager_node_info() {
     'openx_advertiser' => array(
       'description' => t(''),
       'has_body'    => FALSE,
-      'name'        => t('Advertiser'),
       'module'      => 'openx_node_advertiser',
+      'name'        => t('Advertiser'),
+    ),
+    'openx_banner' => array(
+      'description' => t(''),
+      'has_body'    => FALSE,
+      'module'      => 'openx_node_banner',
+      'name'        => t('Banner'),
     ),
     'openx_campaign' => array(
       'description' => t(''),
@@ -98,11 +104,11 @@ function openx_manager_node_info() {
       'module'      => 'openx_node_campaign',
       'name'        => t('Campaign'),
     ),
-    'openx_banner' => array(
+    'openx_manager' => array(
       'description' => t(''),
       'has_body'    => FALSE,
-      'module'      => 'openx_node_banner',
-      'name'        => t('Banner'),
+      'module'      => 'openx_node_manager',
+      'name'        => t('Manager'),
     ),
   );
 }
@@ -155,6 +161,10 @@ function openx_manager_theme() {
     ),
     'campaign' => array(
       'file'      => 'openx_manager.campaign.inc',
+      'arguments' => array('node'),
+    ),
+    'manager' => array(
+      'file'      => 'openx_manager.manager.inc',
       'arguments' => array('node'),
     ),
   );
@@ -398,4 +408,74 @@ function openx_node_campaign_validate(&$node) {
 function openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
   module_load_include('campaign.inc', 'openx_manager');
   return _openx_node_campaign_view($node, $teaser, $page);
+}
+
+/**
+ * Implementation of hook_access().
+ *
+ * For Managers
+ */
+function openx_node_manager_access($op, $node, $account) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_access($op, $node, $account);
+}
+
+/**
+ * Implementation of hook_delete().
+ *
+ * For Managers
+ */
+function openx_node_manager_delete(&$node) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_delete($node);
+}
+
+/**
+ * Implementation of hook_form().
+ *
+ * For Managers
+ */
+function openx_node_manager_form(&$node, $form_state) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_form($node, $form_state);
+}
+
+/**
+ * Implementation of hook_insert().
+ *
+ * For Managers
+ */
+function openx_node_manager_insert(&$node) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_insert($node);
+}
+
+/**
+ * Implementation of hook_load().
+ *
+ * For Managers
+ */
+function openx_node_manager_load(&$node) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_load($node);
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * For Managers
+ */
+function openx_node_manager_update(&$node) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_update($node);
+}
+
+/**
+ * Implementation of hook_validate().
+ *
+ * For Managers
+ */
+function openx_node_manager_validate(&$node) {
+  module_load_include('manager.inc', 'openx_manager');
+  return _openx_node_manager_validate($node);
 }
