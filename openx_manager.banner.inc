@@ -232,13 +232,11 @@ function _openx_node_banner_submit(&$form, &$form_state) {
         db_query('DELETE FROM {files} WHERE fid = %d', $node['data_image']);
       }
       file_set_status($file, FILE_STATUS_PERMANENT);
+      include_once './includes/xmlrpc.inc';
       $node['data_image'] = $file->fid;
       $data['aImage'] = array(
         'filename'  => $file->filename,
-        'content'   => (object) array(
-          'is_base64' => TRUE,
-          'data'      => file_get_contents($file->filepath),
-        ),
+        'content'   => xmlrpc_base64(file_get_contents($file->filepath)),
         'editswf'   => FALSE, /// @todo check if it is Flash files
       );
     }

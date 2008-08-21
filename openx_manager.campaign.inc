@@ -191,7 +191,6 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#type'           => 'date',
   );
 
-
   $form['#submit'][] = '_openx_node_campaign_submit';
   return $form;
 }
