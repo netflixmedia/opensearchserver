@@ -242,7 +242,7 @@ function _openx_node_campaign_insert(&$node) {
     'contract_revenue_unit'       => $node->contract_revenue_unit,
     'priority_level_level'        => $node->priority_level_level,
     'priority_distribution_level' => $node->priority_distribution_level,
-    'priority_misc_hide'          => $node->priority_misc_hide
+    'priority_misc_hide'          => $node->priority_misc_hide,
     'priority_misc_positioning'   => $node->priority_misc_positioning,
     'delivery_limit_total'        => $node->delivery_limit_total,
     'delivery_limit_session'      => $node->delivery_limit_session,
@@ -315,7 +315,7 @@ function _openx_node_campaign_update(&$node) {
     'contract_revenue_unit'       => $node->contract_revenue_unit,
     'priority_level_level'        => $node->priority_level_level,
     'priority_distribution_level' => $node->priority_distribution_level,
-    'priority_misc_hide'          => $node->priority_misc_hide
+    'priority_misc_hide'          => $node->priority_misc_hide,
     'priority_misc_positioning'   => $node->priority_misc_positioning,
     'delivery_limit_total'        => $node->delivery_limit_total,
     'delivery_limit_session'      => $node->delivery_limit_session,
