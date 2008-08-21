@@ -63,7 +63,6 @@ function _openx_node_manager_form(&$node, $form_state) {
   );
   $form['username'] = array(
     '#default_value'  => $node->username,
-    '#required'       => TRUE,
     '#title'          => t('Username'),
     '#type'           => 'textfield',
   );
@@ -109,20 +108,26 @@ function _openx_node_manager_submit(&$form, &$form_state) {
   $node = &$form_state['values'];
 
   $data = array(
-    'managerName'     => $node['title'],
+    'agencyName'      => $node['title'],
     'contactName'     => $node['info_contact'],
   );
   if (!empty($node['email'])) {
     $data['emailAddress'] = $node['email'];
   }
+  if (!empty($node['username'])) {
+    $data['username'] = $node['username'];
+  }
+  if (!empty($node['password'])) {
+    $data['password'] = $node['password'];
+  }
 
   // Update or insert
   if (empty($node['nid'])) {
-    $node['mid'] = _openx_manager_api('addManager', $data);
+    $node['mid'] = _openx_manager_api('addAgency', $data);
   }
   else {
     $data['managerId'] = (int) $node['mid'];
-    _openx_manager_api('modifyManager', $data);
+    _openx_manager_api('modifyAgency', $data);
   }
 
   $node['openx_node_fields'] = array(
