@@ -151,7 +151,7 @@ function _openx_node_advertiser_submit(&$form, &$form_state) {
     _openx_manager_api('modifyAdvertiser', $data);
   }
 
-  $node['openx_node_fields'] = array(array(
+  $node['openx_node_fields'] = array(
     'aid'                   => $node['aid'],
     'info_contact'          => $node['info_contact'],
     'info_email'            => $node['info_email'],
