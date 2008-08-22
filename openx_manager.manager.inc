@@ -179,13 +179,12 @@ function _openx_node_manager_view(&$node, $teaser = FALSE, $page = FALSE) {
  */
 function theme_manager(&$node) {
   $fields['contact'] = array(
-    '#default_value'  => $node->contact,
-    '#required'       => TRUE,
+    '#value'          => $node->contact,
     '#title'          => t('Contact name'),
     '#type'           => 'item',
   );
   $fields['email'] = array(
-    '#default_value'  => $node->email,
+    '#value'          => $node->email,
     '#title'          => t('Email'),
     '#type'           => 'item',
   );
