@@ -47,22 +47,28 @@ function openx_manager_form_openx_banner_node_form_alter(&$form, $form_state) {
  */
 function openx_manager_link($type, $object, $teaser = FALSE) {
   if ($type == 'node' and empty($teaser)) {
-    if ($object->type == 'openx_advertiser') {
-      $links['create_campaign'] = array(
-        'title'       => t('Create a new Campaign'),
-        'href'        => 'node/add/openx-campaign',
-        'query'       => array('oaid' => $object->oaid, 'nid' => $object->nid),
-      );
-      return $links;
-    }
-    elseif ($object->type == 'openx_campaign') {
-      $links['create_banner'] = array(
-        'title'       => t('Create a new Banner'),
-        'href'        => 'node/add/openx-banner',
-        'query'       => array('ocid' => $object->ocid, 'nid' => $object->nid),
-      );
-      return $links;
-    }
+    switch ($object->type) {
+      case 'openx_advertiser':
+        $links['create_campaign'] = array(
+          'title'       => t('Create a new Campaign'),
+          'href'        => 'node/add/openx-campaign',
+          'query'       => array('oaid' => $object->oaid, 'nid' => $object->nid),
+        );
+        return $links;
+      case 'openx_campaign':
+        $links['create_banner'] = array(
+          'title'       => t('Create a new Banner'),
+          'href'        => 'node/add/openx-banner',
+          'query'       => array('ocid' => $object->ocid, 'nid' => $object->nid),
+        );
+        return $links;
+      case 'openx_publisher':
+        $links['create_zone'] = array(
+          'title'       => t('Create a new Zone'),
+          'href'        => 'node/add/openx-zone',
+          'query'       => array('opid' => $object->ocid, 'nid' => $object->nid),
+        );
+        return $links;
   }
 }
 
