@@ -87,37 +87,37 @@ function openx_manager_menu() {
 function openx_manager_node_info() {
   return array(
     'openx_advertiser' => array(
-      'description' => t(''),
+      'description' => t('OpenX Advertisers'),
       'has_body'    => FALSE,
       'module'      => 'openx_node_advertiser',
       'name'        => t('Advertiser'),
     ),
     'openx_banner' => array(
-      'description' => t(''),
+      'description' => t('OpenX Banners'),
       'has_body'    => FALSE,
       'module'      => 'openx_node_banner',
       'name'        => t('Banner'),
     ),
     'openx_campaign' => array(
-      'description' => t(''),
+      'description' => t('OpenX Campaigns'),
       'has_body'    => FALSE,
       'module'      => 'openx_node_campaign',
       'name'        => t('Campaign'),
     ),
     'openx_manager' => array(
-      'description' => t(''),
+      'description' => t('OpenX Managers'),
       'has_body'    => FALSE,
       'module'      => 'openx_node_manager',
       'name'        => t('Manager'),
     ),
     'openx_publisher' => array(
-      'description' => t(''),
+      'description' => t('OpenX Publishers'),
       'has_body'    => FALSE,
       'module'      => 'openx_node_publisher',
       'name'        => t('Publisher'),
     ),
     'openx_user' => array(
-      'description' => t(''),
+      'description' => t('OpenX Users'),
       'has_body'    => FALSE,
       'module'      => 'openx_node_user',
       'name'        => t('User'),
