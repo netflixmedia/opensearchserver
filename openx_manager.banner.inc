@@ -228,81 +228,83 @@ function _openx_node_banner_load(&$node) {
  * Unify the hook_insert and hook_update common parts.
  */
 function _openx_node_banner_submit(&$form, &$form_state) {
-  // Increase the code readability
-  $node = &$form_state['values'];
+  if ($form_state['values']['op'] != t('Preview')) {
+    // Increase the code readability
+    $node = &$form_state['values'];
 
-  $data = array(
-    'bannerName'      => $node['title'],
-    'campaignId'      => (int) $node['cid'],
-    'storageType'     => $node['btype'],
-  );
-  if ($node['btype'] == 'sql' or $node['btype'] == 'web') {
-    $validators = array(
-      'file_validate_is_image' => array(),
+    $data = array(
+      'bannerName'      => $node['title'],
+      'campaignId'      => (int) $node['cid'],
+      'storageType'     => $node['btype'],
     );
-    if ($file = file_save_upload('new_data_image', $validators, file_directory_path())) {
-      // Delete the old image
-      if (!empty($node['data_image'])) {
-        $file_old = db_fetch_object(db_query('SELECT * FROM {files}
-          WHERE fid = %d', $node['data_image']));
-        file_delete($file_old->filepath);
-        db_query('DELETE FROM {files} WHERE fid = %d', $node['data_image']);
-      }
-      file_set_status($file, FILE_STATUS_PERMANENT);
-      include_once './includes/xmlrpc.inc';
-      $node['data_image'] = $file->fid;
-      $data['aImage'] = array(
-        'filename'  => $file->filename,
-        'content'   => xmlrpc_base64(file_get_contents($file->filepath)),
-        'editswf'   => FALSE, /// @todo check if it is Flash files
+    if ($node['btype'] == 'sql' or $node['btype'] == 'web') {
+      $validators = array(
+        'file_validate_is_image' => array(),
       );
+      if ($file = file_save_upload('new_data_image', $validators, file_directory_path())) {
+        // Delete the old image
+        if (!empty($node['data_image'])) {
+          $file_old = db_fetch_object(db_query('SELECT * FROM {files}
+            WHERE fid = %d', $node['data_image']));
+          file_delete($file_old->filepath);
+          db_query('DELETE FROM {files} WHERE fid = %d', $node['data_image']);
+        }
+        file_set_status($file, FILE_STATUS_PERMANENT);
+        include_once './includes/xmlrpc.inc';
+        $node['data_image'] = $file->fid;
+        $data['aImage'] = array(
+          'filename'  => $file->filename,
+          'content'   => xmlrpc_base64(file_get_contents($file->filepath)),
+          'editswf'   => FALSE, /// @todo check if it is Flash files
+        );
+      }
     }
-  }
-  if ($node['btype'] == 'text') {
-    $data['imageURL'] = $node['data_url'];
-  }
-  if ($node['btype'] == 'html') {
-    $data['htmlTemplate'] = $node['data_text'];
-  }
-  if (!empty($node['size_height'])) {
-    $data['height'] = (int) $node['size_height'];
-  }
-  if (!empty($node['size_width'])) {
-    $data['width'] = (int) $node['size_width'];
-  }
-  if (!empty($node['weight)'])) {
-    $data['weight'] = (int) $node['weight'];
-  }
-  if (!empty($node['destination_url'])) {
-    $data['url'] = $node['destination_url'];
-  }
+    if ($node['btype'] == 'text') {
+      $data['imageURL'] = $node['data_url'];
+    }
+    if ($node['btype'] == 'html') {
+      $data['htmlTemplate'] = $node['data_text'];
+    }
+    if (!empty($node['size_height'])) {
+      $data['height'] = (int) $node['size_height'];
+    }
+    if (!empty($node['size_width'])) {
+      $data['width'] = (int) $node['size_width'];
+    }
+    if (!empty($node['weight)'])) {
+      $data['weight'] = (int) $node['weight'];
+    }
+    if (!empty($node['destination_url'])) {
+      $data['url'] = $node['destination_url'];
+    }
 
-  // Update or insert
-  if (empty($node['nid'])) {
-    $node['bid'] = _openx_manager_api('addBanner', $data);
-  }
-  else {
-    $data['bannerId'] = (int) $node['bid'];
-    _openx_manager_api('modifyBanner', $data);
-  }
+    // Update or insert
+    if (empty($node['nid'])) {
+      $node['bid'] = _openx_manager_api('addBanner', $data);
+    }
+    else {
+      $data['bannerId'] = (int) $node['bid'];
+      _openx_manager_api('modifyBanner', $data);
+    }
 
-  $node['openx_node_fields'] = array(
-    'bid'                 => $node->bid,
-    'cid'                 => $node->cid,
-    'keywords'            => $node->keywords,
-    'weight'              => $node->weight,
-    'destination_url'     => $node->destination_url,
-    'destination_target'  => $node->destination_target,
-    'btype'               => $node->btype,
-    'text_status'         => $node->text_status,
-    'text_all'            => $node->text_all,
-    'text_below'          => $node->text_below,
-    'data_image'          => $node->data_image,
-    'data_text'           => $node->data_text,
-    'data_url'            => $node->data_url,
-    'size_height'         => $node->size_height,
-    'size_width'          => $node->size_width,
-  );
+    $node['openx_node_fields'] = array(
+      'bid'                 => $node->bid,
+      'cid'                 => $node->cid,
+      'keywords'            => $node->keywords,
+      'weight'              => $node->weight,
+      'destination_url'     => $node->destination_url,
+      'destination_target'  => $node->destination_target,
+      'btype'               => $node->btype,
+      'text_status'         => $node->text_status,
+      'text_all'            => $node->text_all,
+      'text_below'          => $node->text_below,
+      'data_image'          => $node->data_image,
+      'data_text'           => $node->data_text,
+      'data_url'            => $node->data_url,
+      'size_height'         => $node->size_height,
+      'size_width'          => $node->size_width,
+    );
+  }
 }
 
 /**

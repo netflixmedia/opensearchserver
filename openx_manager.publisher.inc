@@ -39,6 +39,7 @@ function _openx_node_publisher_delete(&$node) {
  * For Publishers
  */
 function _openx_node_publisher_form(&$node, $form_state) {
+dpm($node);
   $form['title'] = array(
     '#type'           => 'textfield',
     '#title'          => t('Publisher'),
@@ -104,39 +105,41 @@ function _openx_node_publisher_load(&$node) {
  * Unify the hook_insert and hook_update common parts.
  */
 function _openx_node_publisher_submit(&$form, &$form_state) {
-  // Increase the code readability
-  $node = &$form_state['values'];
+  if ($form_state['values']['op'] != t('Preview')) {
+    // Increase the code readability
+    $node = &$form_state['values'];
 
-  $data = array(
-    'publisherName'   => $node['title'],
-    'contactName'     => $node['contact'],
-  );
-  if (!empty($node['email'])) {
-    $data['emailAddress'] = $node['email'];
-  }
-  if (!empty($node['username'])) {
-    $data['username'] = $node['username'];
-  }
-  if (!empty($node['password'])) {
-    $data['password'] = $node['password'];
-  }
+    $data = array(
+      'publisherName'   => $node['title'],
+      'contactName'     => $node['contact'],
+    );
+    if (!empty($node['email'])) {
+      $data['emailAddress'] = $node['email'];
+    }
+    if (!empty($node['username'])) {
+      $data['username'] = $node['username'];
+    }
+    if (!empty($node['password'])) {
+      $data['password'] = $node['password'];
+    }
 
-  // Update or insert
-  if (empty($node['nid'])) {
-    $node['mid'] = _openx_manager_api('addPublisher', $data);
-  }
-  else {
-    $data['publisherId'] = (int) $node['mid'];
-    _openx_manager_api('modifyPublisher', $data);
-  }
+    // Update or insert
+    if (empty($node['nid'])) {
+      $node['pid'] = _openx_manager_api('addPublisher', $data);
+    }
+    else {
+      $data['publisherId'] = (int) $node['pid'];
+      _openx_manager_api('modifyPublisher', $data);
+    }
 
-  $node['openx_node_fields'] = array(
-    'pid'                   => $node['pid'],
-    'contact'               => $node['contact'],
-    'email'                 => $node['email'],
-    'username'              => $node['username'],
-    'password'              => $node['password'],
-  );
+    $node['openx_node_fields'] = array(
+      'pid'                   => $node['pid'],
+      'contact'               => $node['contact'],
+      'email'                 => $node['email'],
+      'username'              => $node['username'],
+      'password'              => $node['password'],
+    );
+  }
 }
 
 /**
@@ -157,25 +160,6 @@ function _openx_node_publisher_update(&$node) {
 function _openx_node_publisher_validate(&$node) {
   if (!variable_get('openx_manager_server', '')) {
     form_set_error('title', t('OpenX integration not configured'));
-  }
-
-  // Check if the integer values are really integers
-  $integers_values = array(
-    'inventory_impressions',
-    'inventory_clicks',
-    'inventory_conversions',
-    'contract_revenue',
-    'priority_level_level',
-    'priority_distribution_level',
-    'priority_misc_hide',
-    'priority_misc_positioning',
-    'delivery_limit_total',
-    'delivery_limit_session',
-  );
-  foreach ($integers_values as $value) {
-    if (!empty($node->{$value}) and !is_numeric($node->{$value})) {
-      form_set_error($value, t('It must be numeric'));
-    }
   }
 }
 

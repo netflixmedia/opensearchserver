@@ -131,35 +131,37 @@ function _openx_node_advertiser_load(&$node) {
  * Unify the hook_insert and hook_update common parts.
  */
 function _openx_node_advertiser_submit(&$form, &$form_state) {
-  // Increase the code readability
-  $node = &$form_state['values'];
+  if ($form_state['values']['op'] != t('Preview')) {
+    // Increase the code readability
+    $node = &$form_state['values'];
 
-  $data = array(
-    'advertiserName'  => $node['title'],
-    'contactName'     => $node['info_contact'],
-  );
-  if (!empty($node['info_email'])) {
-    $data['emailAddress'] = $node['info_email'];
-  }
+    $data = array(
+      'advertiserName'  => $node['title'],
+      'contactName'     => $node['info_contact'],
+    );
+    if (!empty($node['info_email'])) {
+      $data['emailAddress'] = $node['info_email'];
+    }
 
-  // Update or insert
-  if (empty($node['nid'])) {
-    $node['aid'] = _openx_manager_api('addAdvertiser', $data);
-  }
-  else {
-    $data['advertiserId'] = (int) $node['aid'];
-    _openx_manager_api('modifyAdvertiser', $data);
-  }
+    // Update or insert
+    if (empty($node['nid'])) {
+      $node['aid'] = _openx_manager_api('addAdvertiser', $data);
+    }
+    else {
+      $data['advertiserId'] = (int) $node['aid'];
+      _openx_manager_api('modifyAdvertiser', $data);
+    }
 
-  $node['openx_node_fields'] = array(
-    'aid'                   => $node['aid'],
-    'info_contact'          => $node['info_contact'],
-    'info_email'            => $node['info_email'],
-    'report_auto'           => $node['report_auto'],
-    'report_email'          => $node['report_email'],
-    'report_days'           => $node['report_days'],
-    'misc_only_one_banner'  => $node['misc_only_one_banner'],
-  );
+    $node['openx_node_fields'] = array(
+      'aid'                   => $node['aid'],
+      'info_contact'          => $node['info_contact'],
+      'info_email'            => $node['info_email'],
+      'report_auto'           => $node['report_auto'],
+      'report_email'          => $node['report_email'],
+      'report_days'           => $node['report_days'],
+      'misc_only_one_banner'  => $node['misc_only_one_banner'],
+    );
+  }
 }
 
 /**

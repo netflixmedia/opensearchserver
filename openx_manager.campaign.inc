@@ -240,66 +240,68 @@ function _openx_node_campaign_load(&$node) {
  * Unify the hook_insert and hook_update common parts.
  */
 function _openx_node_campaign_submit(&$form, &$form_state) {
-  $node = &$form_state['values'];
+  if ($form_state['values']['op'] != t('Preview')) {
+    $node = &$form_state['values'];
 
-  $node['contract_activation'] = mktime(0, 0, 0, $node['contract_activation']['month'],
-      $node['contract_activation']['day'], $node['contract_activation']['year']);
-  $node['contract_expiration'] = mktime(0, 0, 0, $node['contract_expiration']['month'],
-      $node['contract_expiration']['day'], $node['contract_expiration']['year']);
+    $node['contract_activation'] = mktime(0, 0, 0, $node['contract_activation']['month'],
+        $node['contract_activation']['day'], $node['contract_activation']['year']);
+    $node['contract_expiration'] = mktime(0, 0, 0, $node['contract_expiration']['month'],
+        $node['contract_expiration']['day'], $node['contract_expiration']['year']);
 
-  // Required and optional values on OpenX server
-  $data = array(
-    'campaignName'  => $node['title'],
-    'advertiserId'  => (int) $node['aid'],
-  );
-  if (!empty($node['contract_activation'])) {
-    include_once './includes/xmlrpc.inc';
-    $data['startDate'] = xmlrpc_date($node['contract_activation']);
-  }
-  if (!empty($node['contract_expiration'])) {
-    include_once './includes/xmlrpc.inc';
-    $data['endDate'] = xmlrpc_date($node['contract_expiration']);
-  }
-  if (!empty($node['inventory_impressions'])) {
-    $data['impressions'] = (int) $node['inventory_impressions'];
-  }
-  if (!empty($node['inventory_clicks'])) {
-    $data['clicks'] = (int) $node['inventory_clicks'];
-  }
-  if (!empty($node['contract_expiration'])) {
-    $data['priority'] = (int) $node['contract_expiration'];
-  }
-  if (!empty($node['distribution_weight'])) {
-    $data['weight'] = (int) $node['distribution_weight'];
-  }
+    // Required and optional values on OpenX server
+    $data = array(
+      'campaignName'  => $node['title'],
+      'advertiserId'  => (int) $node['aid'],
+    );
+    if (!empty($node['contract_activation'])) {
+      include_once './includes/xmlrpc.inc';
+      $data['startDate'] = xmlrpc_date($node['contract_activation']);
+    }
+    if (!empty($node['contract_expiration'])) {
+      include_once './includes/xmlrpc.inc';
+      $data['endDate'] = xmlrpc_date($node['contract_expiration']);
+    }
+    if (!empty($node['inventory_impressions'])) {
+      $data['impressions'] = (int) $node['inventory_impressions'];
+    }
+    if (!empty($node['inventory_clicks'])) {
+      $data['clicks'] = (int) $node['inventory_clicks'];
+    }
+    if (!empty($node['contract_expiration'])) {
+      $data['priority'] = (int) $node['contract_expiration'];
+    }
+    if (!empty($node['distribution_weight'])) {
+      $data['weight'] = (int) $node['distribution_weight'];
+    }
 
-  // Update or insert
-  if (empty($node['nid'])) {
-    $node['cid'] = _openx_manager_api('addCampaign', $data);
-  }
-  else {
-    $data['campaignId'] = (int) $node['cid'];
-    _openx_manager_api('modifyCampaign', $data);
-  }
+    // Update or insert
+    if (empty($node['nid'])) {
+      $node['cid'] = _openx_manager_api('addCampaign', $data);
+    }
+    else {
+      $data['campaignId'] = (int) $node['cid'];
+      _openx_manager_api('modifyCampaign', $data);
+    }
 
-  $node['openx_node_fields'] = array(
-    'cid'                         => $node['cid'],
-    'aid'                         => $node['aid'],
-    'inventory_impressions'       => $node['inventory_impressions'],
-    'inventory_clicks'            => $node['inventory_clicks'],
-    'inventory_conversions'       => $node['inventory_conversions'],
-    'contract_activation'         => $node['contract_activation'],
-    'contract_expiration'         => $node['contract_expiration'],
-    'contract_revenue'            => $node['contract_revenue'],
-    'contract_revenue_unit'       => $node['contract_revenue_unit'],
-    'priority_level_level'        => $node['priority_level_level'],
-    'priority_distribution_level' => $node['priority_distribution_level'],
-    'priority_misc_hide'          => $node['priority_misc_hide'],
-    'priority_misc_positioning'   => $node['priority_misc_positioning'],
-    'delivery_limit_total'        => $node['delivery_limit_total'],
-    'delivery_limit_session'      => $node['delivery_limit_session'],
-    'delivery_reset_view'         => $node['delivery_reset_view'],
-  );
+    $node['openx_node_fields'] = array(
+      'cid'                         => $node['cid'],
+      'aid'                         => $node['aid'],
+      'inventory_impressions'       => $node['inventory_impressions'],
+      'inventory_clicks'            => $node['inventory_clicks'],
+      'inventory_conversions'       => $node['inventory_conversions'],
+      'contract_activation'         => $node['contract_activation'],
+      'contract_expiration'         => $node['contract_expiration'],
+      'contract_revenue'            => $node['contract_revenue'],
+      'contract_revenue_unit'       => $node['contract_revenue_unit'],
+      'priority_level_level'        => $node['priority_level_level'],
+      'priority_distribution_level' => $node['priority_distribution_level'],
+      'priority_misc_hide'          => $node['priority_misc_hide'],
+      'priority_misc_positioning'   => $node['priority_misc_positioning'],
+      'delivery_limit_total'        => $node['delivery_limit_total'],
+      'delivery_limit_session'      => $node['delivery_limit_session'],
+      'delivery_reset_view'         => $node['delivery_reset_view'],
+    );
+  }
 }
 
 /**

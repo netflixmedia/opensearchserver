@@ -104,39 +104,41 @@ function _openx_node_manager_load(&$node) {
  * Unify the hook_insert and hook_update common parts.
  */
 function _openx_node_manager_submit(&$form, &$form_state) {
-  // Increase the code readability
-  $node = &$form_state['values'];
+  if ($form_state['values']['op'] != t('Preview')) {
+    // Increase the code readability
+    $node = &$form_state['values'];
 
-  $data = array(
-    'agencyName'      => $node['title'],
-    'contactName'     => $node['contact'],
-  );
-  if (!empty($node['email'])) {
-    $data['emailAddress'] = $node['email'];
-  }
-  if (!empty($node['username'])) {
-    $data['username'] = $node['username'];
-  }
-  if (!empty($node['password'])) {
-    $data['password'] = $node['password'];
-  }
+    $data = array(
+      'agencyName'      => $node['title'],
+      'contactName'     => $node['contact'],
+    );
+    if (!empty($node['email'])) {
+      $data['emailAddress'] = $node['email'];
+    }
+    if (!empty($node['username'])) {
+      $data['username'] = $node['username'];
+    }
+    if (!empty($node['password'])) {
+      $data['password'] = $node['password'];
+    }
 
-  // Update or insert
-  if (empty($node['nid'])) {
-    $node['mid'] = _openx_manager_api('addAgency', $data);
-  }
-  else {
-    $data['managerId'] = (int) $node['mid'];
-    _openx_manager_api('modifyAgency', $data);
-  }
+    // Update or insert
+    if (empty($node['nid'])) {
+      $node['mid'] = _openx_manager_api('addAgency', $data);
+    }
+    else {
+      $data['managerId'] = (int) $node['mid'];
+      _openx_manager_api('modifyAgency', $data);
+    }
 
-  $node['openx_node_fields'] = array(
-    'mid'                   => $node['mid'],
-    'contact'               => $node['contact'],
-    'email'                 => $node['email'],
-    'username'              => $node['username'],
-    'password'              => $node['password'],
-  );
+    $node['openx_node_fields'] = array(
+      'mid'                   => $node['mid'],
+      'contact'               => $node['contact'],
+      'email'                 => $node['email'],
+      'username'              => $node['username'],
+      'password'              => $node['password'],
+    );
+  }
 }
 
 /**
