@@ -46,155 +46,30 @@ function _openx_node_user_form(&$node, $form_state) {
     '#default_value'  => $node->title,
     '#weight'         => -5,
   );
-  // Internal values
-  $form['cid'] = array(
-    '#value'          => $node->cid,
+  $form['ouid'] = array(
+    '#value'          => $node->ouid,
     '#type'           => 'value',
   );
-  if (empty($node->aid)) {
-    $aid = $_GET['aid'];
-    $advertiser = node_load($_GET['nid']);
-  }
-  else {
-    $aid = $node->aid;
-    $advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
-      WHERE aid = %d', $aid)));
-  }
-  $form['aid'] = array(
-    '#value'          => $aid,
-    '#type'           => 'value',
-  );
-  $form['advertiser'] = array(
-    '#value'          => l($advertiser->title, 'node/'. $advertiser->nid),
-    '#title'          => t('Advertiser'),
-    '#type'           => 'item',
-  );
-
-  $form['inventory'] = array(
-    '#description'    => t('-1 for unlimeted'),
-    '#title'          => t('Inventory'),
-    '#type'           => 'fieldset',
-  );
-  $form['inventory']['inventory_impressions'] = array(
-    '#default_value'  => empty($node->inventory_impressions) ? -1 : $node->inventory_impressions,
-    '#title'          => t('Impressions booked'),
+  $form['contact'] = array(
+    '#default_value'  => $node->contact,
+    '#required'       => TRUE,
+    '#title'          => t('Contact name'),
     '#type'           => 'textfield',
   );
-  $form['inventory']['inventory_clicks'] = array(
-    '#default_value'  => empty($node->inventory_clicks) ? -1 : $node->inventory_clicks,
-    '#title'          => t('Clicks booked'),
+  $form['email'] = array(
+    '#default_value'  => $node->email,
+    '#title'          => t('Email'),
     '#type'           => 'textfield',
   );
-  $form['inventory']['inventory_conversions'] = array(
-    '#default_value'  => empty($node->inventory_conversions) ? -1 : $node->inventory_conversions,
-    '#title'          => t('Conversions booked'),
+  $form['username'] = array(
+    '#default_value'  => $node->username,
+    '#title'          => t('Username'),
     '#type'           => 'textfield',
   );
-  $form['contract'] = array(
-    '#title'          => t('Contract'),
-    '#type'           => 'fieldset',
-  );
-  if (is_numeric($node->contract_activation)) {
-    $node->contract_activation = array(
-      'day'   => date('j', $node->contract_activation),
-      'month' => date('n', $node->contract_activation),
-      'year'  => date('Y', $node->contract_activation),
-    );
-  }
-  $form['contract']['contract_activation'] = array(
-    '#default_value'  => $node->contract_activation,
-    '#title'          => t('Activation date'),
-    '#type'           => 'date',
-  );
-  if (is_numeric($node->contract_expiration)) {
-    $node->contract_expiration = array(
-      'day'   => date('j', $node->contract_expiration),
-      'month' => date('n', $node->contract_expiration),
-      'year'  => date('Y', $node->contract_expiration),
-    );
-  }
-  $form['contract']['contract_expiration'] = array(
-    '#default_value'  => $node->contract_expiration,
-    '#title'          => t('Expiration date'),
-    '#type'           => 'date',
-  );
-  $form['contract']['contract_revenue'] = array(
-    '#default_value'  => $node->contract_revenue,
-    '#title'          => t('Revenue Information'),
-    '#type'           => 'textfield',
-  );
-  $form['contract']['contract_revenue_unit'] = array(
-    '#default_value'  => empty($node->contract_revenue_unit) ? MAX_FINANCE_CPM : $node->contract_revenue_unit,
-    '#options'        => array(
-      MAX_FINANCE_CPM   => t('CPM'),
-      MAX_FINANCE_CPC   => t('CPC'),
-      MAX_FINANCE_CPA   => t('CPA'),
-      MAX_FINANCE_MT    => t('Monthly Tenancy'),
-    ),
-    '#type'           => 'select',
-  );
-  $form['priority'] = array(
-    '#title'          => t('Priority'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['level'] = array(
-    '#title'          => t('Priority Level'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['level']['priority_level_level'] = array(
-    '#default_value'  => $node->priority_level_level,
-    '#options'        => array(
-      -1  => t('Exclusive (Overrides other linked users)'),
-      5   => t('High (Paid users)'),
-      0   => t('Low (House and unpaid users)'),
-    ),
-    '#type'           => 'radios',
-  );
-  $form['priority']['distribution'] = array(
-    '#title'          => t('Distribution'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['distribution']['priority_distribution_level'] = array(
-    '#default_value'  => $node->priority_distribution_level,
-    '#options'        => array(
-      t('Automatic - Distribute the remaining inventory evenly over the remaining number of days'),
-      t('Manual'),
-      t('None - Set the user weight to'),
-    ),
-    '#type'           => 'radios',
-  );
-  $form['priority']['misc'] = array(
-    '#title'          => t('Miscellaneous'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['misc']['priority_misc_hide'] = array(
-    '#default_value'  => $node->priority_misc_hide,
-    '#title'          => t('Hide the advertiser and websites of this user'),
-    '#type'           => 'checkbox',
-  );
-  $form['priority']['misc']['priority_misc_positioning'] = array(
-    '#default_value'  => $node->priority_misc_positioning,
-    '#title'          => t('Companion positioning'),
-    '#type'           => 'checkbox',
-  );
-  $form['delivery'] = array(
-    '#title'          => t('Delivery'),
-    '#type'           => 'fieldset',
-  );
-  $form['delivery']['delivery_limit_total'] = array(
-    '#default_value'  => $node->delivery_limit_total,
-    '#title'          => t('Limit user views in total'),
-    '#type'           => 'textfield',
-  );
-  $form['delivery']['delivery_limit_session'] = array(
-    '#default_value'  => $node->delivery_limit_session,
-    '#title'          => t('Limit user views per session'),
-    '#type'           => 'textfield',
-  );
-  $form['delivery']['delivery_reset_view'] = array(
-    '#default_value'  => $node->delivery_reset_view,
-    '#title'          => t('Reset view counters after'),
-    '#type'           => 'date',
+  $form['password'] = array(
+    '#default_value'  => $node->password,
+    '#title'          => t('Password'),
+    '#type'           => 'password',
   );
 
   $form['#submit'][] = '_openx_node_user_submit';
