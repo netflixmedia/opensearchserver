@@ -310,10 +310,8 @@ function _openx_node_user_validate(&$node) {
  * For Users
  */
 function _openx_node_user_view(&$node, $teaser = FALSE, $page = FALSE) {
-  $node->advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
-    WHERE aid = %d', $node->aid)));
-  $node->content['user'] = array(
-    '#value'  => theme('user', $node),
+  $node->content['ouser'] = array(
+    '#value'  => theme('ouser', $node),
     '#weight' => 1,
   );
 
@@ -323,7 +321,7 @@ function _openx_node_user_view(&$node, $teaser = FALSE, $page = FALSE) {
 /**
  * Display the User fields
  */
-function theme_user(&$node) {
+function theme_ouser(&$node) {
   $fields['contact'] = array(
     '#value'          => $node->contact,
     '#title'          => t('Contact name'),
