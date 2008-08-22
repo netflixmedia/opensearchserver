@@ -295,6 +295,44 @@ function openx_manager_schema() {
       'bid' => array('mid'),
     ),
   );
+  $schema['openx_manager_publisher'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'pid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'contact' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'email' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'username' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'password' => array(
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('nid'),
+    'unique keys' => array(
+      'bid' => array('pid'),
+    ),
+  );
   $schema['openx_manager_user'] = array(
     'fields' => array(
       'nid' => array(
@@ -330,7 +368,7 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'bid' => array('mid'),
+      'bid' => array('ouid'),
     ),
   );
   return $schema;
