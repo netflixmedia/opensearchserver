@@ -29,7 +29,7 @@ function _openx_node_user_access($op, $node, $account) {
  * For Users
  */
 function _openx_node_user_delete(&$node) {
-  _openx_manager_api('deleteUser', (int) $node->cid);
+  _openx_manager_api('deleteUser', (int) $node->ouid);
   db_query('DELETE FROM {openx_manager_user} WHERE nid = %d', $node->nid);
 }
 

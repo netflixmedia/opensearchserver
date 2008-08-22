@@ -51,7 +51,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
       $links['create_campaign'] = array(
         'title'       => t('Create a new Campaign'),
         'href'        => 'node/add/openx-campaign',
-        'query'       => array('aid' => $object->aid, 'nid' => $object->nid),
+        'query'       => array('oaid' => $object->oaid, 'nid' => $object->nid),
       );
       return $links;
     }
@@ -59,7 +59,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
       $links['create_banner'] = array(
         'title'       => t('Create a new Banner'),
         'href'        => 'node/add/openx-banner',
-        'query'       => array('cid' => $object->cid, 'nid' => $object->nid),
+        'query'       => array('ocid' => $object->ocid, 'nid' => $object->nid),
       );
       return $links;
     }

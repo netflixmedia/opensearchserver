@@ -40,7 +40,7 @@ function _openx_node_campaign_access($op, $node, $account) {
  * For Campaigns
  */
 function _openx_node_campaign_delete(&$node) {
-  _openx_manager_api('deleteCampaign', (int) $node->cid);
+  _openx_manager_api('deleteCampaign', (int) $node->ocid);
   db_query('DELETE FROM {openx_manager_campaign} WHERE nid = %d', $node->nid);
 }
 
@@ -58,21 +58,21 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#weight'         => -5,
   );
   // Internal values
-  $form['cid'] = array(
-    '#value'          => $node->cid,
+  $form['ocid'] = array(
+    '#value'          => $node->ocid,
     '#type'           => 'value',
   );
-  if (empty($node->aid)) {
-    $aid = $_GET['aid'];
+  if (empty($node->oaid)) {
+    $oaid = $_GET['oaid'];
     $advertiser = node_load($_GET['nid']);
   }
   else {
-    $aid = $node->aid;
+    $oaid = $node->oaid;
     $advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
-      WHERE aid = %d', $aid)));
+      WHERE oaid = %d', $oaid)));
   }
-  $form['aid'] = array(
-    '#value'          => $aid,
+  $form['oaid'] = array(
+    '#value'          => $oaid,
     '#type'           => 'value',
   );
   $form['advertiser'] = array(
@@ -251,7 +251,7 @@ function _openx_node_campaign_submit(&$form, &$form_state) {
     // Required and optional values on OpenX server
     $data = array(
       'campaignName'  => $node['title'],
-      'advertiserId'  => (int) $node['aid'],
+      'advertiserId'  => (int) $node['oaid'],
     );
     if (!empty($node['contract_activation'])) {
       include_once './includes/xmlrpc.inc';
@@ -276,16 +276,16 @@ function _openx_node_campaign_submit(&$form, &$form_state) {
 
     // Update or insert
     if (empty($node['nid'])) {
-      $node['cid'] = _openx_manager_api('addCampaign', $data);
+      $node['ocid'] = _openx_manager_api('addCampaign', $data);
     }
     else {
-      $data['campaignId'] = (int) $node['cid'];
+      $data['campaignId'] = (int) $node['ocid'];
       _openx_manager_api('modifyCampaign', $data);
     }
 
     $node['openx_node_fields'] = array(
-      'cid'                         => $node['cid'],
-      'aid'                         => $node['aid'],
+      'ocid'                         => $node['ocid'],
+      'oaid'                        => $node['oaid'],
       'inventory_impressions'       => $node['inventory_impressions'],
       'inventory_clicks'            => $node['inventory_clicks'],
       'inventory_conversions'       => $node['inventory_conversions'],
@@ -351,7 +351,7 @@ function _openx_node_campaign_validate(&$node) {
  */
 function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
   $node->advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
-    WHERE aid = %d', $node->aid)));
+    WHERE oaid = %d', $node->oaid)));
   $node->content['campaign'] = array(
     '#value'  => theme('campaign', $node),
     '#weight' => 1,

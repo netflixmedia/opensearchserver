@@ -29,7 +29,7 @@ function _openx_node_advertiser_access($op, $node, $account) {
  * For Advertisers
  */
 function _openx_node_advertiser_delete(&$node) {
-  _openx_manager_api('deleteAdvertiser', (int) $node->aid);
+  _openx_manager_api('deleteAdvertiser', (int) $node->oaid);
   db_query('DELETE FROM {openx_manager_advertiser} WHERE nid = %d', $node->nid);
 }
 
@@ -46,8 +46,8 @@ function _openx_node_advertiser_form(&$node, $form_state) {
     '#default_value'  => $node->title,
     '#weight'         => -5,
   );
-  $form['aid'] = array(
-    '#value'          => $node->aid,
+  $form['oaid'] = array(
+    '#value'          => $node->oaid,
     '#type'           => 'value',
   );
   $form['info'] = array(
@@ -145,15 +145,15 @@ function _openx_node_advertiser_submit(&$form, &$form_state) {
 
     // Update or insert
     if (empty($node['nid'])) {
-      $node['aid'] = _openx_manager_api('addAdvertiser', $data);
+      $node['oaid'] = _openx_manager_api('addAdvertiser', $data);
     }
     else {
-      $data['advertiserId'] = (int) $node['aid'];
+      $data['advertiserId'] = (int) $node['oaid'];
       _openx_manager_api('modifyAdvertiser', $data);
     }
 
     $node['openx_node_fields'] = array(
-      'aid'                   => $node['aid'],
+      'oaid'                   => $node['oaid'],
       'info_contact'          => $node['info_contact'],
       'info_email'            => $node['info_email'],
       'report_auto'           => $node['report_auto'],

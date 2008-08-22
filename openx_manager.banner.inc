@@ -29,7 +29,7 @@ function _openx_node_banner_access($op, $node, $account) {
  * For Banners
  */
 function _openx_node_banner_delete(&$node) {
-  _openx_manager_api('deleteBanner', (int) $node->bid);
+  _openx_manager_api('deleteBanner', (int) $node->obid);
   db_query('DELETE FROM {openx_manager_banner} WHERE nid = %d', $node->nid);
 }
 
@@ -55,21 +55,21 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#type'           => 'textfield',
     '#weight'         => -5,
   );
-  $form['bid'] = array(
-    '#value'          => $node->bid,
+  $form['obid'] = array(
+    '#value'          => $node->obid,
     '#type'           => 'value',
   );
-  if (empty($node->cid)) {
-    $cid = $_GET['cid'];
+  if (empty($node->ocid)) {
+    $ocid = $_GET['ocid'];
     $campaign = node_load($_GET['nid']);
   }
   else {
-    $cid = $node->cid;
+    $ocid = $node->ocid;
     $campaign = node_load(db_result(db_query('SELECT nid FROM {openx_manager_campaign}
-      WHERE cid = %d', $cid)));
+      WHERE ocid = %d', $ocid)));
   }
-  $form['cid'] = array(
-    '#value'          => $cid,
+  $form['ocid'] = array(
+    '#value'          => $ocid,
     '#type'           => 'value',
   );
   $form['campaign'] = array(
@@ -234,7 +234,7 @@ function _openx_node_banner_submit(&$form, &$form_state) {
 
     $data = array(
       'bannerName'      => $node['title'],
-      'campaignId'      => (int) $node['cid'],
+      'campaignId'      => (int) $node['ocid'],
       'storageType'     => $node['btype'],
     );
     if ($node['btype'] == 'sql' or $node['btype'] == 'web') {
@@ -280,16 +280,16 @@ function _openx_node_banner_submit(&$form, &$form_state) {
 
     // Update or insert
     if (empty($node['nid'])) {
-      $node['bid'] = _openx_manager_api('addBanner', $data);
+      $node['obid'] = _openx_manager_api('addBanner', $data);
     }
     else {
-      $data['bannerId'] = (int) $node['bid'];
+      $data['bannerId'] = (int) $node['obid'];
       _openx_manager_api('modifyBanner', $data);
     }
 
     $node['openx_node_fields'] = array(
-      'bid'                 => $node->bid,
-      'cid'                 => $node->cid,
+      'obid'                 => $node->obid,
+      'ocid'                 => $node->ocid,
       'keywords'            => $node->keywords,
       'weight'              => $node->weight,
       'destination_url'     => $node->destination_url,

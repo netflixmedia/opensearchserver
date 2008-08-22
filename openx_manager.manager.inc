@@ -29,7 +29,7 @@ function _openx_node_manager_access($op, $node, $account) {
  * For Managers
  */
 function _openx_node_manager_delete(&$node) {
-  _openx_manager_api('deleteManager', (int) $node->aid);
+  _openx_manager_api('deleteManager', (int) $node->oaid);
   db_query('DELETE FROM {openx_manager_manager} WHERE nid = %d', $node->nid);
 }
 
@@ -46,8 +46,8 @@ function _openx_node_manager_form(&$node, $form_state) {
     '#default_value'  => $node->title,
     '#weight'         => -5,
   );
-  $form['mid'] = array(
-    '#value'          => $node->mid,
+  $form['omid'] = array(
+    '#value'          => $node->omid,
     '#type'           => 'value',
   );
   $form['contact'] = array(
@@ -124,15 +124,15 @@ function _openx_node_manager_submit(&$form, &$form_state) {
 
     // Update or insert
     if (empty($node['nid'])) {
-      $node['mid'] = _openx_manager_api('addAgency', $data);
+      $node['omid'] = _openx_manager_api('addAgency', $data);
     }
     else {
-      $data['managerId'] = (int) $node['mid'];
+      $data['managerId'] = (int) $node['omid'];
       _openx_manager_api('modifyAgency', $data);
     }
 
     $node['openx_node_fields'] = array(
-      'mid'                   => $node['mid'],
+      'omid'                   => $node['omid'],
       'contact'               => $node['contact'],
       'email'                 => $node['email'],
       'username'              => $node['username'],

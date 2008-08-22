@@ -29,7 +29,7 @@ function _openx_node_publisher_access($op, $node, $account) {
  * For Publishers
  */
 function _openx_node_publisher_delete(&$node) {
-  _openx_manager_api('deletePublisher', (int) $node->cid);
+  _openx_manager_api('deletePublisher', (int) $node->opid);
   db_query('DELETE FROM {openx_manager_publisher} WHERE nid = %d', $node->nid);
 }
 
@@ -39,7 +39,6 @@ function _openx_node_publisher_delete(&$node) {
  * For Publishers
  */
 function _openx_node_publisher_form(&$node, $form_state) {
-dpm($node);
   $form['title'] = array(
     '#type'           => 'textfield',
     '#title'          => t('Publisher'),
@@ -47,8 +46,8 @@ dpm($node);
     '#default_value'  => $node->title,
     '#weight'         => -5,
   );
-  $form['pid'] = array(
-    '#value'          => $node->pid,
+  $form['opid'] = array(
+    '#value'          => $node->opid,
     '#type'           => 'value',
   );
   $form['contact'] = array(
@@ -125,15 +124,15 @@ function _openx_node_publisher_submit(&$form, &$form_state) {
 
     // Update or insert
     if (empty($node['nid'])) {
-      $node['pid'] = _openx_manager_api('addPublisher', $data);
+      $node['opid'] = _openx_manager_api('addPublisher', $data);
     }
     else {
-      $data['publisherId'] = (int) $node['pid'];
+      $data['publisherId'] = (int) $node['opid'];
       _openx_manager_api('modifyPublisher', $data);
     }
 
     $node['openx_node_fields'] = array(
-      'pid'                   => $node['pid'],
+      'opid'                   => $node['opid'],
       'contact'               => $node['contact'],
       'email'                 => $node['email'],
       'username'              => $node['username'],
