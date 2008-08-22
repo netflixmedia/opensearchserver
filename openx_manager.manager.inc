@@ -160,6 +160,9 @@ function _openx_node_manager_validate(&$node) {
   if (!variable_get('openx_manager_server', '')) {
     form_set_error('title', t('OpenX integration not configured'));
   }
+  if (!empty($node->email) and !valid_email_address($node->email)) {
+    form_set_error('email', t('Invalid email'));
+  }
 }
 
 /**

@@ -186,6 +186,9 @@ function _openx_node_advertiser_validate(&$node) {
   if (!empty($node->report_days) and !is_numeric($node->report_days)) {
     form_set_error('report_days', t('It must be numeric'));
   }
+  if (!empty($node->info_email) and !valid_email_address($node->info_email)) {
+    form_set_error('info_email', t('Invalid email'));
+  }
 }
 
 /**

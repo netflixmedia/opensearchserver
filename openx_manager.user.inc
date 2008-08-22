@@ -160,24 +160,8 @@ function _openx_node_user_validate(&$node) {
   if (!variable_get('openx_manager_server', '')) {
     form_set_error('title', t('OpenX integration not configured'));
   }
-
-  // Check if the integer values are really integers
-  $integers_values = array(
-    'inventory_impressions',
-    'inventory_clicks',
-    'inventory_conversions',
-    'contract_revenue',
-    'priority_level_level',
-    'priority_distribution_level',
-    'priority_misc_hide',
-    'priority_misc_positioning',
-    'delivery_limit_total',
-    'delivery_limit_session',
-  );
-  foreach ($integers_values as $value) {
-    if (!empty($node->{$value}) and !is_numeric($node->{$value})) {
-      form_set_error($value, t('It must be numeric'));
-    }
+  if (!empty($node->email) and !valid_email_address($node->email)) {
+    form_set_error('email', t('Invalid email'));
   }
 }
 
