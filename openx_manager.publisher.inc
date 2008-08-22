@@ -109,7 +109,7 @@ function _openx_node_publisher_submit(&$form, &$form_state) {
 
   $data = array(
     'publisherName'   => $node['title'],
-    'contactName'     => $node['info_contact'],
+    'contactName'     => $node['contact'],
   );
   if (!empty($node['email'])) {
     $data['emailAddress'] = $node['email'];

@@ -109,7 +109,7 @@ function _openx_node_manager_submit(&$form, &$form_state) {
 
   $data = array(
     'agencyName'      => $node['title'],
-    'contactName'     => $node['info_contact'],
+    'contactName'     => $node['contact'],
   );
   if (!empty($node['email'])) {
     $data['emailAddress'] = $node['email'];
