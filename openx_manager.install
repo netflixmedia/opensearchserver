@@ -370,6 +370,39 @@ function openx_manager_schema() {
       'ouid' => array('ouid'),
     ),
   );
+  $schema['openx_manager_zone'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'ozid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'zone_type' => array(
+        'type'        => 'varchar',
+        'length'      => 10,
+        'not null'    => TRUE,
+      ),
+      'size_height' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'size_width' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+    ),
+    'primary key' => array('nid'),
+    'unique keys' => array(
+      'ouid' => array('ozid'),
+    ),
+  );
   return $schema;
 }
 
