@@ -67,7 +67,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
       $links['create_zone'] = array(
         'title'       => t('Create a new Zone'),
         'href'        => 'node/add/openx-zone',
-        'query'       => array('opid' => $object->ocid, 'nid' => $object->nid),
+        'query'       => array('opid' => $object->opid, 'nid' => $object->nid),
       );
       return $links;
     }
@@ -133,7 +133,7 @@ function openx_manager_node_info() {
     'openx_zone' => array(
       'description' => t('OpenX Zones'),
       'has_body'    => FALSE,
-      'module'      => 'openx_node_user',
+      'module'      => 'openx_node_zone',
       'name'        => t('Zone'),
     ),
   );

@@ -84,5 +84,10 @@ function _openx_manager_call_file($op) {
     case 'modifyUser':
     case 'getUser':
       return '/www/api/v1/xmlrpc/UserXmlRpcService.php';
+    case 'addZone':
+    case 'deleteZone':
+    case 'modifyZone':
+    case 'getZone':
+      return '/www/api/v1/xmlrpc/ZoneXmlRpcService.php';
   }
 }
