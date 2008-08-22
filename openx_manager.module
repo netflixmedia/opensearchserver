@@ -47,7 +47,7 @@ function openx_manager_form_openx_banner_node_form_alter(&$form, $form_state) {
  */
 function openx_manager_link($type, $object, $teaser = FALSE) {
   if ($type == 'node' and empty($teaser)) {
-    if ($object->type == 'openx_advertiser' and user_access('create openx campaign')) {
+    if ($object->type == 'openx_advertiser' and user_access('create openx campaigns')) {
       $links['create_campaign'] = array(
         'title'       => t('Create a new Campaign'),
         'href'        => 'node/add/openx-campaign',
@@ -55,7 +55,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
       );
       return $links;
     }
-    elseif ($object->type == 'openx_campaign' and user_access('create openx banner')) {
+    elseif ($object->type == 'openx_campaign' and user_access('create openx banners')) {
       $links['create_banner'] = array(
         'title'       => t('Create a new Banner'),
         'href'        => 'node/add/openx-banner',
@@ -63,7 +63,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
       );
       return $links;
     }
-    elseif ($object->type == 'openx_publisher' and user_access('create openx zone')) {
+    elseif ($object->type == 'openx_publisher' and user_access('create openx zones')) {
       $links['create_zone'] = array(
         'title'       => t('Create a new Zone'),
         'href'        => 'node/add/openx-zone',
@@ -130,6 +130,12 @@ function openx_manager_node_info() {
       'module'      => 'openx_node_user',
       'name'        => t('User'),
     ),
+    'openx_zone' => array(
+      'description' => t('OpenX Zones'),
+      'has_body'    => FALSE,
+      'module'      => 'openx_node_user',
+      'name'        => t('Zone'),
+    ),
   );
 }
 
@@ -144,6 +150,7 @@ function openx_manager_perm() {
     'create openx managers',    'edit own openx managers',
     'create openx publishers',  'edit own openx publishers',
     'create openx users',       'edit own openx users',
+    'create openx zones',       'edit own openx zones',
   );
 }
 
@@ -173,32 +180,36 @@ function _openx_manager_session($check_only = FALSE) {
  */
 function openx_manager_theme() {
   return array(
-    'advertiser' => array(
+    'openx_advertiser' => array(
       'file'      => 'openx_manager.advertiser.inc',
       'arguments' => array('node'),
     ),
-    'banner' => array(
+    'openx_banner' => array(
       'file'      => 'openx_manager.banner.inc',
       'arguments' => array('node'),
     ),
-    'banner_form' => array(
+    'openx_banner_form' => array(
       'file'      => 'openx_manager.banner.inc',
       'arguments' => array('form'),
     ),
-    'campaign' => array(
+    'openx_campaign' => array(
       'file'      => 'openx_manager.campaign.inc',
       'arguments' => array('node'),
     ),
-    'manager' => array(
+    'openx_manager' => array(
       'file'      => 'openx_manager.manager.inc',
       'arguments' => array('node'),
     ),
-    'publisher' => array(
+    'openx_publisher' => array(
       'file'      => 'openx_manager.publisher.inc',
       'arguments' => array('node'),
     ),
-    'ouser' => array(
+    'openx_user' => array(
       'file'      => 'openx_manager.user.inc',
+      'arguments' => array('node'),
+    ),
+    'openx_zone' => array(
+      'file'      => 'openx_manager.zone.inc',
       'arguments' => array('node'),
     ),
   );
