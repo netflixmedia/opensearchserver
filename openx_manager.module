@@ -764,3 +764,13 @@ function openx_node_zone_validate(&$node) {
   module_load_include('zone.inc', 'openx_manager');
   return _openx_node_zone_validate($node);
 }
+
+/**
+ * Implementation of hook_view().
+ *
+ * For Advertisers
+ */
+function openx_node_zone_view(&$node, $teaser = FALSE, $page = FALSE) {
+  module_load_include('zone.inc', 'openx_zone');
+  return _openx_node_zone_view($node, $teaser, $page);
+}
