@@ -110,6 +110,12 @@ function openx_manager_node_info() {
       'module'      => 'openx_node_manager',
       'name'        => t('Manager'),
     ),
+    'openx_publisher' => array(
+      'description' => t(''),
+      'has_body'    => FALSE,
+      'module'      => 'openx_node_publisher',
+      'name'        => t('Publisher'),
+    ),
     'openx_user' => array(
       'description' => t(''),
       'has_body'    => FALSE,
@@ -128,6 +134,7 @@ function openx_manager_perm() {
     'create openx banners',     'edit own openx banners',
     'create openx campaigns',   'edit own openx campaigns',
     'create openx managers',    'edit own openx managers',
+    'create openx publishers',  'edit own openx publishers',
     'create openx users',       'edit own openx users',
   );
 }
@@ -503,6 +510,86 @@ function openx_node_manager_validate(&$node) {
 function openx_node_manager_view(&$node, $teaser = FALSE, $page = FALSE) {
   module_load_include('manager.inc', 'openx_manager');
   return _openx_node_manager_view($node, $teaser, $page);
+}
+
+/**
+ * Implementation of hook_access().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_access($op, $node, $account) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_access($op, $node, $account);
+}
+
+/**
+ * Implementation of hook_delete().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_delete(&$node) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_delete($node);
+}
+
+/**
+ * Implementation of hook_form().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_form(&$node, $form_state) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_form($node, $form_state);
+}
+
+/**
+ * Implementation of hook_insert().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_insert(&$node) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_insert($node);
+}
+
+/**
+ * Implementation of hook_load().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_load(&$node) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_load($node);
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_update(&$node) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_update($node);
+}
+
+/**
+ * Implementation of hook_validate().
+ *
+ * For Publishers
+ */
+function openx_node_publisher_validate(&$node) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_validate($node);
+}
+
+/**
+ * Implementation of hook_view().
+ *
+ * For Advertisers
+ */
+function openx_node_publisher_view(&$node, $teaser = FALSE, $page = FALSE) {
+  module_load_include('publisher.inc', 'openx_manager');
+  return _openx_node_publisher_view($node, $teaser, $page);
 }
 
 /**
