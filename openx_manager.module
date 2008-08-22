@@ -185,6 +185,10 @@ function openx_manager_theme() {
       'file'      => 'openx_manager.manager.inc',
       'arguments' => array('node'),
     ),
+    'publisher' => array(
+      'file'      => 'openx_manager.publisher.inc',
+      'arguments' => array('node'),
+    ),
     'ouser' => array(
       'file'      => 'openx_manager.user.inc',
       'arguments' => array('node'),
