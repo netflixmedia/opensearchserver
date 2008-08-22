@@ -25,7 +25,7 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'aid' => array(
+      'oaid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -63,7 +63,7 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'aid' => array('aid'),
+      'oaid' => array('oaid'),
     ),
     'indexes' => array(
     ),
@@ -75,12 +75,12 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'bid' => array(
+      'obid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'cid' => array(
+      'ocid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -156,10 +156,10 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'bid' => array('bid'),
+      'obid' => array('obid'),
     ),
     'indexes' => array(
-      'cid' => array('cid'),
+      'ocid' => array('ocid'),
     ),
   );
   $schema['openx_manager_campaign'] = array(
@@ -169,17 +169,16 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'cid' => array(
+      'ocid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'aid' => array(
+      'oaid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-
       'inventory_impressions' => array(
         'type'        => 'int',
         'not null'    => TRUE,
@@ -251,10 +250,10 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'cid' => array('cid'),
+      'ocid' => array('ocid'),
     ),
     'indexes' => array(
-      'aid' => array('aid'),
+      'oaid' => array('oaid'),
     ),
   );
   $schema['openx_manager_manager'] = array(
@@ -264,7 +263,7 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'mid' => array(
+      'omid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -292,7 +291,7 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'bid' => array('mid'),
+      'omid' => array('omid'),
     ),
   );
   $schema['openx_manager_publisher'] = array(
@@ -302,7 +301,7 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-      'pid' => array(
+      'opid' => array(
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -330,7 +329,7 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'bid' => array('pid'),
+      'opid' => array('opid'),
     ),
   );
   $schema['openx_manager_user'] = array(
@@ -368,7 +367,7 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'bid' => array('ouid'),
+      'ouid' => array('ouid'),
     ),
   );
   return $schema;
