@@ -197,6 +197,16 @@ function _openx_node_publisher_view(&$node, $teaser = FALSE, $page = FALSE) {
  * Display the Publisher fields
  */
 function theme_publisher(&$node) {
+  $fields['contact'] = array(
+    '#value'          => $node->contact,
+    '#title'          => t('Contact name'),
+    '#type'           => 'item',
+  );
+  $fields['email'] = array(
+    '#value'          => $node->email,
+    '#title'          => t('Email'),
+    '#type'           => 'item',
+  );
 
   // Print all field in the right order
   $output = '';
