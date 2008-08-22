@@ -424,12 +424,12 @@ function theme_openx_banner(&$node) {
   }
   if ($node->btype == 'html' or $node->btype == 'url') {
     $fields['size_height'] = array(
-      '#value'          => check_plain($node->size_height),
+      '#value'          => t('!size pixels', array('!size' => $node->size_height)),
       '#title'          => t('Height'),
       '#type'           => 'item',
     );
     $fields['size_width'] = array(
-      '#value'          => check_plain($node->size_width),
+      '#value'          => t('!size pixels', array('!size' => $node->size_width)),
       '#title'          => t('Width'),
       '#type'           => 'item',
     );
