@@ -382,6 +382,11 @@ function openx_manager_schema() {
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
+      'opid' => array(
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
       'zone_type' => array(
         'type'        => 'varchar',
         'length'      => 10,
@@ -401,6 +406,9 @@ function openx_manager_schema() {
     'primary key' => array('nid'),
     'unique keys' => array(
       'ouid' => array('ozid'),
+    ),
+    'indexes' => array(
+      'opid' => array('opid'),
     ),
   );
   return $schema;
