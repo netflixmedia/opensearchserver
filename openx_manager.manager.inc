@@ -171,8 +171,8 @@ function _openx_node_manager_validate(&$node) {
  * For Managers
  */
 function _openx_node_manager_view(&$node, $teaser = FALSE, $page = FALSE) {
-  $node->content['manager'] = array(
-    '#value'  => theme('manager', $node),
+  $node->content['openx_manager'] = array(
+    '#value'  => theme('openx_manager', $node),
     '#weight' => 1,
   );
 
@@ -182,7 +182,7 @@ function _openx_node_manager_view(&$node, $teaser = FALSE, $page = FALSE) {
 /**
  * Display the Managers fields
  */
-function theme_manager(&$node) {
+function theme_openx_manager(&$node) {
   $fields['contact'] = array(
     '#value'          => $node->contact,
     '#title'          => t('Contact name'),

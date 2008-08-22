@@ -39,7 +39,7 @@ function openx_manager_exit() {
  */
 function openx_manager_form_openx_banner_node_form_alter(&$form, $form_state) {
   $form['buttons']['#weight'] = 99;
-  $form['#theme']             = 'banner_form';
+  $form['#theme']             = 'openx_banner_form';
 }
 
 /**

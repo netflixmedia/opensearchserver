@@ -171,8 +171,8 @@ function _openx_node_user_validate(&$node) {
  * For Users
  */
 function _openx_node_user_view(&$node, $teaser = FALSE, $page = FALSE) {
-  $node->content['ouser'] = array(
-    '#value'  => theme('ouser', $node),
+  $node->content['openx_user'] = array(
+    '#value'  => theme('openx_user', $node),
     '#weight' => 1,
   );
 
@@ -182,7 +182,7 @@ function _openx_node_user_view(&$node, $teaser = FALSE, $page = FALSE) {
 /**
  * Display the User fields
  */
-function theme_ouser(&$node) {
+function theme_openx_user(&$node) {
   $fields['contact'] = array(
     '#value'          => $node->contact,
     '#title'          => t('Contact name'),

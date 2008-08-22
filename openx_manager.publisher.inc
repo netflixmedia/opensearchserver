@@ -171,8 +171,8 @@ function _openx_node_publisher_validate(&$node) {
  * For Publishers
  */
 function _openx_node_publisher_view(&$node, $teaser = FALSE, $page = FALSE) {
-  $node->content['publisher'] = array(
-    '#value'  => theme('publisher', $node),
+  $node->content['openx_publisher'] = array(
+    '#value'  => theme('openx_publisher', $node),
     '#weight' => 1,
   );
 
@@ -182,7 +182,7 @@ function _openx_node_publisher_view(&$node, $teaser = FALSE, $page = FALSE) {
 /**
  * Display the Publisher fields
  */
-function theme_publisher(&$node) {
+function theme_openx_publisher(&$node) {
   $fields['contact'] = array(
     '#value'          => $node->contact,
     '#title'          => t('Contact name'),

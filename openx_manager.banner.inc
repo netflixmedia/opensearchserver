@@ -334,8 +334,8 @@ function _openx_node_banner_validate(&$node) {
  * For Banner
  */
 function _openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
-  $node->content['banner'] = array(
-    '#value'  => theme('banner', $node),
+  $node->content['openx_banner'] = array(
+    '#value'  => theme('openx_banner', $node),
     '#weight' => 1,
   );
 
@@ -347,7 +347,7 @@ function _openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
  *
  * @ingroup themable
  */
-function theme_banner(&$node) {
+function theme_openx_banner(&$node) {
   $fields['keywords'] = array(
     '#value'          => check_plain($node->keywords),
     '#title'          => t('Keywords'),
@@ -448,7 +448,7 @@ function theme_banner(&$node) {
  *
  * @ingroup themable
  */
-function theme_banner_form(&$form) {
+function theme_openx_banner_form(&$form) {
   // Add the Javascript if its a new banner
   if (empty($form['#node']->nid)) {
     drupal_add_js(drupal_get_path('module', 'openx_manager') .'/openx_manager.banner.js');

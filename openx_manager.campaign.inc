@@ -352,8 +352,8 @@ function _openx_node_campaign_validate(&$node) {
 function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
   $node->advertiser = node_load(db_result(db_query('SELECT nid FROM {openx_manager_advertiser}
     WHERE oaid = %d', $node->oaid)));
-  $node->content['campaign'] = array(
-    '#value'  => theme('campaign', $node),
+  $node->content['openx_campaign'] = array(
+    '#value'  => theme('openx_campaign', $node),
     '#weight' => 1,
   );
 
@@ -363,7 +363,7 @@ function _openx_node_campaign_view(&$node, $teaser = FALSE, $page = FALSE) {
 /**
  * Display the Campaign fields
  */
-function theme_campaign(&$node) {
+function theme_openx_campaign(&$node) {
   $fields['advertiser'] = array(
     '#value'          => l($node->advertiser->title, 'node/'. $node->advertiser->nid),
     '#title'          => t('Advertiser'),

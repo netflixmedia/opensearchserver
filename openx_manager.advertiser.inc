@@ -197,8 +197,8 @@ function _openx_node_advertiser_validate(&$node) {
  * For Advertisers
  */
 function _openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
-  $node->content['advertiser'] = array(
-    '#value'  => theme('advertiser', $node),
+  $node->content['openx_advertiser'] = array(
+    '#value'  => theme('openx_advertiser', $node),
     '#weight' => 1,
   );
 
@@ -208,7 +208,7 @@ function _openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
 /**
  * Display the Advertisers fields
  */
-function theme_advertiser(&$node) {
+function theme_openx_advertiser(&$node) {
   $fields['info_contact'] = array(
     '#title'  => t('Contact name'),
     '#type'   => 'item',
