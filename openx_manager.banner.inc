@@ -328,6 +328,13 @@ function _openx_node_banner_view(&$node, $teaser = FALSE, $page = FALSE) {
  * @ingroup themable
  */
 function theme_openx_banner(&$node) {
+  $campaign = node_load(db_result(db_query('SELECT nid FROM {openx_manager_campaign}
+    WHERE ocid = %d', $node->ocid)));
+  $fields['campaign'] = array(
+    '#value'          => l($campaign->title, 'node/'. $campaign->nid),
+    '#title'          => t('Campaign'),
+    '#type'           => 'item',
+  );
   $fields['keywords'] = array(
     '#value'          => check_plain($node->keywords),
     '#title'          => t('Keywords'),
