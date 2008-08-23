@@ -31,14 +31,7 @@ function _openx_manager_call($op) {
 
   // Show errors, if any
   if ($error_number = xmlrpc_errno()) {
-    if (function_exists('dpm')) {
-      $func = 'dpm';
-    }
-    else {
-      $func = 'drupal_set_message';
-    }
-    $func($error_number, 'error');
-    $func(xmlrpc_error_msg(), 'error');
+    drupal_set_message($op .': '. $error_number .': '. xmlrpc_error_msg(), 'error');
   }
 
   return $result;
