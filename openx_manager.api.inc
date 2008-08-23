@@ -68,6 +68,11 @@ function _openx_manager_call_file($op) {
     case 'addCampaign':
     case 'deleteCampaign':
     case 'getCampaign':
+    case 'getCampaignBannerStatistics':
+    case 'getCampaignDailyStatistics':
+    case 'getCampaignListByAdvertiserId':
+    case 'getCampaignPublisherStatistics':
+    case 'getCampaignZoneStatistics':
     case 'modifyCampaign':
       return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
     case 'addBanner':
