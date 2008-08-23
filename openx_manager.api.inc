@@ -24,7 +24,7 @@ function _openx_manager_call($op) {
   array_shift($args);
   array_unshift($args, _openx_manager_session());
   array_unshift($args, $op);
-  array_unshift($args, 'http://'. variable_get('openx_manager_server', '') . _openx_manager_call_file($op));
+  array_unshift($args, variable_get('openx_manager_server', '') . _openx_manager_call_file($op));
 
   // Call the XML-RPC
   $result = call_user_func_array('xmlrpc', $args);
