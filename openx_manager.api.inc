@@ -109,8 +109,11 @@ function _openx_manager_call_file($op) {
       return '/www/api/v1/xmlrpc/PublisherXmlRpcService.php';
     case 'addUser':
     case 'deleteUser':
-    case 'modifyUser':
     case 'getUser':
+    case 'getUserListByAccountId':
+    case 'modifyUser':
+    case 'updateSsoUserId':
+    case 'updateUserEmailBySsoId':
       return '/www/api/v1/xmlrpc/UserXmlRpcService.php';
     case 'addZone':
     case 'deleteZone':
