@@ -240,7 +240,7 @@ function _openx_node_banner_submit(&$form, &$form_state) {
       $validators = array(
         'file_validate_is_image' => array(),
       );
-      if ($file = file_save_upload('new_data_image', $validators, file_directory_path())) {
+      if ($file = file_save_upload('new_data_image', $validators, file_directory_path() .'/openx_manager_banners')) {
         // Delete the old image
         if (!empty($node['data_image'])) {
           $file_old = db_fetch_object(db_query('SELECT * FROM {files}
