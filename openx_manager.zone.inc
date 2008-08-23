@@ -278,7 +278,7 @@ function theme_openx_zone(&$node) {
     '240x400' => t('IAB Vertical Rectangle (240 x 400)'),
     '250x250' => t('IAB Square Pop-up (250 x 250)'),
     '160x600' => t('IAB Wide Skyscraper (160 x 600)'),
-    ''        => t('!width x !height', array(
+    ''        => t('Custom (!width x !height)', array(
       '!width'  => $node->size_width,
       '!height' => $node->size_height
     )),
