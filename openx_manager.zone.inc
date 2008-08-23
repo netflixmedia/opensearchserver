@@ -199,6 +199,7 @@ function _openx_node_zone_validate(&$node) {
     form_set_error('title', t('OpenX integration not configured'));
   }
 
+  // Use the Size preset, if selected
   if (!empty($node->size_preset)) {
     $size = explode('x', $node->size_preset);
     $node->size_width   = $size[0];

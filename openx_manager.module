@@ -43,6 +43,13 @@ function openx_manager_form_openx_banner_node_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Implementation of hook_form_alter().
+ */
+function openx_manager_form_openx_zone_node_form_alter(&$form, $form_state) {
+  drupal_add_js(drupal_get_path('module', 'openx_manager') .'/openx_manager.zone.js');
+}
+
+/**
  * Implementation of hook_link().
  */
 function openx_manager_link($type, $object, $teaser = FALSE) {
