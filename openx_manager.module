@@ -86,6 +86,14 @@ function openx_manager_menu() {
     'page arguments'    => array('_openx_manager_settings'),
     'title'             => 'OpenX manager',
   );
+  $items['admin/settings/openx-manager/import'] = array(
+    'access arguments'  => array('administer a OpenX server'),
+    'description'       => 'Import data from OpenX server',
+    'file'              => 'openx_manager.settings.inc',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('_openx_manager_import'),
+    'title'             => 'OpenX data import',
+  );
   return $items;
 }
 
