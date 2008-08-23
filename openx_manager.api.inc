@@ -65,6 +65,15 @@ function _openx_manager_call_file($op) {
     case 'getAdvertiserZoneStatistics':
     case 'modifyAdvertiser':
       return '/www/api/v1/xmlrpc/AdvertiserXmlRpcService.php';
+    case 'addBanner':
+    case 'deleteBanner':
+    case 'getBanner':
+    case 'getBannerDailyStatistics':
+    case 'getBannerListByCampaignId':
+    case 'getBannerPublisherStatistics':
+    case 'getBannerZoneStatistics':
+    case 'modifyBanner':
+      return '/www/api/v1/xmlrpc/BannerXmlRpcService.php';
     case 'addCampaign':
     case 'deleteCampaign':
     case 'getCampaign':
@@ -75,19 +84,17 @@ function _openx_manager_call_file($op) {
     case 'getCampaignZoneStatistics':
     case 'modifyCampaign':
       return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
-    case 'addBanner':
-    case 'deleteBanner':
-    case 'getBanner':
-    case 'getBannerDailyStatistics':
-    case 'getBannerListByCampaignId':
-    case 'getBannerPublisherStatistics':
-    case 'getBannerZoneStatistics':
-    case 'modifyBanner':
-      return '/www/api/v1/xmlrpc/BannerXmlRpcService.php';
     case 'addAgency':
     case 'deleteAgency':
-    case 'modifyAgency':
     case 'getAgency':
+    case 'getAgencyAdvertiserStatistics':
+    case 'getAgencyBannerStatistics':
+    case 'getAgencyCampaignStatistics':
+    case 'getAgencyDailyStatistics':
+    case 'getAgencyList':
+    case 'getAgencyPublisherStatistics':
+    case 'getAgencyZoneStatistics':
+    case 'modifyAgency':
       return '/www/api/v1/xmlrpc/AgencyXmlRpcService.php';
     case 'addPublisher':
     case 'deletePublisher':
