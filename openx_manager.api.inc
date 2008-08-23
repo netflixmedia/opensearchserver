@@ -67,13 +67,17 @@ function _openx_manager_call_file($op) {
       return '/www/api/v1/xmlrpc/AdvertiserXmlRpcService.php';
     case 'addCampaign':
     case 'deleteCampaign':
-    case 'modifyCampaign':
     case 'getCampaign':
+    case 'modifyCampaign':
       return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
     case 'addBanner':
     case 'deleteBanner':
-    case 'modifyBanner':
     case 'getBanner':
+    case 'getBannerDailyStatistics':
+    case 'getBannerListByCampaignId':
+    case 'getBannerPublisherStatistics':
+    case 'getBannerZoneStatistics':
+    case 'modifyBanner':
       return '/www/api/v1/xmlrpc/BannerXmlRpcService.php';
     case 'addAgency':
     case 'deleteAgency':
