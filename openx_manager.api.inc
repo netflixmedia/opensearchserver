@@ -98,8 +98,14 @@ function _openx_manager_call_file($op) {
       return '/www/api/v1/xmlrpc/AgencyXmlRpcService.php';
     case 'addPublisher':
     case 'deletePublisher':
-    case 'modifyPublisher':
     case 'getPublisher':
+    case 'getPublisherAdvertiserStatistics':
+    case 'getPublisherBannerStatistics':
+    case 'getPublisherCampaignStatistics':
+    case 'getPublisherDailyStatistics':
+    case 'getPublisherListByAgencyId':
+    case 'getPublisherZoneStatistics':
+    case 'modifyPublisher':
       return '/www/api/v1/xmlrpc/PublisherXmlRpcService.php';
     case 'addUser':
     case 'deleteUser':
