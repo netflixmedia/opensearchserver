@@ -190,20 +190,13 @@ function _openx_node_zone_update(&$node) {
 }
 
 /**
- * Implementation of hook_form().
+ * Implementation of hook_validate().
  *
  * For Zones
  */
 function _openx_node_zone_validate(&$node) {
   if (!variable_get('openx_manager_server', '')) {
     form_set_error('title', t('OpenX integration not configured'));
-  }
-
-  // Use the Size preset, if selected
-  if (!empty($node->size_preset)) {
-    $size = explode('x', $node->size_preset);
-    $node->size_width   = $size[0];
-    $node->size_height  = $size[1];
   }
 
   // Check if the integer values are really integers
@@ -215,6 +208,20 @@ function _openx_node_zone_validate(&$node) {
     if (!empty($node->{$value}) and !is_numeric($node->{$value})) {
       form_set_error($value, t('It must be numeric'));
     }
+  }
+}
+
+/**
+ * Since hook_validate cannot change the value of node's fields,
+ * a nodeapi implementation should be created too.
+ *
+ * @ingroup form
+ */
+function _openx_node_zone_validate2(&$form, &$form_state) {
+  if (!empty($form_state['values']['size_preset'])) {
+    $size = explode('x', $form_state['values']['size_preset']);
+    form_set_value($form['size_width'], $size[0], $form_state);
+    form_set_value($form['size_height'], $size[1], $form_state);
   }
 }
 
