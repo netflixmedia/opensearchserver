@@ -5,13 +5,12 @@
 /*global Drupal, $ */
 
 Drupal.behaviors.openx_manager_banner = function() {
-  var once;
+  var once, fields_mask, field;
   if (!once) {
     once = true;
     $("#edit-btype").change(Drupal.behaviors.openx_manager_banner);
   }
 
-  var fields_mask, field;
   var fields = ["#edit-size-height", "#edit-size-width",
     "#edit-text-all", "#edit-text-below", "#edit-text-status",
     "#edit-data-text", "#edit-data-image", "#edit-data-url"];
