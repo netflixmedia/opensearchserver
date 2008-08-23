@@ -86,8 +86,18 @@ function _openx_manager_call_file($op) {
       return '/www/api/v1/xmlrpc/UserXmlRpcService.php';
     case 'addZone':
     case 'deleteZone':
-    case 'modifyZone':
+    case 'generateTags':
     case 'getZone':
+    case 'getZoneAdvertiserStatistics':
+    case 'getZoneBannerStatistics':
+    case 'getZoneCampaignStatistics':
+    case 'getZoneDailyStatistics':
+    case 'getZoneListByPublisherId':
+    case 'linkBanner':
+    case 'linkCampaign':
+    case 'modifyZone':
+    case 'unlinkBanner':
+    case 'unlinkCampaign':
       return '/www/api/v1/xmlrpc/ZoneXmlRpcService.php';
   }
 }
