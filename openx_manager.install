@@ -388,17 +388,20 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'zone_type' => array(
-        'type'        => 'varchar',
-        'length'      => 10,
+        'type'        => 'int',
+        'size'        => 'small',
+        'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'size_height' => array(
         'type'        => 'int',
+        'size'        => 'small',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'size_width' => array(
         'type'        => 'int',
+        'size'        => 'small',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),

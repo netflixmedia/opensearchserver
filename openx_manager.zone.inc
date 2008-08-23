@@ -6,6 +6,12 @@
  * Manage all OpenX Zones.
  */
 
+define('OX_ZONE_BANNER',        0);
+define('OX_ZONE_INTERSTITIAL',  1);
+define('OX_ZONE_POPUP',         2);
+define('OX_ZONE_TEXT',          3);
+define('OX_ZONE_EMAIL',         4);
+
 /**
  * Implementation of hook_access().
  *
@@ -69,13 +75,13 @@ function _openx_node_zone_form(&$node, $form_state) {
     '#type'           => 'item',
   );
   $form['zone_type'] = array(
-    '#default_value'  => empty($node->zone_type) ? 'banner' : $node->zone_type,
+    '#default_value'  => empty($node->zone_type) ? OX_ZONE_BANNER : $node->zone_type,
     '#options'        => array(
-      'banner'        => t('Banner, Button or Rectangle'),
-      'interstitial'  => t('Interstitial or Floating DHTML'),
-      'popup'         => t('Popup'),
-      'text'          => t('Text'),
-      'email'         => t('Email or Newsletter'),
+      OX_ZONE_BANNER        => t('Banner, Button or Rectangle'),
+      OX_ZONE_INTERSTITIAL  => t('Interstitial or Floating DHTML'),
+      OX_ZONE_POPUP         => t('Popup'),
+      OX_ZONE_TEXT          => t('Text'),
+      OX_ZONE_EMAIL         => t('Email or Newsletter'),
     ),
     '#type'           => 'select',
   );
@@ -133,7 +139,7 @@ function _openx_node_zone_submit(&$form, &$form_state) {
     $data = array(
       'zoneName'    => $node['title'],
       'publisherId' => (int) $node['opid'],
-      'type'        => $node['contact'],
+      'type'        => (int) $node['zone_type'],
     );
     if (!empty($node['size_width']) and !empty($node['size_height'])) {
       $data['width']    = (int) $node['size_width'];
@@ -217,11 +223,11 @@ function theme_openx_zone(&$node) {
     '#type'           => 'item',
   );
   $options = array(
-    'banner'        => t('Banner, Button or Rectangle'),
-    'interstitial'  => t('Interstitial or Floating DHTML'),
-    'popup'         => t('Popup'),
-    'text'          => t('Text'),
-    'email'         => t('Email or Newsletter'),
+    OX_ZONE_BANNER        => t('Banner, Button or Rectangle'),
+    OX_ZONE_INTERSTITIAL  => t('Interstitial or Floating DHTML'),
+    OX_ZONE_POPUP         => t('Popup'),
+    OX_ZONE_TEXT          => t('Text'),
+    OX_ZONE_EMAIL         => t('Email or Newsletter'),
   );
   $fields['zone_type'] = array(
     '#value'          => $options[$node->zone_type],
@@ -237,6 +243,8 @@ function theme_openx_zone(&$node) {
     '#title'          => t('Width'),
     '#type'           => 'item',
   );
+
+  dpm(_openx_manager_api('getZone', (int)$node->ozid));
 
   // Print all field in the right order
   $output = '';
