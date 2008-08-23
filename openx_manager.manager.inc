@@ -82,8 +82,7 @@ function _openx_node_manager_form(&$node, $form_state) {
  * For Managers
  */
 function _openx_node_manager_insert(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_manager', $node->openx_node_fields);
+  drupal_write_record('openx_manager_manager', $node);
 }
 
 /**
@@ -130,14 +129,6 @@ function _openx_node_manager_submit(&$form, &$form_state) {
       $data['managerId'] = (int) $node['omid'];
       _openx_manager_api('modifyAgency', $data);
     }
-
-    $node['openx_node_fields'] = array(
-      'omid'                   => $node['omid'],
-      'contact'               => $node['contact'],
-      'email'                 => $node['email'],
-      'username'              => $node['username'],
-      'password'              => $node['password'],
-    );
   }
 }
 
@@ -147,8 +138,7 @@ function _openx_node_manager_submit(&$form, &$form_state) {
  * For Managers
  */
 function _openx_node_manager_update(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_manager', $node->openx_node_fields, 'nid');
+  drupal_write_record('openx_manager_manager', $node, 'nid');
 }
 
 /**

@@ -82,8 +82,7 @@ function _openx_node_publisher_form(&$node, $form_state) {
  * For Publishers
  */
 function _openx_node_publisher_insert(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_publisher', $node->openx_node_fields);
+  drupal_write_record('openx_manager_publisher', $node);
 }
 
 /**
@@ -130,14 +129,6 @@ function _openx_node_publisher_submit(&$form, &$form_state) {
       $data['publisherId'] = (int) $node['opid'];
       _openx_manager_api('modifyPublisher', $data);
     }
-
-    $node['openx_node_fields'] = array(
-      'opid'                   => $node['opid'],
-      'contact'               => $node['contact'],
-      'email'                 => $node['email'],
-      'username'              => $node['username'],
-      'password'              => $node['password'],
-    );
   }
 }
 
@@ -147,8 +138,7 @@ function _openx_node_publisher_submit(&$form, &$form_state) {
  * For Publishers
  */
 function _openx_node_publisher_update(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_publisher', $node->openx_node_fields, 'nid');
+  drupal_write_record('openx_manager_publisher', $node, 'nid');
 }
 
 /**

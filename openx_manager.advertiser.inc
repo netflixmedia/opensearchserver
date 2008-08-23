@@ -109,8 +109,7 @@ function _openx_node_advertiser_form(&$node, $form_state) {
  * For Advertisers
  */
 function _openx_node_advertiser_insert(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_advertiser', $node->openx_node_fields);
+  drupal_write_record('openx_manager_advertiser', $node);
 }
 
 /**
@@ -151,16 +150,6 @@ function _openx_node_advertiser_submit(&$form, &$form_state) {
       $data['advertiserId'] = (int) $node['oaid'];
       _openx_manager_api('modifyAdvertiser', $data);
     }
-
-    $node['openx_node_fields'] = array(
-      'oaid'                   => $node['oaid'],
-      'info_contact'          => $node['info_contact'],
-      'info_email'            => $node['info_email'],
-      'report_auto'           => $node['report_auto'],
-      'report_email'          => $node['report_email'],
-      'report_days'           => $node['report_days'],
-      'misc_only_one_banner'  => $node['misc_only_one_banner'],
-    );
   }
 }
 
@@ -170,8 +159,7 @@ function _openx_node_advertiser_submit(&$form, &$form_state) {
  * For Advertisers
  */
 function _openx_node_advertiser_update(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_advertiser', $node->openx_node_fields, 'nid');
+  drupal_write_record('openx_manager_advertiser', $node, 'nid');
 }
 
 /**

@@ -110,8 +110,7 @@ function _openx_node_zone_form(&$node, $form_state) {
  * For Zones
  */
 function _openx_node_zone_insert(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_zone', $node->openx_node_fields);
+  drupal_write_record('openx_manager_zone', $node);
 }
 
 /**
@@ -154,14 +153,6 @@ function _openx_node_zone_submit(&$form, &$form_state) {
       $data['zoneId'] = (int) $node['ozid'];
       _openx_manager_api('modifyZone', $data);
     }
-
-    $node['openx_node_fields'] = array(
-      'ozid'                    => $node['ozid'],
-      'opid'                    => $node['opid'],
-      'zone_type'               => $node['zone_type'],
-      'size_width'              => $node['size_width'],
-      'size_height'             => $node['size_height'],
-    );
   }
 }
 
@@ -171,8 +162,7 @@ function _openx_node_zone_submit(&$form, &$form_state) {
  * For Zones
  */
 function _openx_node_zone_update(&$node) {
-  $node->openx_node_fields['nid'] =  $node->nid;
-  drupal_write_record('openx_manager_zone', $node->openx_node_fields, 'nid');
+  drupal_write_record('openx_manager_zone', $node, 'nid');
 }
 
 /**
@@ -243,8 +233,6 @@ function theme_openx_zone(&$node) {
     '#title'          => t('Width'),
     '#type'           => 'item',
   );
-
-  dpm(_openx_manager_api('getZone', (int)$node->ozid));
 
   // Print all field in the right order
   $output = '';
