@@ -85,21 +85,45 @@ function _openx_node_zone_form(&$node, $form_state) {
     ),
     '#type'           => 'select',
   );
-  $form['size_height'] = array(
-    '#default_value'  => $node->size_height,
-    '#description'    => t('Banner height, in pixels.'),
-    '#size'           => 5,
-    '#title'          => t('Height'),
-    '#type'           => 'textfield',
+  $options = array(
+    '468x60'  => t('IAB Full Banner (468 x 60)'),
+    '120x600' => t('IAB Skyscraper (120 x 600)'),
+    '728x90'  => t('IAB Leaderboard (728 x 90)'),
+    '120x90'  => t('IAB Button 1 (120 x 90)'),
+    '120x60'  => t('IAB Button 2 (120 x 60)'),
+    '234x60'  => t('IAB Half Banner (234 x 60)'),
+    '728x90'  => t('IAB Leader Board (728 x 90) *'),
+    '88x31'   => t('IAB Micro Bar (88 x 31)'),
+    '125x125' => t('IAB Square Button (125 x 125)'),
+    '120x240' => t('IAB Vertical Banner (120 x 240)'),
+    '180x150' => t('IAB Rectangle (180 x 150) *'),
+    '300x250' => t('IAB Medium Rectangle (300 x 250) *'),
+    '336x280' => t('IAB Large Rectangle (336 x 280)'),
+    '240x400' => t('IAB Vertical Rectangle (240 x 400)'),
+    '250x250' => t('IAB Square Pop-up (250 x 250)'),
+    '160x600' => t('IAB Wide Skyscraper (160 x 600) *'),
+    ''        => t('Custom'),
+  );
+  $form['size_preset'] = array(
+    '#default_value'  => empty($options[$node->size_width .'x'. $node->size_height]) ?
+      '' : $node->size_width .'x'. $node->size_height ,
+    '#description'    => t('Banner size, in pixels.'),
+    '#options'        => $options,
+    '#title'          => t('Preset Size'),
+    '#type'           => 'select',
   );
   $form['size_width'] = array(
     '#default_value'  => $node->size_width,
-    '#description'    => t('Banner width, in pixels.'),
     '#size'           => 5,
     '#title'          => t('Width'),
     '#type'           => 'textfield',
   );
-
+  $form['size_height'] = array(
+    '#default_value'  => $node->size_height,
+    '#size'           => 5,
+    '#title'          => t('Height'),
+    '#type'           => 'textfield',
+  );
   $form['#submit'][] = '_openx_node_zone_submit';
   return $form;
 }
@@ -175,6 +199,12 @@ function _openx_node_zone_validate(&$node) {
     form_set_error('title', t('OpenX integration not configured'));
   }
 
+  if (!empty($node->size_preset)) {
+    $size = explode('x', $node->size_preset);
+    $node->size_width   = $size[0];
+    $node->size_height  = $size[1];
+  }
+
   // Check if the integer values are really integers
   $integers_values = array(
     'size_width',
@@ -223,14 +253,32 @@ function theme_openx_zone(&$node) {
     '#value'          => $options[$node->zone_type],
     '#type'           => 'item',
   );
-  $fields['size_height'] = array(
-    '#value'          => t('!size pixels', array('!size' => $node->size_height)),
-    '#title'          => t('Height'),
-    '#type'           => 'item',
+  $options = array(
+    '468x60'  => t('IAB Full Banner (468 x 60)'),
+    '120x600' => t('IAB Skyscraper (120 x 600)'),
+    '728x90'  => t('IAB Leaderboard (728 x 90)'),
+    '120x90'  => t('IAB Button 1 (120 x 90)'),
+    '120x60'  => t('IAB Button 2 (120 x 60)'),
+    '234x60'  => t('IAB Half Banner (234 x 60)'),
+    '728x90'  => t('IAB Leader Board (728 x 90)'),
+    '88x31'   => t('IAB Micro Bar (88 x 31)'),
+    '125x125' => t('IAB Square Button (125 x 125)'),
+    '120x240' => t('IAB Vertical Banner (120 x 240)'),
+    '180x150' => t('IAB Rectangle (180 x 150)'),
+    '300x250' => t('IAB Medium Rectangle (300 x 250)'),
+    '336x280' => t('IAB Large Rectangle (336 x 280)'),
+    '240x400' => t('IAB Vertical Rectangle (240 x 400)'),
+    '250x250' => t('IAB Square Pop-up (250 x 250)'),
+    '160x600' => t('IAB Wide Skyscraper (160 x 600)'),
+    ''        => t('!width x !height', array(
+      '!width'  => $node->size_width,
+      '!height' => $node->size_height
+    )),
   );
-  $fields['size_width'] = array(
-    '#value'          => t('!size pixels', array('!size' => $node->size_width)),
-    '#title'          => t('Width'),
+  $fields['size'] = array(
+    '#value'          => empty($options[$node->size_width .'x'. $node->size_height]) ?
+      $options[''] : $options[$node->size_width .'x'. $node->size_height],
+    '#title'          => t('Size'),
     '#type'           => 'item',
   );
 
