@@ -12,6 +12,12 @@
  * @ingroup form
  */
 function _openx_manager_settings() {
+  $image_path = file_create_path(file_directory_path() .'/openx_manager_banners');
+  if (!file_check_directory($image_path, FILE_CREATE_DIRECTORY)) {
+    drupal_set_message(t('It was not possible to crete the %dir directory. Check the permissons.', array(
+      '%dir' => $image_path)));
+  }
+
   $form['openx_manager_server'] = array(
     '#default_value'  => variable_get('openx_manager_server', ''),
     '#title'          => t('Server'),
@@ -37,18 +43,22 @@ function _openx_manager_settings() {
  * @ingroup form
  */
 function _openx_manager_settings_validate(&$form, &$form_state) {
+  if (!valid_url($form_state['values']['openx_manager_server'], TRUE)) {
+    form_set_error('openx_manager_server', 'Invalid server URL');
+  }
+
   // Filter the server URL
-  $url = trim($form_state['values']['openx_manager_server']);
-  if (substr($url, 0, 7) == 'http://') {
-    $url = substr($url, 7);
+  if (substr($form_state['values']['openx_manager_server'], -1, 1) == '/') {
+    $url = substr($form_state['values']['openx_manager_server'], 0, -1);
+    form_set_value($form['openx_manager_server'], $url, $form_state);
   }
-  elseif (substr($url, 0, 8) == 'http://') {
-    $url = substr($url, 8);
+
+  // Check if all data are right by calling the API
+  if (!_openx_manager_session(FALSE, $form_state['values']['openx_manager_server'],
+      $form_state['values']['openx_manager_username'],
+      $form_state['values']['openx_manager_password'])) {
+    form_set_error('openx_manager_server', t('Not possible to connect with the OpenX server. Some of these values are wrong.'));
   }
-  if (substr($url, -1, 1) == '/') {
-    $url = substr($url, 0, -1);
-  }
-  form_set_value($form['openx_manager_server'], $url, $form_state);
 }
 
 /**

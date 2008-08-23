@@ -166,18 +166,30 @@ function openx_manager_perm() {
  * Ask, if not already, a new session ID from OpenX
  *
  * @param $check_only
- *   Boolean. TRUE if its only to check if the session was already opened.
+ *   Boolean (optional). TRUE if its only to check if the session was already opened.
+ * @param $server
+ *   String (optional). The OpenX server URL.
+ * @param $username
+ *   String (optional). The OpenX server account username.
+ * @param $password
+ *   String (optional). The OpenX server account password.
  * @return
  *   String. The full session ID, used on every further communication.
  */
-function _openx_manager_session($check_only = FALSE) {
+function _openx_manager_session($check_only = FALSE, $server = NULL, $username = NULL, $password = NULL) {
   static $session_id;
   if (!$check_only and !$session_id) {
+    if (empty($server) and empty($username) and empty($password)) {
+      $server   = variable_get('openx_manager_server', '');
+      $username = variable_get('openx_manager_username', '');
+      $password = variable_get('openx_manager_password', '');
+    }
+
     $session_id = xmlrpc(
-      'http://'. variable_get('openx_manager_server', '') .'/www/api/v1/xmlrpc/LogonXmlRpcService.php',
+      $server .'/www/api/v1/xmlrpc/LogonXmlRpcService.php',
       'logon',
-      variable_get('openx_manager_username', ''),
-      variable_get('openx_manager_password', '')
+      $username,
+      $password
     );
   }
   return $session_id;
