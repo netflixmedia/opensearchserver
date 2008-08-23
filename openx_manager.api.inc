@@ -56,8 +56,14 @@ function _openx_manager_call_file($op) {
   switch ($op) {
     case 'addAdvertiser':
     case 'deleteAdvertiser':
-    case 'modifyAdvertiser':
     case 'getAdvertiser':
+    case 'getAdvertiserBannerStatistics':
+    case 'getAdvertiserCampaignStatistics':
+    case 'getAdvertiserDailyStatistics':
+    case 'getAdvertiserListByAgencyId':
+    case 'getAdvertiserPublisherStatistics':
+    case 'getAdvertiserZoneStatistics':
+    case 'modifyAdvertiser':
       return '/www/api/v1/xmlrpc/AdvertiserXmlRpcService.php';
     case 'addCampaign':
     case 'deleteCampaign':
