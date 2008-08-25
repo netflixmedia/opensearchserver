@@ -19,6 +19,7 @@ function openx_manager_install() {
  */
 function openx_manager_schema() {
   $schema['openx_manager_advertiser'] = array(
+    'description' => t('Advertiser'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -26,36 +27,50 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'oaid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx Advertiser ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'info_contact' => array(
+        'title'       => t('Contact'),
+        'description' => t('Advertiser contact name'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'info_email' => array(
+        'title'       => t('Email'),
+        'description' => t('Advertiser contact email'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'report_auto' => array(
+        'title'       => t('Auto email'),
+        'description' => t('Email when a campaign is automatically activated/deactivated'),
         'type'        => 'int',
         'size'        => 'tiny',
         'not null'    => TRUE,
       ),
       'report_email' => array(
+        'title'       => t('Email reports'),
+        'description' => t('Email campaign delivery reports'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'report_days' => array(
+        'title'       => t('Report period'),
+        'description' => t('Number of days between campaign delivery reports'),
         'type'        => 'int',
         'size'        => 'small',
         'not null'    => TRUE,
       ),
       'misc_only_one_banner' => array(
+        'title'       => t('One banner only'),
+        'description' => t('Display only one banner from this advertiser on a web page'),
         'type'        => 'int',
         'size'        => 'tiny',
         'not null'    => TRUE,
@@ -69,6 +84,7 @@ function openx_manager_schema() {
     ),
   );
   $schema['openx_manager_banner'] = array(
+    'description' => t('Banner'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -76,78 +92,107 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'obid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx Banner ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'ocid' => array(
+        'title'       => t('Campaign ID'),
+        'description' => t('Internal Openx Campaign ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
-
       'keywords' => array(
+        'title'       => t('Keywords'),
+        'description' => t('Banner keywords/tags'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'weight' => array(
+        'title'       => t('Weight'),
+        'description' => t('Higher weight means it has more priority'),
         'type'        => 'int',
         'size'        => 'small',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'destination_url' => array(
+        'title'       => t('Destination URL'),
+        'description' => t('The URL to go when clicking the banner'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'destination_target' => array(
-        'type'        => 'varchar',
-        'length'      => 255,
-        'not null'    => TRUE,
-      ),
-      'text_status' => array(
+        'title'       => t('Destination target'),
+        'description' => t('The window where the the user will go when clicking the banner'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'btype' => array(
+        'title'       => t('Type'),
+        'description' => t('Banner type'),
         'type'        => 'varchar',
         'length'      => 4,
         'not null'    => TRUE,
       ),
       'data_image' => array(
+        'title'       => t('Image'),
+        'description' => t('Banner image'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'data_url' => array(
+        'title'       => t('Image URL'),
+        'description' => t('Banner image URL'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'data_text' => array(
+        'title'       => t('Text'),
+        'description' => t('Banner text'),
         'type'        => 'text',
         'not null'    => TRUE,
       ),
+      'text_status' => array(
+        'title'       => t('Text status'),
+        'description' => t('Banner Text status'),
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
       'text_all' => array(
+        'title'       => t('Text all'),
+        'description' => t('Banner Text all'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'text_below' => array(
+        'title'       => t('Text below'),
+        'description' => t('Banner text below'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
       ),
       'size_height' => array(
+        'title'       => t('Height'),
+        'description' => t('Banner size height'),
         'type'        => 'int',
         'size'        => 'small',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'size_width' => array(
+        'title'       => t('Width'),
+        'description' => t('Banner size width'),
         'type'        => 'int',
         'size'        => 'small',
         'unsigned'    => TRUE,
@@ -163,6 +208,7 @@ function openx_manager_schema() {
     ),
   );
   $schema['openx_manager_campaign'] = array(
+    'description' => t('Campaign'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -170,11 +216,15 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'ocid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx Campaign ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'oaid' => array(
+        'title'       => t('Advertiser ID'),
+        'description' => t('Internal Openx Advertiser ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -192,11 +242,15 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'contract_activation' => array(
+        'title'       => t('Activation'),
+        'description' => t('Date to start the campaign'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'contract_expiration' => array(
+        'title'       => t('Expiration'),
+        'description' => t('Date to end the campaign'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -257,6 +311,7 @@ function openx_manager_schema() {
     ),
   );
   $schema['openx_manager_manager'] = array(
+    'description' => t('Manager'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -264,6 +319,8 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'omid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx Manager ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -295,6 +352,7 @@ function openx_manager_schema() {
     ),
   );
   $schema['openx_manager_publisher'] = array(
+    'description' => t('Publisher'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -302,6 +360,8 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'opid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx Publisher ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -333,6 +393,7 @@ function openx_manager_schema() {
     ),
   );
   $schema['openx_manager_user'] = array(
+    'description' => t('User'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -340,6 +401,8 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'ouid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx User ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
@@ -371,6 +434,7 @@ function openx_manager_schema() {
     ),
   );
   $schema['openx_manager_zone'] = array(
+    'description' => t('Zone'),
     'fields' => array(
       'nid' => array(
         'type'        => 'int',
@@ -378,28 +442,38 @@ function openx_manager_schema() {
         'not null'    => TRUE,
       ),
       'ozid' => array(
+        'title'       => t('ID'),
+        'description' => t('Internal Openx Zone ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'opid' => array(
+        'title'       => t('Publisher ID'),
+        'description' => t('Internal Openx Publisher ID.'),
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'zone_type' => array(
+        'title'       => t('Type'),
+        'description' => t('Zone type'),
         'type'        => 'int',
         'size'        => 'small',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'size_height' => array(
+        'title'       => t('Height'),
+        'description' => t('Zone size width'),
         'type'        => 'int',
         'size'        => 'small',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'size_width' => array(
+        'title'       => t('Width'),
+        'description' => t('Zone size width'),
         'type'        => 'int',
         'size'        => 'small',
         'unsigned'    => TRUE,
