@@ -56,6 +56,11 @@ function _openx_manager_views_data() {
   $sql_tables = openx_manager_schema();
 
   foreach ($sql_tables as $table => $sql_fields) {
+    // The link table is not needed
+    if ($table == 'openx_manager_link') {
+      continue;
+    }
+
     // Basic table definitions
     $data[$table]['table']['group']  = t('OpenX !type', array('!type' => $sql_fields['description']));
     $data[$table]['table']['join'] = array(
