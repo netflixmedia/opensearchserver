@@ -75,10 +75,18 @@ function openx_manager_schema() {
         'size'        => 'tiny',
         'not null'    => TRUE,
       ),
+      'duid' => array(
+        'title'       => t('User ID'),
+        'description' => t('Drupal User ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
       'oaid' => array('oaid'),
+      'duid' => array('duid'),
     ),
     'indexes' => array(
     ),
@@ -345,10 +353,18 @@ function openx_manager_schema() {
         'length'      => 255,
         'not null'    => TRUE,
       ),
+      'duid' => array(
+        'title'       => t('User ID'),
+        'description' => t('Drupal User ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
       'omid' => array('omid'),
+      'duid' => array('duid'),
     ),
   );
   $schema['openx_manager_publisher'] = array(
@@ -386,10 +402,18 @@ function openx_manager_schema() {
         'length'      => 255,
         'not null'    => TRUE,
       ),
+      'duid' => array(
+        'title'       => t('User ID'),
+        'description' => t('Drupal User ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
       'opid' => array('opid'),
+      'duid' => array('duid'),
     ),
   );
   $schema['openx_manager_user'] = array(
@@ -427,10 +451,18 @@ function openx_manager_schema() {
         'length'      => 255,
         'not null'    => TRUE,
       ),
+      'duid' => array(
+        'title'       => t('User ID'),
+        'description' => t('Drupal User ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
       'ouid' => array('ouid'),
+      'duid' => array('duid'),
     ),
   );
   $schema['openx_manager_zone'] = array(
