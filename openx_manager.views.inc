@@ -29,6 +29,8 @@ function openx_manager_views_data() {
 
   // Banner image
   $data['openx_manager_banner']['data_image']['field']['handler']                     = 'openx_manager_handler_image';
+  unset($data['openx_manager_banner']['data_image']['filter']);
+  unset($data['openx_manager_banner']['data_image']['sort']);
 
   return $data;
 }
