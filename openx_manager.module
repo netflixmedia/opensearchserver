@@ -302,6 +302,24 @@ function openx_manager_user($type, &$edit, &$user, $category = NULL) {
       _openx_user_user_update($user, $edit);
     }
   }
+  if ($type == 'delete') {
+    if (user_access('user-advertiser')) {
+      module_load_include('advertiser.inc', 'openx_manager');
+      _openx_user_advertiser_delete($user);
+    }
+    elseif (user_access('user-manager')) {
+      module_load_include('manager.inc', 'openx_manager');
+      _openx_user_manager_delete($user);
+    }
+    elseif (user_access('user-publisher')) {
+      module_load_include('publisher.inc', 'openx_manager');
+      _openx_user_publisher_delete($user);
+    }
+    elseif (user_access('user-user')) {
+      module_load_include('user.inc', 'openx_manager');
+      _openx_user_user_delete($user);
+    }
+  }
 }
 
 /**
