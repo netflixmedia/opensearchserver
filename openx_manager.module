@@ -114,6 +114,33 @@ function openx_manager_menu() {
     'type'              => MENU_LOCAL_TASK,
     'weight'            => 1,
   );
+  $items['user/%user/manager'] = array(
+    'access arguments'  => array('user-manager', 1),
+    'file'              => 'openx_manager.manager.inc',
+    'page callback'     => '_openx_user_manager',
+    'page arguments'    => array(1),
+    'title'             => 'Manager',
+    'type'              => MENU_LOCAL_TASK,
+    'weight'            => 1,
+  );
+  $items['user/%user/publisher'] = array(
+    'access arguments'  => array('user-publisher', 1),
+    'file'              => 'openx_manager.publisher.inc',
+    'page callback'     => '_openx_user_publisher',
+    'page arguments'    => array(1),
+    'title'             => 'Publisher',
+    'type'              => MENU_LOCAL_TASK,
+    'weight'            => 1,
+  );
+  $items['user/%user/ouser'] = array(
+    'access arguments'  => array('user-user', 1),
+    'file'              => 'openx_manager.user.inc',
+    'page callback'     => '_openx_user_user',
+    'page arguments'    => array(1),
+    'title'             => 'OpenX User',
+    'type'              => MENU_LOCAL_TASK,
+    'weight'            => 1,
+  );
 
   // Link Zone to Campaign and Banner pages
   $items['node/%node/link-banner'] = array(
