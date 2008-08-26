@@ -183,4 +183,10 @@ class openx_manager_handler_list extends views_handler_field {
  * Some fields are just references to values in a list. We must
  */
 class openx_manager_handler_image extends views_handler_field {
+  function render($values) {
+    $value = $values->{$this->field_alias};
+    $url = db_result(db_query("SELECT filepath FROM {files}
+      WHERE fid = %d", $value));
+    return theme('image', $url, $node->title);
+  }
 }
