@@ -488,6 +488,32 @@ function openx_manager_schema() {
       'opid' => array('opid'),
     ),
   );
+
+  $schema['openx_manager_link'] = array(
+    'description' => t('Zone link'),
+    'fields' => array(
+      'ozid' => array(
+        'title'       => t('Zone ID'),
+        'description' => t('Internal Openx Zone ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ),
+      'obid' => array(
+        'title'       => t('Banner ID'),
+        'description' => t('Internal Openx Banner ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+      ),
+      'ocid' => array(
+        'title'       => t('Campaign ID'),
+        'description' => t('Internal Openx Campaign ID.'),
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+      ),
+    ),
+    'primary key' => array('ozid', 'obid', 'ocid'),
+  );
   return $schema;
 }
 
