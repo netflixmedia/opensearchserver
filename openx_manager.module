@@ -186,6 +186,9 @@ function openx_manager_perm() {
     'create openx publishers',  'edit own openx publishers',    'view openx publishers',
     'create openx users',       'edit own openx users',         'view openx users',
     'create openx zones',       'edit own openx zones',         'view openx zones',
+
+    'link zone to banners',
+    'link zone to campaigns',
   );
 }
 
