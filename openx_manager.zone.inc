@@ -138,6 +138,158 @@ function _openx_node_zone_insert(&$node) {
 }
 
 /**
+ * List all banners that might get linked to this zone
+ *
+ * @ingroup form
+ */
+function _openx_node_zone_link_banner($forn_state, $zone) {
+  $nid_sql = db_query("SELECT banner.nid FROM {openx_manager_banner} banner
+    INNER JOIN {openx_manager_link} link ON link.obid = banner.obid
+    WHERE link.ozid = %d", $zone->ozid);
+  while ($nid = db_result($nid_sql)) {
+    $enabled[$nid] = TRUE;
+  }
+
+  $nid_sql = pager_query("SELECT nid FROM {openx_manager_banner}
+    WHERE size_height = %d AND size_width = %d", 10, 0, NULL,
+    $zone->size_height, $zone->size_width);
+  $form['pager_top'] = array(
+    '#value' => theme('pager', NULL, 10, 0),
+  );
+  $form['link'] = array(
+    '#tree'           => TRUE,
+  );
+  $form['link_default'] = array(
+    '#tree'           => TRUE,
+  );
+  while ($nid = db_result($nid_sql)) {
+    $node = node_load($nid);
+    $form['link'][$node->obid] = array(
+      '#default_value'  => $enabled[$nid],
+      '#type'           => 'checkbox',
+      '#title'          => l($node->title, 'node/'. $node->nid),
+    );
+    $form['link_default'][$node->obid] = array(
+      '#value'          => $enabled[$nid],
+      '#type'           => 'value',
+    );
+  }
+  $form['pager_bottom'] = array(
+    '#value' => theme('pager', NULL, 10, 0),
+  );
+
+  $form['ozid'] = array(
+    '#type'           => 'value',
+    '#value'          => $zone->ozid,
+  );
+  if (!empty($form['link'])) {
+    $form['submit'] = array(
+      '#type'           => 'submit',
+      '#value'          => t('Link'),
+    );
+  }
+  return $form;
+}
+
+/**
+ * List all banners that might get linked to this zone
+ *
+ * @ingroup form
+ */
+function _openx_node_zone_link_banner_submit(&$form, &$forn_state) {
+  foreach ($forn_state['values']['link'] as $obid => $link) {
+    if ($link and empty($forn_state['values']['link_default'][$obid])
+        and _openx_manager_api('linkBanner', (int) $forn_state['values']['ozid'], (int) $obid)) {
+      $link_data = array(
+        'ozid'  => $forn_state['values']['ozid'],
+        'obid'  => $obid,
+      );
+      drupal_write_record('openx_manager_link', $link_data);
+    }
+    elseif (!$link and !empty($forn_state['values']['link_default'][$obid])
+        and _openx_manager_api('unlinkBanner', (int) $forn_state['values']['ozid'], (int) $obid)) {
+      db_query("DELETE FROM {openx_manager_link} WHERE ozid = %d AND obid = %d",
+      $forn_state['values']['ozid'] , $obid);
+    }
+  }
+}
+
+/**
+ * List all banners that might get linked to this zone
+ *
+ * @ingroup form
+ */
+function _openx_node_zone_link_campaign($forn_state, $zone) {
+  $nid_sql = db_query("SELECT campaign.nid FROM {openx_manager_campaign} campaign
+    INNER JOIN {openx_manager_link} link ON link.ocid = campaign.ocid
+    WHERE link.ozid = %d", $zone->ozid);
+  while ($nid = db_result($nid_sql)) {
+    $enabled[$nid] = TRUE;
+  }
+
+  $nid_sql = pager_query("SELECT nid FROM {openx_manager_campaign}", 10);
+  $form['pager_top'] = array(
+    '#value' => theme('pager', NULL, 10, 0),
+  );
+  $form['link'] = array(
+    '#tree'           => TRUE,
+  );
+  $form['link_default'] = array(
+    '#tree'           => TRUE,
+  );
+  while ($nid = db_result($nid_sql)) {
+    $node = node_load($nid);
+    $form['link'][$node->ocid] = array(
+      '#default_value'  => $enabled[$nid],
+      '#type'           => 'checkbox',
+      '#title'          => $node->title,
+    );
+    $form['link_default'][$node->ocid] = array(
+      '#value'          => $enabled[$nid],
+      '#type'           => 'value',
+    );
+  }
+  $form['pager_bottom'] = array(
+    '#value' => theme('pager', NULL, 10, 0),
+  );
+
+  $form['ozid'] = array(
+    '#type'           => 'value',
+    '#value'          => $zone->ozid,
+  );
+  if (!empty($form['link'])) {
+    $form['submit'] = array(
+      '#type'           => 'submit',
+      '#value'          => t('Link'),
+    );
+  }
+  return $form;
+}
+
+/**
+ * List all banners that might get linked to this zone
+ *
+ * @ingroup form
+ */
+function _openx_node_zone_link_campaign_submit(&$form, &$forn_state) {
+  foreach ($forn_state['values']['link'] as $ocid => $link) {
+    if ($link and empty($forn_state['values']['link_default'][$ocid])
+        and _openx_manager_api('linkCampaign', (int) $forn_state['values']['ozid'], (int) $ocid)) {
+      $link_data = array(
+        'ozid'  => $forn_state['values']['ozid'],
+        'ocid'  => $ocid,
+      );
+      drupal_write_record('openx_manager_link', $link_data);
+    }
+    elseif (!$link and !empty($forn_state['values']['link_default'][$ocid])
+        and _openx_manager_api('unlinkCampaign', (int) $forn_state['values']['ozid'], (int) $ocid)) {
+      db_query("DELETE FROM {openx_manager_link} WHERE ozid = %d AND ocid = %d",
+      $forn_state['values']['ozid'] , $obid);
+    }
+  }
+}
+
+/**
  * Implementation of hook_load().
  *
  * For Zones
@@ -241,6 +393,8 @@ function _openx_node_zone_view(&$node, $teaser = FALSE, $page = FALSE) {
 
 /**
  * Display the Zone fields
+ *
+ * @ingroup themable
  */
 function theme_openx_zone(&$node) {
   $publisher = node_load(db_result(db_query('SELECT nid FROM {openx_manager_publisher}
@@ -259,6 +413,7 @@ function theme_openx_zone(&$node) {
   );
   $fields['zone_type'] = array(
     '#value'          => $options[$node->zone_type],
+    '#title'          => t('Type'),
     '#type'           => 'item',
   );
   $options = array(
@@ -296,4 +451,13 @@ function theme_openx_zone(&$node) {
     $output .= drupal_render($field);
   }
   return $output;
+}
+
+/**
+ * List all banners that might get linked to this zone
+ *
+ * @ingroup themable
+ */
+function theme__openx_node_zone_link_banner(&$form) {
+  return drupal_render($form);
 }

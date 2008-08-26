@@ -112,6 +112,15 @@ function openx_manager_menu() {
     'type'              => MENU_LOCAL_TASK,
     'weight'            => 1,
   );
+  $items['node/%node/link-campaign'] = array(
+    'access arguments'  => array('link zone to campaigns', 1),
+    'file'              => 'openx_manager.zone.inc',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('_openx_node_zone_link_campaign', 1),
+    'title'             => 'Link to Campaigns',
+    'type'              => MENU_LOCAL_TASK,
+    'weight'            => 1,
+  );
   return $items;
 }
 
