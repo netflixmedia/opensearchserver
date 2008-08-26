@@ -196,6 +196,68 @@ function _openx_node_advertiser_view(&$node, $teaser = FALSE, $page = FALSE) {
 }
 
 /**
+ * View the correspondent Advertiser node from a given user.
+ *
+ * @param $user
+ *   Object. The user object. Its received from the hook_menu().
+ * @return
+ *   HTML. The node view.
+ */
+function _openx_user_advertiser($user) {
+  if ($nid = db_result(db_query("SELECT nid FROM {openx_manager_advertiser}
+      WHERE duid = %d", $user->uid))) {
+    $node = node_load($nid);
+  }
+  else {
+    _openx_user_advertiser_update($user);
+  }
+  return node_view($node);
+}
+
+/**
+ * Delete the Advertiser node linked to a user.
+ *
+ * @param $user
+ *   Object. The user object.
+ */
+function _openx_user_advertiser_delete(&$user) {
+  if ($nid = db_result(db_query("SELECT nid FROM {openx_manager_advertiser}
+        WHERE duid = %d", $user->uid))) {
+    $node = node_delete($nid);
+  }
+}
+
+/**
+ * Create or update a Advertiser node linked to a user.
+ *
+ * @param $user
+ *   Object. The user object.
+ */
+function _openx_user_advertiser_update(&$user, &$user_new) {
+  $node = array(
+    'type'          => 'openx_advertiser',
+    'title'         => $user_new['name'],
+    'uid'           => $user->uid,
+    'name'          => $user_new['name'],
+    'duid'          => $user->uid,
+    'info_contact'  => $user_new['name'],
+    'info_email'    => $user_new['mail'],
+  );
+  if ($advetiser = db_fetch_array(db_query("SELECT nid, oaid FROM {openx_manager_advertiser}
+        WHERE duid = %d", $user->uid))) {
+    $node['nid']  = $advetiser['nid'];
+    $node['oaid'] = $advetiser['oaid'];
+  }
+  $form = $form_state = array();
+  $form_state['values'] = &$node;
+  _openx_node_advertiser_submit($form, $form_state);
+  $node = node_submit($node);
+  node_save($node);
+
+  return $node;
+}
+
+/**
  * Display the Advertisers fields
  */
 function theme_openx_advertiser(&$node) {
