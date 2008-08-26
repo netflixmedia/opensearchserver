@@ -102,6 +102,16 @@ function openx_manager_menu() {
     'page arguments'    => array('_openx_manager_import'),
     'title'             => 'OpenX data import',
   );
+
+  $items['node/%node/link-banner'] = array(
+    'access arguments'  => array('link zone to banners', 1),
+    'file'              => 'openx_manager.zone.inc',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('_openx_node_zone_link_banner', 1),
+    'title'             => 'Link to Banners',
+    'type'              => MENU_LOCAL_TASK,
+    'weight'            => 1,
+  );
   return $items;
 }
 
