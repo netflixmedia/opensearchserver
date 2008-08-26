@@ -172,6 +172,68 @@ function _openx_node_publisher_view(&$node, $teaser = FALSE, $page = FALSE) {
 }
 
 /**
+ * View the correspondent Publisher node from a given user.
+ *
+ * @param $user
+ *   Object. The user object. Its received from the hook_menu().
+ * @return
+ *   HTML. The node view.
+ */
+function _openx_user_publisher($user) {
+  if ($nid = db_result(db_query("SELECT nid FROM {openx_manager_publisher}
+      WHERE duid = %d", $user->uid))) {
+    $node = node_load($nid);
+  }
+  else {
+    _openx_user_publisher_update($user);
+  }
+  return node_view($node);
+}
+
+/**
+ * Delete the Publisher node linked to a user.
+ *
+ * @param $user
+ *   Object. The user object.
+ */
+function _openx_user_publisher_delete(&$user) {
+  if ($nid = db_result(db_query("SELECT nid FROM {openx_manager_publisher}
+        WHERE duid = %d", $user->uid))) {
+    $node = node_delete($nid);
+  }
+}
+
+/**
+ * Create or update a Publisher node linked to a user.
+ *
+ * @param $user
+ *   Object. The user object.
+ */
+function _openx_user_publisher_update(&$user, &$user_new) {
+  $node = array(
+    'type'          => 'openx_publisher',
+    'title'         => $user_new['name'],
+    'uid'           => $user->uid,
+    'name'          => $user_new['name'],
+    'duid'          => $user->uid,
+    'info_contact'  => $user_new['name'],
+    'info_email'    => $user_new['mail'],
+  );
+  if ($advetiser = db_fetch_array(db_query("SELECT nid, opid FROM {openx_manager_publisher}
+        WHERE duid = %d", $user->uid))) {
+    $node['nid']  = $advetiser['nid'];
+    $node['opid'] = $advetiser['opid'];
+  }
+  $form = $form_state = array();
+  $form_state['values'] = &$node;
+  _openx_node_publisher_submit($form, $form_state);
+  $node = node_submit($node);
+  node_save($node);
+
+  return $node;
+}
+
+/**
  * Display the Publisher fields
  */
 function theme_openx_publisher(&$node) {
