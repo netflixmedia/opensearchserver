@@ -209,7 +209,7 @@ function _openx_user_advertiser($user) {
     $node = node_load($nid);
   }
   else {
-    _openx_user_advertiser_update($user);
+    _openx_user_advertiser_update($user, (array) $user);
   }
   return node_view($node);
 }
@@ -233,7 +233,7 @@ function _openx_user_advertiser_delete(&$user) {
  * @param $user
  *   Object. The user object.
  */
-function _openx_user_advertiser_update(&$user, &$user_new) {
+function _openx_user_advertiser_update(&$user, $user_new) {
   $node = array(
     'type'          => 'openx_advertiser',
     'title'         => $user_new['name'],

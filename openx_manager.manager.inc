@@ -185,7 +185,7 @@ function _openx_user_manager($user) {
     $node = node_load($nid);
   }
   else {
-    _openx_user_manager_update($user);
+    _openx_user_manager_update($user, (array) $user);
   }
   return node_view($node);
 }
@@ -209,7 +209,7 @@ function _openx_user_manager_delete(&$user) {
  * @param $user
  *   Object. The user object.
  */
-function _openx_user_manager_update(&$user, &$user_new) {
+function _openx_user_manager_update(&$user, $user_new) {
   $node = array(
     'type'          => 'openx_manager',
     'title'         => $user_new['name'],
