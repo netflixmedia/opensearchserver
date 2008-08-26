@@ -12,11 +12,13 @@
  * For Managers
  */
 function _openx_node_manager_access($op, $node, $account) {
-  if ($op == 'create') {
+  if ($op == 'view') {
+    return user_access('view openx managers', $account);
+  }
+  elseif ($op == 'create') {
     return user_access('create openx managers', $account);
   }
-
-  if ($op == 'update' or $op == 'delete') {
+  elseif ($op == 'update' or $op == 'delete') {
     if (user_access('edit own openx managers', $account) and ($account->uid == $node->uid)) {
       return TRUE;
     }

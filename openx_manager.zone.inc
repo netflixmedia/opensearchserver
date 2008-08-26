@@ -18,11 +18,13 @@ define('OX_ZONE_EMAIL',         4);
  * For Zones
  */
 function _openx_node_zone_access($op, $node, $account) {
-  if ($op == 'create') {
+  if ($op == 'view') {
+    return user_access('view openx zones', $account);
+  }
+  elseif ($op == 'create') {
     return user_access('create openx zones', $account);
   }
-
-  if ($op == 'update' or $op == 'delete') {
+  elseif ($op == 'update' or $op == 'delete') {
     if (user_access('edit own openx zones', $account) and ($account->uid == $node->uid)) {
       return TRUE;
     }

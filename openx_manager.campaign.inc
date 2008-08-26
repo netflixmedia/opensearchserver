@@ -11,11 +11,6 @@ define('MAX_FINANCE_CPM',    1);
 define('MAX_FINANCE_CPC',    2);
 define('MAX_FINANCE_CPA',    3);
 define('MAX_FINANCE_MT',     4); // Monthly Tennancy
-define('MAX_FINANCE_RS',     5); // % Revenue split     (zone-only)
-define('MAX_FINANCE_BV',     6); // % Basket value      (zone-only)
-define('MAX_FINANCE_AI',     7); // Amount per item     (zone-only)
-define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
-define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
 
 /**
  * Implementation of hook_access().
@@ -23,11 +18,13 @@ define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
  * For Campaigns
  */
 function _openx_node_campaign_access($op, $node, $account) {
-  if ($op == 'create') {
+  if ($op == 'view') {
+    return user_access('view openx campaigns', $account);
+  }
+  elseif ($op == 'create') {
     return user_access('create openx campaigns', $account);
   }
-
-  if ($op == 'update' or $op == 'delete') {
+  elseif ($op == 'update' or $op == 'delete') {
     if (user_access('edit own openx campaigns', $account) and ($account->uid == $node->uid)) {
       return TRUE;
     }

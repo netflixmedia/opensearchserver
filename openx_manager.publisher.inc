@@ -12,11 +12,13 @@
  * For Publishers
  */
 function _openx_node_publisher_access($op, $node, $account) {
-  if ($op == 'create') {
+  if ($op == 'view') {
+    return user_access('view openx publishers', $account);
+  }
+  elseif ($op == 'create') {
     return user_access('create openx publishers', $account);
   }
-
-  if ($op == 'update' or $op == 'delete') {
+  elseif ($op == 'update' or $op == 'delete') {
     if (user_access('edit own openx publishers', $account) and ($account->uid == $node->uid)) {
       return TRUE;
     }
