@@ -115,6 +115,7 @@ function _openx_manager_import_submit(&$form, &$form_state) {
         'obid'                  => 'bannerId',
         'ocid'                  => 'campaignId',
         'btype'                 => 'storageType',
+        'data_image'            => 'aImage',
         'data_url'              => 'imageURL',
         'data_text'             => 'htmlTemplate',
         'size_height'           => 'height',
@@ -212,7 +213,7 @@ function _openx_manager_import_submit(&$form, &$form_state) {
 /**
  * Helper function that really imports the data into a new node
  */
-function _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $ntype, $ntype2) {
+function _openx_manager_import_submit_save(&$nodes, &$existing_oids, &$fields, &$ntype, &$ntype2) {
   global $user;
 
   foreach ($nodes as $node) {
@@ -228,6 +229,10 @@ function _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $nty
 
       // Banner image must be saved
       if (!empty($new_node['data_image'])) {
+        $filename = file_save_data($new_node['data_image']['content'],
+          file_directory_path() . $new_node['data_image']['filename']);
+        $new_node['data_image'] = db_result(db_query("SELECT fid FROM {file}
+          WHERE filename = '%s'", $filename));
       }
 
       // Submit the value, like submiting the form, then save it
@@ -237,7 +242,7 @@ function _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $nty
       // Since creating nodes like this doesnt generate any
       // message, create our own
       drupal_set_message(t('Created a new %type: %title', array(
-        '%title'  => $new_node->title,
+        '%title'  => t($new_node->title, 'node/'. $new_node->nid),
         '%type'   => $new_node->type,
       )));
     }
