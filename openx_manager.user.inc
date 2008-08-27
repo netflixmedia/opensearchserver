@@ -239,7 +239,7 @@ function _openx_user_user_update(&$user, $user_new) {
 function theme_openx_user(&$node) {
   $fields['contact'] = array(
     '#value'          => $node->contact,
-    '#title'          => t('Contact name'),
+    '#title'          => t('Name'),
     '#type'           => 'item',
   );
   $fields['email'] = array(

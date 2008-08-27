@@ -244,7 +244,7 @@ function theme_openx_publisher(&$node) {
   );
   $fields['email'] = array(
     '#value'          => $node->email,
-    '#title'          => t('Email'),
+    '#title'          => t('Contact Email'),
     '#type'           => 'item',
   );
 
