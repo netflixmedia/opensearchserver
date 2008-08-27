@@ -193,54 +193,53 @@ function _openx_manager_import_submit(&$form, &$form_state) {
   }
   unset($sql_existing_oids);
 
-  global $user;
-
   // Check if it requires a upper ID
   if ($sql_id2) {
     $oids = db_query("SELECT %s FROM {%s}", $sql_id2, $sql_table2);
     while ($oid = db_result($oids)) {
       if ($nodes = _openx_manager_api($api_op, (int) $oid)) {
-        foreach ($nodes as $node) {
-          if (empty($existing_oids[$node[$ntype2 .'Id']])) {
-            $new_node = array(
-              'type'    => 'openx_'. $ntype,
-              'uid'     => $user->uid,
-              'name'    => $user->name,
-            );
-            foreach ($fields as $index => $value) {
-              $new_node[$index] = $node[$value];
-            }
-            $new_node = node_submit($new_node);
-            node_save($new_node);
-            drupal_set_message(t('Created a new %type: %title', array(
-              '%title'  => $new_node->title,
-              '%type'   => $new_node->type,
-            )));
-          }
-        }
+        _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $ntype, $ntype2);
       }
     }
   }
   else {
     if ($nodes = _openx_manager_api($api_op)) {
-      foreach ($nodes as $node) {
-        if (empty($existing_oids[$node[$ntype2 .'Id']])) {
-          $new_node = array(
-            'type'    => 'openx_'. $ntype,
-            'uid'     => $user->uid,
-            'name'    => $user->name,
-          );
-          foreach ($fields as $index => $value) {
-            $new_node[$index] = $node[$value];
-          }
-          $new_node = node_submit($new_node);
-          node_save($new_node);
-          drupal_set_message(t('Created a new %type: %title', array(
-            '%title'  => $new_node->title,
-            '%type'   => $new_node->type,
-          )));
-        }
+      _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $ntype, $ntype2);
+    }
+  }
+}
+
+/**
+ * Helper function that really imports the data into a new node
+ */
+function _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $ntype, $ntype2) {
+  global $user;
+
+  foreach ($nodes as $node) {
+    if (empty($existing_oids[$node[$ntype2 .'Id']])) {
+      $new_node = array(
+        'type'    => 'openx_'. $ntype,
+        'uid'     => $user->uid,
+        'name'    => $user->name,
+      );
+      foreach ($fields as $index => $value) {
+        $new_node[$index] = $node[$value];
       }
+
+      // Banner image must be saved
+      if (!empty($new_node['data_image'])) {
+      }
+
+      // Submit the value, like submiting the form, then save it
+      $new_node = node_submit($new_node);
+      node_save($new_node);
+
+      // Since creating nodes like this doesnt generate any
+      // message, create our own
+      drupal_set_message(t('Created a new %type: %title', array(
+        '%title'  => $new_node->title,
+        '%type'   => $new_node->type,
+      )));
     }
   }
 }
