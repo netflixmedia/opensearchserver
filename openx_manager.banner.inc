@@ -32,6 +32,8 @@ function _openx_node_banner_access($op, $node, $account) {
  */
 function _openx_node_banner_delete(&$node) {
   _openx_manager_api('deleteBanner', (int) $node->obid);
+  file_delete(db_result(db_query('SELECT filename FROM {files}
+    WHERE fid = %d', $node->data_image)));
   db_query('DELETE FROM {openx_manager_banner} WHERE nid = %d', $node->nid);
 }
 
