@@ -128,7 +128,7 @@ function _openx_node_manager_submit(&$form, &$form_state) {
       $node['omid'] = _openx_manager_api('addAgency', $data);
     }
     else {
-      $data['managerId'] = (int) $node['omid'];
+      $data['agencyId'] = (int) $node['omid'];
       _openx_manager_api('modifyAgency', $data);
     }
   }
@@ -216,13 +216,13 @@ function _openx_user_manager_update(&$user, $user_new) {
     'uid'           => $user->uid,
     'name'          => $user_new['name'],
     'duid'          => $user->uid,
-    'info_contact'  => $user_new['name'],
-    'info_email'    => $user_new['mail'],
+    'contact'       => $user_new['name'],
+    'email'         => $user_new['mail'],
   );
-  if ($advetiser = db_fetch_array(db_query("SELECT nid, omid FROM {openx_manager_manager}
+  if ($manager = db_fetch_array(db_query("SELECT nid, omid FROM {openx_manager_manager}
         WHERE duid = %d", $user->uid))) {
-    $node['nid']  = $advetiser['nid'];
-    $node['omid'] = $advetiser['omid'];
+    $node['nid']  = $manager['nid'];
+    $node['omid'] = $manager['omid'];
   }
   $form = $form_state = array();
   $form_state['values'] = &$node;

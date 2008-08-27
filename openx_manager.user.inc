@@ -216,13 +216,13 @@ function _openx_user_user_update(&$user, $user_new) {
     'uid'           => $user->uid,
     'name'          => $user_new['name'],
     'duid'          => $user->uid,
-    'info_contact'  => $user_new['name'],
-    'info_email'    => $user_new['mail'],
+    'contact'       => $user_new['name'],
+    'email'         => $user_new['mail'],
   );
-  if ($advetiser = db_fetch_array(db_query("SELECT nid, ouid FROM {openx_manager_user}
+  if ($ouser = db_fetch_array(db_query("SELECT nid, ouid FROM {openx_manager_user}
         WHERE duid = %d", $user->uid))) {
-    $node['nid']  = $advetiser['nid'];
-    $node['ouid'] = $advetiser['ouid'];
+    $node['nid']  = $ouser['nid'];
+    $node['ouid'] = $ouser['ouid'];
   }
   $form = $form_state = array();
   $form_state['values'] = &$node;
