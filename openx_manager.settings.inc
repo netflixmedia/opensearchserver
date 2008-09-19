@@ -176,7 +176,7 @@ function _openx_manager_import_submit(&$form, &$form_state) {
       $sql_table2 = 'openx_manager_publisher';
       $fields     = array(
         'title'                 => 'zoneName',
-        'ouid'                  => 'zoneId',
+        'ozid'                  => 'zoneId',
         'opid'                  => 'publisherId',
         'size_height'           => 'height',
         'size_width'            => 'width',
