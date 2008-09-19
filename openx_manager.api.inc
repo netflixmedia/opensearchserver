@@ -50,55 +50,55 @@ function _openx_manager_call_file($op) {
     case 'addAdvertiser':
     case 'deleteAdvertiser':
     case 'getAdvertiser':
-    case 'getAdvertiserBannerStatistics':
-    case 'getAdvertiserCampaignStatistics':
-    case 'getAdvertiserDailyStatistics':
     case 'getAdvertiserListByAgencyId':
-    case 'getAdvertiserPublisherStatistics':
-    case 'getAdvertiserZoneStatistics':
     case 'modifyAdvertiser':
+    case 'advertiserBannerStatistics':
+    case 'advertiserCampaignStatistics':
+    case 'advertiserDailyStatistics':
+    case 'advertiserPublisherStatistics':
+    case 'advertiserZoneStatistics':
       return '/www/api/v1/xmlrpc/AdvertiserXmlRpcService.php';
     case 'addBanner':
     case 'deleteBanner':
     case 'getBanner':
-    case 'getBannerDailyStatistics':
-    case 'getBannerListByCampaignId':
-    case 'getBannerPublisherStatistics':
-    case 'getBannerZoneStatistics':
     case 'modifyBanner':
+    case 'bannerDailyStatistics':
+    case 'bannerListByCampaignId':
+    case 'bannerPublisherStatistics':
+    case 'bannerZoneStatistics':
       return '/www/api/v1/xmlrpc/BannerXmlRpcService.php';
     case 'addCampaign':
     case 'deleteCampaign':
     case 'getCampaign':
-    case 'getCampaignBannerStatistics':
-    case 'getCampaignDailyStatistics':
-    case 'getCampaignListByAdvertiserId':
-    case 'getCampaignPublisherStatistics':
-    case 'getCampaignZoneStatistics':
     case 'modifyCampaign':
+    case 'campaignBannerStatistics':
+    case 'campaignDailyStatistics':
+    case 'campaignListByAdvertiserId':
+    case 'campaignPublisherStatistics':
+    case 'campaignZoneStatistics':
       return '/www/api/v1/xmlrpc/CampaignXmlRpcService.php';
     case 'addAgency':
     case 'deleteAgency':
     case 'getAgency':
-    case 'getAgencyAdvertiserStatistics':
-    case 'getAgencyBannerStatistics':
-    case 'getAgencyCampaignStatistics':
-    case 'getAgencyDailyStatistics':
     case 'getAgencyList':
-    case 'getAgencyPublisherStatistics':
-    case 'getAgencyZoneStatistics':
     case 'modifyAgency':
+    case 'agencyAdvertiserStatistics':
+    case 'agencyBannerStatistics':
+    case 'agencyCampaignStatistics':
+    case 'agencyDailyStatistics':
+    case 'agencyPublisherStatistics':
+    case 'agencyZoneStatistics':
       return '/www/api/v1/xmlrpc/AgencyXmlRpcService.php';
     case 'addPublisher':
     case 'deletePublisher':
     case 'getPublisher':
-    case 'getPublisherAdvertiserStatistics':
-    case 'getPublisherBannerStatistics':
-    case 'getPublisherCampaignStatistics':
-    case 'getPublisherDailyStatistics':
     case 'getPublisherListByAgencyId':
-    case 'getPublisherZoneStatistics':
     case 'modifyPublisher':
+    case 'publisherAdvertiserStatistics':
+    case 'publisherBannerStatistics':
+    case 'publisherCampaignStatistics':
+    case 'publisherDailyStatistics':
+    case 'publisherZoneStatistics':
       return '/www/api/v1/xmlrpc/PublisherXmlRpcService.php';
     case 'addUser':
     case 'deleteUser':
@@ -112,16 +112,16 @@ function _openx_manager_call_file($op) {
     case 'deleteZone':
     case 'generateTags':
     case 'getZone':
-    case 'getZoneAdvertiserStatistics':
-    case 'getZoneBannerStatistics':
-    case 'getZoneCampaignStatistics':
-    case 'getZoneDailyStatistics':
     case 'getZoneListByPublisherId':
     case 'linkBanner':
     case 'linkCampaign':
     case 'modifyZone':
     case 'unlinkBanner':
     case 'unlinkCampaign':
+    case 'zoneAdvertiserStatistics':
+    case 'zoneBannerStatistics':
+    case 'zoneCampaignStatistics':
+    case 'zoneDailyStatistics':
       return '/www/api/v1/xmlrpc/ZoneXmlRpcService.php';
   }
 }
