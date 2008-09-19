@@ -241,8 +241,8 @@ function _openx_manager_import_submit_save(&$nodes, &$existing_oids, &$fields, &
 
       // Since creating nodes like this doesnt generate any
       // message, create our own
-      drupal_set_message(t('Created a new %type: %title', array(
-        '%title'  => t($new_node->title, 'node/'. $new_node->nid),
+      drupal_set_message(t('Created a new %type: !title', array(
+        '!title'  => l($new_node->title, 'node/'. $new_node->nid),
         '%type'   => $new_node->type,
       )));
     }
