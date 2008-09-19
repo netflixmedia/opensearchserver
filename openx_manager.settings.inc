@@ -73,7 +73,7 @@ function _openx_manager_import() {
       'manager'     => t('Manager'),
       'publisher'   => t('Publisher'),
       'user'        => t('User'),
-      'zone'        => t('Zone'),
+//       'zone'        => t('Zone'),
     ),
     '#required' => TRUE,
     '#title'    => t('Import'),
