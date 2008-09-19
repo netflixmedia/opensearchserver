@@ -86,7 +86,6 @@ function openx_manager_schema() {
     'primary key' => array('nid'),
     'unique keys' => array(
       'oaid' => array('oaid'),
-      'duid' => array('duid'),
     ),
     'indexes' => array(
     ),
@@ -364,7 +363,6 @@ function openx_manager_schema() {
     'primary key' => array('nid'),
     'unique keys' => array(
       'omid' => array('omid'),
-      'duid' => array('duid'),
     ),
   );
   $schema['openx_manager_publisher'] = array(
@@ -413,7 +411,6 @@ function openx_manager_schema() {
     'primary key' => array('nid'),
     'unique keys' => array(
       'opid' => array('opid'),
-      'duid' => array('duid'),
     ),
   );
   $schema['openx_manager_user'] = array(
@@ -462,7 +459,6 @@ function openx_manager_schema() {
     'primary key' => array('nid'),
     'unique keys' => array(
       'ouid' => array('ouid'),
-      'duid' => array('duid'),
     ),
   );
   $schema['openx_manager_zone'] = array(
