@@ -510,7 +510,7 @@ function openx_manager_schema() {
     ),
     'primary key' => array('nid'),
     'unique keys' => array(
-      'ouid' => array('ozid'),
+      'ozid' => array('ozid'),
     ),
     'indexes' => array(
       'opid' => array('opid'),
