@@ -237,6 +237,8 @@ function openx_manager_perm() {
     'create openx users',       'edit own openx users',         'view openx users',
     'create openx zones',       'edit own openx zones',         'view openx zones',
 
+    'create openx campaigns - priority',
+
     'link zone to banners',
     'link zone to campaigns',
 

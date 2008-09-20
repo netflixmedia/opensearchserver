@@ -144,50 +144,63 @@ function _openx_node_campaign_form(&$node, $form_state) {
     ),
     '#type'           => 'select',
   );
-  $form['priority'] = array(
-    '#title'          => t('Priority'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['level'] = array(
-    '#title'          => t('Priority Level'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['level']['priority_level_level'] = array(
-    '#default_value'  => $node->priority_level_level,
-    '#options'        => array(
-      -1  => t('Exclusive (Overrides other linked campaigns)'),
-      5   => t('High (Paid campaigns)'),
-      0   => t('Low (House and unpaid campaigns)'),
-    ),
-    '#type'           => 'radios',
-  );
-  $form['priority']['distribution'] = array(
-    '#title'          => t('Distribution'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['distribution']['priority_distribution_level'] = array(
-    '#default_value'  => $node->priority_distribution_level,
-    '#options'        => array(
-      t('Automatic - Distribute the remaining inventory evenly over the remaining number of days'),
-      t('Manual'),
-      t('None - Set the campaign weight to'),
-    ),
-    '#type'           => 'radios',
-  );
-  $form['priority']['misc'] = array(
-    '#title'          => t('Miscellaneous'),
-    '#type'           => 'fieldset',
-  );
-  $form['priority']['misc']['priority_misc_hide'] = array(
-    '#default_value'  => $node->priority_misc_hide,
-    '#title'          => t('Hide the advertiser and websites of this campaign'),
-    '#type'           => 'checkbox',
-  );
-  $form['priority']['misc']['priority_misc_positioning'] = array(
-    '#default_value'  => $node->priority_misc_positioning,
-    '#title'          => t('Companion positioning'),
-    '#type'           => 'checkbox',
-  );
+  if (user_access('create openx campaigns - priority')) {
+    $form['priority'] = array(
+      '#title'          => t('Priority'),
+      '#type'           => 'fieldset',
+    );
+    $form['priority']['level'] = array(
+      '#title'          => t('Priority Level'),
+      '#type'           => 'fieldset',
+    );
+    $options = array();
+    $options[-1] = t('Exclusive (Overrides other linked campaigns)');
+    for ($index = 10; $index > 0; $index--) {
+      $options[$index] = t('High (Paid campaigns level !level)', array('!level' => $index));
+    }
+    $options[0] = t('Low (House and unpaid campaigns)');
+    $form['priority']['level']['priority_level_level'] = array(
+      '#default_value'  => $node->priority_level_level,
+      '#options'        => $options,
+      '#type'           => 'select',
+    );
+    $form['priority']['distribution'] = array(
+      '#title'          => t('Distribution'),
+      '#type'           => 'fieldset',
+    );
+    $form['priority']['distribution']['priority_distribution_level'] = array(
+      '#default_value'  => $node->priority_distribution_level,
+      '#options'        => array(
+        t('Automatic - Distribute the remaining inventory evenly over the remaining number of days'),
+        t('Manual'),
+        t('None - Set the campaign weight to'),
+      ),
+      '#type'           => 'radios',
+    );
+    $form['priority']['misc'] = array(
+      '#title'          => t('Miscellaneous'),
+      '#type'           => 'fieldset',
+    );
+    $form['priority']['misc']['priority_misc_hide'] = array(
+      '#default_value'  => $node->priority_misc_hide,
+      '#title'          => t('Hide the advertiser and websites of this campaign'),
+      '#type'           => 'checkbox',
+    );
+    $form['priority']['misc']['priority_misc_positioning'] = array(
+      '#default_value'  => $node->priority_misc_positioning,
+      '#title'          => t('Companion positioning'),
+      '#type'           => 'checkbox',
+    );
+  }
+  else {
+    $fields = array('priority_level_level', 'priority_distribution_level',
+      'priority_misc_hide', 'priority_misc_positioning');
+    foreach ($fields as $index) {
+      $form[$index] = array(
+        '#value' => $node->{$index}
+      );
+    }
+  }
   $form['delivery'] = array(
     '#title'          => t('Delivery'),
     '#type'           => 'fieldset',
@@ -196,11 +209,13 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#default_value'  => $node->delivery_limit_total,
     '#title'          => t('Limit campaign views in total'),
     '#type'           => 'textfield',
+    '#size'           => 10
   );
   $form['delivery']['delivery_limit_session'] = array(
     '#default_value'  => $node->delivery_limit_session,
     '#title'          => t('Limit campaign views per session'),
     '#type'           => 'textfield',
+    '#size'           => 10
   );
   $form['delivery']['delivery_reset_view'] = array(
     '#default_value'  => $node->delivery_reset_view,
