@@ -33,6 +33,13 @@ function _openx_manager_settings() {
     '#title'          => t('Password'),
     '#type'           => 'password',
   );
+  $form['openx_manager_user_integration'] = array(
+    '#default_value'  => variable_get('openx_manager_user_integration', FALSE),
+    '#description'    => t('If you want that users might be integrated with a OpenX user'),
+    '#title'          => t('User integration'),
+    '#type'           => 'checkbox',
+  );
+
   $form['#validate'][] = '_openx_manager_settings_validate';
   return system_settings_form($form);
 }

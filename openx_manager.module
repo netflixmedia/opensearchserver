@@ -95,6 +95,11 @@ function openx_manager_menu() {
     'page arguments'    => array('_openx_manager_settings'),
     'title'             => 'OpenX manager',
   );
+  $items['admin/settings/openx-manager/settings'] = array(
+    'title'             => 'Settings',
+    'type'              => MENU_DEFAULT_LOCAL_TASK,
+    'weight'            => -10
+  );
   $items['admin/settings/openx-manager/import'] = array(
     'access arguments'  => array('administer a OpenX server'),
     'description'       => 'Import data from OpenX server',
@@ -102,10 +107,12 @@ function openx_manager_menu() {
     'page callback'     => 'drupal_get_form',
     'page arguments'    => array('_openx_manager_import'),
     'title'             => 'OpenX data import',
+    'type'              => MENU_LOCAL_TASK,
   );
 
   // Drupal User - OpenX user integration
   $items['user/%user/advertiser'] = array(
+    'access callback'   => '_openx_manager_user_integration',
     'access arguments'  => array('user-advertiser', 1),
     'file'              => 'openx_manager.advertiser.inc',
     'page callback'     => '_openx_user_advertiser',
@@ -115,6 +122,7 @@ function openx_manager_menu() {
     'weight'            => 1,
   );
   $items['user/%user/manager'] = array(
+    'access callback'   => '_openx_manager_user_integration',
     'access arguments'  => array('user-manager', 1),
     'file'              => 'openx_manager.manager.inc',
     'page callback'     => '_openx_user_manager',
@@ -124,6 +132,7 @@ function openx_manager_menu() {
     'weight'            => 1,
   );
   $items['user/%user/publisher'] = array(
+    'access callback'   => '_openx_manager_user_integration',
     'access arguments'  => array('user-publisher', 1),
     'file'              => 'openx_manager.publisher.inc',
     'page callback'     => '_openx_user_publisher',
@@ -133,6 +142,7 @@ function openx_manager_menu() {
     'weight'            => 1,
   );
   $items['user/%user/ouser'] = array(
+    'access callback'   => '_openx_manager_user_integration',
     'access arguments'  => array('user-user', 1),
     'file'              => 'openx_manager.user.inc',
     'page callback'     => '_openx_user_user',
@@ -347,6 +357,13 @@ function openx_manager_user($type, &$edit, &$user, $category = NULL) {
       _openx_user_user_delete($user);
     }
   }
+}
+
+/**
+ * Check if the user can be integrated with a OpenX user.
+ */
+function _openx_manager_user_integration($permission, $user) {
+  return variable_get('openx_manager_user_integration', FALSE) and user_access($permission);
 }
 
 /**
