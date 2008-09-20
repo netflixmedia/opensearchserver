@@ -79,24 +79,26 @@ function _openx_node_campaign_form(&$node, $form_state) {
   );
 
   $form['inventory'] = array(
-    '#description'    => t('-1 for unlimeted'),
     '#title'          => t('Inventory'),
     '#type'           => 'fieldset',
   );
   $form['inventory']['inventory_impressions'] = array(
-    '#default_value'  => empty($node->inventory_impressions) ? -1 : $node->inventory_impressions,
+    '#default_value'  => empty($node->inventory_impressions) ? '' : $node->inventory_impressions,
     '#title'          => t('Impressions booked'),
     '#type'           => 'textfield',
+    '#size'           => 10
   );
   $form['inventory']['inventory_clicks'] = array(
-    '#default_value'  => empty($node->inventory_clicks) ? -1 : $node->inventory_clicks,
+    '#default_value'  => empty($node->inventory_clicks) ? '' : $node->inventory_clicks,
     '#title'          => t('Clicks booked'),
     '#type'           => 'textfield',
+    '#size'           => 10
   );
   $form['inventory']['inventory_conversions'] = array(
-    '#default_value'  => empty($node->inventory_conversions) ? -1 : $node->inventory_conversions,
+    '#default_value'  => empty($node->inventory_conversions) ? '' : $node->inventory_conversions,
     '#title'          => t('Conversions booked'),
     '#type'           => 'textfield',
+    '#size'           => 10
   );
   $form['contract'] = array(
     '#title'          => t('Contract'),
@@ -130,6 +132,7 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#default_value'  => $node->contract_revenue,
     '#title'          => t('Revenue Information'),
     '#type'           => 'textfield',
+    '#size'           => 10
   );
   $form['contract']['contract_revenue_unit'] = array(
     '#default_value'  => empty($node->contract_revenue_unit) ? MAX_FINANCE_CPM : $node->contract_revenue_unit,
@@ -351,17 +354,17 @@ function theme_openx_campaign(&$node) {
     '#weight'         => 1,
   );
   $fields['inventory']['inventory_impressions'] = array(
-    '#value'          => ($node->inventory_impressions == -1) ? 'unlimited' : $node->inventory_impressions,
+    '#value'          => empty($node->inventory_impressions) ? 'unlimited' : $node->inventory_impressions,
     '#title'          => t('Impressions booked'),
     '#type'           => 'item',
   );
   $fields['inventory']['inventory_clicks'] = array(
-    '#value'          => ($node->inventory_clicks == -1) ? 'unlimited' : $node->inventory_clicks,
+    '#value'          => empty($node->inventory_clicks) ? 'unlimited' : $node->inventory_clicks,
     '#title'          => t('Clicks booked'),
     '#type'           => 'item',
   );
   $fields['inventory']['inventory_conversions'] = array(
-    '#value'          => ($node->inventory_conversions == -1) ? 'unlimited' : $node->inventory_conversions,
+    '#value'          => empty($node->inventory_conversions) ? 'unlimited' : $node->inventory_conversions,
     '#title'          => t('Conversions booked'),
     '#type'           => 'item',
   );
