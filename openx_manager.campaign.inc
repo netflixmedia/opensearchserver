@@ -390,21 +390,28 @@ function theme_openx_campaign(&$node) {
     '#type'           => 'fieldset',
     '#weight'         => 1,
   );
-  $fields['inventory']['inventory_impressions'] = array(
-    '#value'          => empty($node->inventory_impressions) ? 'unlimited' : $node->inventory_impressions,
-    '#title'          => t('Impressions booked'),
-    '#type'           => 'item',
-  );
-  $fields['inventory']['inventory_clicks'] = array(
-    '#value'          => empty($node->inventory_clicks) ? 'unlimited' : $node->inventory_clicks,
-    '#title'          => t('Clicks booked'),
-    '#type'           => 'item',
-  );
-  $fields['inventory']['inventory_conversions'] = array(
-    '#value'          => empty($node->inventory_conversions) ? 'unlimited' : $node->inventory_conversions,
-    '#title'          => t('Conversions booked'),
-    '#type'           => 'item',
-  );
+  $inventory = variable_get('openx_manager_campaign_inventory', array('impressions' => 'impressions'));
+  if ($inventory['impressions']) {
+    $fields['inventory']['inventory_impressions'] = array(
+      '#value'          => empty($node->inventory_impressions) ? 'unlimited' : $node->inventory_impressions,
+      '#title'          => t('Impressions'),
+      '#type'           => 'item',
+    );
+  }
+  if ($inventory['clicks']) {
+    $fields['inventory']['inventory_clicks'] = array(
+      '#value'          => empty($node->inventory_clicks) ? 'unlimited' : $node->inventory_clicks,
+      '#title'          => t('Clicks'),
+      '#type'           => 'item',
+    );
+  }
+  if ($inventory['conversions']) {
+    $fields['inventory']['inventory_conversions'] = array(
+      '#value'          => empty($node->inventory_conversions) ? 'unlimited' : $node->inventory_conversions,
+      '#title'          => t('Conversions'),
+      '#type'           => 'item',
+    );
+  }
   $fields['contract'] = array(
     '#title'          => t('Contract'),
     '#type'           => 'fieldset',
@@ -436,36 +443,38 @@ function theme_openx_campaign(&$node) {
     '#type'           => 'fieldset',
     '#weight'         => 3,
   );
-  $options = array(
-    -1  => t('Exclusive (Overrides other linked campaigns)'),
-    5   => t('High (Paid campaigns)'),
-    0   => t('Low (House and unpaid campaigns)'),
-  );
-  $fields['priority']['priority_level_level'] = array(
-    '#value'          => $options[$node->priority_level_level],
-    '#title'          => t('Priority'),
-    '#type'           => 'item',
-  );
-  $options = array(
-    t('Automatic - Distribute the remaining inventory evenly over the remaining number of days'),
-    t('Manual'),
-    t('None - Set the campaign weight to'),
-  );
-  $fields['priority']['priority_distribution_level'] = array(
-    '#value'          => $options[$node->priority_distribution_level],
-    '#title'          => t('Distribution'),
-    '#type'           => 'item',
-  );
-  $fields['priority']['priority_misc_hide'] = array(
-    '#value'          => $node->priority_misc_hide,
-    '#title'          => t('Hide the advertiser and websites of this campaign'),
-    '#type'           => 'item',
-  );
-  $fields['priority']['priority_misc_positioning'] = array(
-    '#value'          => $node->priority_misc_positioning,
-    '#title'          => t('Companion positioning'),
-    '#type'           => 'item',
-  );
+  if (user_access('create openx campaigns - priority')) {
+    $options = array(
+      -1  => t('Exclusive (Overrides other linked campaigns)'),
+      5   => t('High (Paid campaigns)'),
+      0   => t('Low (House and unpaid campaigns)'),
+    );
+    $fields['priority']['priority_level_level'] = array(
+      '#value'          => $options[$node->priority_level_level],
+      '#title'          => t('Priority'),
+      '#type'           => 'item',
+    );
+    $options = array(
+      t('Automatic - Distribute the remaining inventory evenly over the remaining number of days'),
+      t('Manual'),
+      t('None - Set the campaign weight to'),
+    );
+    $fields['priority']['priority_distribution_level'] = array(
+      '#value'          => $options[$node->priority_distribution_level],
+      '#title'          => t('Distribution'),
+      '#type'           => 'item',
+    );
+    $fields['priority']['priority_misc_hide'] = array(
+      '#value'          => $node->priority_misc_hide,
+      '#title'          => t('Hide the advertiser and websites of this campaign'),
+      '#type'           => 'item',
+    );
+    $fields['priority']['priority_misc_positioning'] = array(
+      '#value'          => $node->priority_misc_positioning,
+      '#title'          => t('Companion positioning'),
+      '#type'           => 'item',
+    );
+  }
   $fields['delivery'] = array(
     '#title'          => t('Delivery'),
     '#type'           => 'fieldset',
