@@ -78,31 +78,39 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#type'           => 'item',
   );
 
+  // Inventory
+  $inventory = variable_get('openx_manager_campaign_inventory', array('impressions' => 'impressions'));
   $form['inventory'] = array(
     '#title'          => t('Inventory'),
     '#type'           => 'fieldset',
   );
-  $form['inventory']['inventory_impressions'] = array(
-    '#default_value'  => empty($node->inventory_impressions) ? '' : $node->inventory_impressions,
-    '#description'    => t('Limit the campaign by number of impressions. Leave the values blank for unlimited.'),
-    '#title'          => t('Impressions'),
-    '#type'           => 'textfield',
-    '#size'           => 10
-  );
-  $form['inventory']['inventory_clicks'] = array(
-    '#default_value'  => empty($node->inventory_clicks) ? '' : $node->inventory_clicks,
-    '#description'    => t('Limit the campaign by number of clicks. Leave the values blank for unlimited.'),
-    '#title'          => t('Clicks'),
-    '#type'           => 'textfield',
-    '#size'           => 10
-  );
-  $form['inventory']['inventory_conversions'] = array(
-    '#default_value'  => empty($node->inventory_conversions) ? '' : $node->inventory_conversions,
-    '#description'    => t('Limit the campaign by number of conversions. Leave the values blank for unlimited.'),
-    '#title'          => t('Conversions'),
-    '#type'           => 'textfield',
-    '#size'           => 10
-  );
+  if ($inventory['impressions']) {
+    $form['inventory']['inventory_impressions'] = array(
+      '#default_value'  => empty($node->inventory_impressions) ? '' : $node->inventory_impressions,
+      '#description'    => t('Limit the campaign by number of impressions. Leave the values blank for unlimited.'),
+      '#title'          => t('Impressions'),
+      '#type'           => 'textfield',
+      '#size'           => 10
+    );
+  }
+  if ($inventory['clicks']) {
+    $form['inventory']['inventory_clicks'] = array(
+      '#default_value'  => empty($node->inventory_clicks) ? '' : $node->inventory_clicks,
+      '#description'    => t('Limit the campaign by number of clicks. Leave the values blank for unlimited.'),
+      '#title'          => t('Clicks'),
+      '#type'           => 'textfield',
+      '#size'           => 10
+    );
+  }
+  if ($inventory['conversions']) {
+    $form['inventory']['inventory_conversions'] = array(
+      '#default_value'  => empty($node->inventory_conversions) ? '' : $node->inventory_conversions,
+      '#description'    => t('Limit the campaign by number of conversions. Leave the values blank for unlimited.'),
+      '#title'          => t('Conversions'),
+      '#type'           => 'textfield',
+      '#size'           => 10
+    );
+  }
   $form['contract'] = array(
     '#title'          => t('Contract'),
     '#type'           => 'fieldset',

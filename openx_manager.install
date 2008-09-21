@@ -557,4 +557,5 @@ function openx_manager_uninstall() {
   variable_del('openx_manager_username');
   variable_del('openx_manager_password');
   variable_del('openx_manager_user_integration');
+  variable_del('openx_manager_campaign_inventory');
 }

@@ -40,6 +40,23 @@ function _openx_manager_settings() {
     '#type'           => 'checkbox',
   );
 
+  // Campaign settings
+  $form['campaign'] = array(
+    '#title'          => t('Campaign'),
+    '#type'           => 'fieldset',
+  );
+  $form['campaign']['openx_manager_campaign_inventory'] = array(
+    '#default_value'  => variable_get('openx_manager_campaign_inventory', array('impressions' => 'impressions')),
+    '#description'    => t('What types of limitations the campaigns might use?'),
+    '#options'        => array(
+      'impressions' => t('Impressions'),
+      'clicks'      => t('Clicks'),
+      'conversions' => t('Conversions'),
+    ),
+    '#title'          => t('Inventory'),
+    '#type'           => 'checkboxes',
+  );
+
   $form['#validate'][] = '_openx_manager_settings_validate';
   return system_settings_form($form);
 }
