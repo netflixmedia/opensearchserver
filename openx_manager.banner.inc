@@ -98,11 +98,19 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#title'          => t('Destination URL'),
     '#type'           => 'textfield',
   );
-  $form['destination_target'] = array(
-    '#default_value'  => $node->destination_target,
-    '#title'          => t('Destination Target'),
-    '#type'           => 'textfield',
-  );
+  if (variable_get('openx_manager_banner_target', '')) {
+    $form['destination_target'] = array(
+      '#default_value'  => $node->destination_target,
+      '#title'          => t('Destination Target'),
+      '#type'           => 'textfield',
+    );
+  }
+  else {
+    $form['destination_target'] = array(
+      '#value'          => variable_get('openx_manager_banner_target', ''),
+      '#type'           => 'value',
+    );
+  }
   $options = array(
     'sql'   => t('OpenX server banner (stored as a SQL data)'),
     'web'   => t('OpenX server banner (stored as a file)'),

@@ -78,6 +78,12 @@ function _openx_manager_settings() {
     '#title'          => t('Types'),
     '#type'           => 'checkboxes',
   );
+  $form['banner']['openx_manager_banner_target'] = array(
+    '#default_value'  => variable_get('openx_manager_banner_target', ''),
+    '#description'    => t('All banners should the same window target? Leave it blank so they might choose their own.'),
+    '#title'          => t('Banner window target'),
+    '#type'           => 'textfield',
+  );
 
   $form['#validate'][] = '_openx_manager_settings_validate';
   return system_settings_form($form);
