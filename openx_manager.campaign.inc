@@ -510,6 +510,28 @@ function theme_openx_campaign(&$node) {
     '#type'           => 'item',
   );
 
+  $fields['banners'] = array(
+    '#collapsible'    => TRUE,
+    '#title'          => t('Banners'),
+    '#type'           => 'fieldset',
+    '#weight'         => 10,
+  );
+  $banners = db_query('SELECT node.title, node.nid FROM {openx_manager_banner} banner
+    INNER JOIN {node} node ON node.nid = banner.nid
+    WHERE banner.ocid = %d', $node->ocid);
+  while ($banner = db_fetch_array($banners)) {
+    $fields['banners'][] = array(
+      '#value'          => l($banner['title'], 'node/'. $banner['nid']),
+      '#type'           => 'item',
+    );
+  }
+  if (empty($fields['banners'][0])) {
+    $fields['banners'][] = array(
+      '#value'          => t('There no banners on this campaign.'),
+      '#type'           => 'item',
+    );
+  }
+
   // Print all field in the right order
   $output = '';
   foreach ($fields as $field) {
