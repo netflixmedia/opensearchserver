@@ -417,13 +417,25 @@ function theme_openx_campaign(&$node) {
     '#type'           => 'fieldset',
     '#weight'         => 2,
   );
+  if ($node->contract_activation) {
+    $date = format_date($node->contract_activation, 'small');
+  }
+  else {
+    $date = t('Activate this campaign immediately');
+  }
   $fields['contract']['contract_activation'] = array(
-    '#value'          => format_date($node->contract_activation, 'small'),
+    '#value'          => $date,
     '#title'          => t('Activation date'),
     '#type'           => 'item',
   );
+  if ($node->contract_activation) {
+    $date = format_date($node->contract_expiration, 'small');
+  }
+  else {
+    $date = t("Don't expire this campaign on a specific date");
+  }
   $fields['contract']['contract_expiration'] = array(
-    '#value'          => format_date($node->contract_expiration, 'small'),
+    '#value'          => $date,
     '#title'          => t('Expiration date'),
     '#type'           => 'item',
   );
