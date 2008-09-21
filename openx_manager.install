@@ -559,3 +559,13 @@ function openx_manager_uninstall() {
   variable_del('openx_manager_user_integration');
   variable_del('openx_manager_campaign_inventory');
 }
+
+/**
+ * Implementation of hook_uninstall().
+ *
+ * Change the "text_all" column name from {banner table to "text_alt"
+ */
+function openx_manager_update_6000() {
+  $update[] = update_sql('ALTER TABLE {openx_manager_banner} CHANGE text_all text_alt VARCHAR(255)');
+  return $update;
+}
