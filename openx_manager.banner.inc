@@ -136,7 +136,7 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'select',
     );
   }
-  if (empty($node->nid) or $node->btype != 'url') {
+  if (empty($node->nid) or $node->btype == 'url') {
     $form['data_url'] = array(
       '#default_value'  => empty($node->data_url) ? 'http://' : $node->data_url,
       '#title'          => t('Image URL'),
@@ -176,7 +176,7 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'textfield',
     );
   }
-  if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
+  if (empty($node->nid) or $node->btype != 'hmtl') {
     $form['text_alt'] = array(
       '#default_value'  => $node->text_alt,
       '#title'          => t('Alternative Text'),
@@ -246,7 +246,7 @@ function _openx_node_banner_submit(&$form, &$form_state) {
       'campaignId'      => (int) $node['ocid'],
       'storageType'     => $node['btype'],
     );
-    if ($node['btype'] == 'sql' or $node['btype'] == 'web') {
+    if ($node['btype'] == 'sql' or $node['btype'] == 'web' or $node['btype'] == 'url2') {
       $validators = array(
         'file_validate_is_image' => array(),
       );
@@ -259,19 +259,29 @@ function _openx_node_banner_submit(&$form, &$form_state) {
           db_query('DELETE FROM {files} WHERE fid = %d', $node['data_image']);
         }
         file_set_status($file, FILE_STATUS_PERMANENT);
-        include_once './includes/xmlrpc.inc';
+
         $node['data_image'] = $file->fid;
-        $data['aImage'] = array(
-          'filename'  => $file->filename,
-          'content'   => xmlrpc_base64(file_get_contents($file->filepath)),
-          'editswf'   => FALSE, /// @todo check if it is Flash files
-        );
+        if ($node['btype'] == 'url2') {
+          $data['storageType'] = 'url';
+          $data['imageURL'] = file_create_url($file->filepath);
+          $image = image_get_info($file->filepath);
+          $node['size_height'] = $image['height'];
+          $node['size_width'] = $image['width'];
+        }
+        else {
+          include_once './includes/xmlrpc.inc';
+          $data['aImage'] = array(
+            'filename'  => $file->filename,
+            'content'   => xmlrpc_base64(file_get_contents($file->filepath)),
+            'editswf'   => FALSE, /// @todo check if it is Flash files
+          );
+        }
       }
     }
-    if ($node['btype'] == 'text') {
+    if ($node['btype'] == 'url') {
       $data['imageURL'] = $node['data_url'];
     }
-    if ($node['btype'] == 'html') {
+    if ($node['btype'] == 'text' or $node['btype'] == 'html') {
       $data['htmlTemplate'] = $node['data_text'];
     }
     if (!empty($node['size_height'])) {
@@ -280,7 +290,7 @@ function _openx_node_banner_submit(&$form, &$form_state) {
     if (!empty($node['size_width'])) {
       $data['width'] = (int) $node['size_width'];
     }
-    if (!empty($node['weight)'])) {
+    if (!empty($node['weight'])) {
       $data['weight'] = (int) $node['weight'];
     }
     if (!empty($node['destination_url'])) {
@@ -385,7 +395,7 @@ function theme_openx_banner(&$node) {
       '#type'           => 'item',
     );
   }
-  if ($node->btype == 'sql' or $node->btype == 'web') {
+  if ($node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url2') {
     $url = db_result(db_query("SELECT filepath FROM {files}
       WHERE fid = %d", $node->data_image));
     $fields['data_image_preview'] = array(
@@ -408,7 +418,7 @@ function theme_openx_banner(&$node) {
       '#type'           => 'item',
     );
   }
-  if ($node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
+  if ($node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url' or $node->btype == 'url2') {
     $fields['text_alt'] = array(
       '#value'          => check_plain($node->text_alt),
       '#title'          => t('Alternative Text'),
@@ -420,7 +430,7 @@ function theme_openx_banner(&$node) {
       '#type'           => 'item',
     );
   }
-  if ($node->btype == 'html' or $node->btype == 'url') {
+  if ($node->btype == 'html' or $node->btype == 'url' or $node->btype == 'url2') {
     $fields['size_height'] = array(
       '#value'          => t('!size pixels', array('!size' => $node->size_height)),
       '#title'          => t('Height'),
