@@ -305,18 +305,10 @@ function _openx_node_campaign_submit(&$form, &$form_state) {
       $data['endDate'] = xmlrpc_date('00000000T00:00:00');
     }
 
-    if (!empty($node['inventory_impressions'])) {
-      $data['impressions'] = (int) $node['inventory_impressions'];
-    }
-    if (!empty($node['inventory_clicks'])) {
-      $data['clicks'] = (int) $node['inventory_clicks'];
-    }
-    if (!empty($node['contract_expiration'])) {
-      $data['priority'] = (int) $node['contract_expiration'];
-    }
-    if (!empty($node['distribution_weight'])) {
-      $data['weight'] = (int) $node['distribution_weight'];
-    }
+    $data['impressions']  = (int) $node['inventory_impressions'];
+    $data['clicks']       = (int) $node['inventory_clicks'];
+    $data['priority']     = (int) $node['contract_expiration'];
+    $data['weight']       = (int) $node['distribution_weight'];
 
     // Update or insert
     if (empty($node['nid'])) {
