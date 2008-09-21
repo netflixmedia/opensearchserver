@@ -149,19 +149,16 @@ function _openx_node_campaign_form(&$node, $form_state) {
       '#title'          => t('Priority'),
       '#type'           => 'fieldset',
     );
-    $form['priority']['level'] = array(
-      '#title'          => t('Priority Level'),
-      '#type'           => 'fieldset',
-    );
     $options = array();
     $options[-1] = t('Exclusive (Overrides other linked campaigns)');
     for ($index = 10; $index > 0; $index--) {
       $options[$index] = t('High (Paid campaigns level !level)', array('!level' => $index));
     }
     $options[0] = t('Low (House and unpaid campaigns)');
-    $form['priority']['level']['priority_level_level'] = array(
+    $form['priority']['priority_level_level'] = array(
       '#default_value'  => $node->priority_level_level,
       '#options'        => $options,
+      '#title'          => t('Priority Level'),
       '#type'           => 'select',
     );
     $form['priority']['distribution'] = array(
