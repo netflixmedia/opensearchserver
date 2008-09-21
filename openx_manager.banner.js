@@ -13,7 +13,7 @@ Drupal.behaviors.openx_manager_banner = function() {
 
   var fields = ["#edit-size-height", "#edit-size-width",
     "#edit-text-all", "#edit-text-below", "#edit-text-status",
-    "#edit-data-text", "#edit-data-image", "#edit-data-url"];
+    "#edit-data-text", "#edit-new-data-image", "#edit-data-url"];
 
   // Disable only the forbidden ones (marked as 1)
   if ($("#edit-btype").val() == "sql") {
