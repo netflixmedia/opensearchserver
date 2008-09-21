@@ -61,22 +61,50 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
         'href'        => 'node/add/openx-campaign',
         'query'       => array('oaid' => $object->oaid, 'nid' => $object->nid),
       );
-      return $links;
     }
-    elseif ($object->type == 'openx_campaign' and user_access('create openx banners')) {
+    elseif ($object->type == 'openx_campaign') {
+      if (user_access('create openx banners')) {
       $links['create_banner'] = array(
         'title'       => t('Create a new Banner'),
         'href'        => 'node/add/openx-banner',
         'query'       => array('ocid' => $object->ocid, 'nid' => $object->nid),
       );
-      return $links;
+      }
+      if (user_access('link zone to campaigns')) {
+        $links['link_campaign'] = array(
+          'title'       => t('Link it a zone'),
+          'href'        => "node/{$object->nid}/link-campaign-zone",
+        );
+      }
     }
     elseif ($object->type == 'openx_publisher' and user_access('create openx zones')) {
       $links['create_zone'] = array(
         'title'       => t('Create a new Zone'),
-        'href'        => 'node/add/openx-zone',
+        'href'        => 'node/%node/link-zone-campaign',
         'query'       => array('opid' => $object->opid, 'nid' => $object->nid),
       );
+    }
+    elseif ($object->type == 'openx_zone') {
+      if (user_access('link zone to campaigns')) {
+        $links['link_campaign'] = array(
+          'title'       => t('Link it a campaign'),
+          'href'        => "node/{$object->nid}/link-zone-campaign",
+        );
+      }
+      if (user_access('link zone to banners')) {
+        $links['link_banner'] = array(
+          'title'       => t('Link it a banner'),
+          'href'        => "node/{$object->nid}/link-zone-banner",
+        );
+      }
+    }
+    elseif ($object->type == 'openx_banner' and user_access('link zone to banners')) {
+      $links['link_zone'] = array(
+        'title'       => t('Link it a zone'),
+        'href'        => "node/{$object->nid}/link-banner-zone",
+      );
+    }
+    if (!empty($links)) {
       return $links;
     }
   }
@@ -153,23 +181,37 @@ function openx_manager_menu() {
   );
 
   // Link Zone to Campaign and Banner pages
-  $items['node/%node/link-banner'] = array(
-    'access arguments'  => array('link zone to banners', 1),
+  $items['node/%node/link-zone-banner'] = array(
+    'access arguments'  => array('link zone to banners', 1, 'zone'),
     'file'              => 'openx_manager.zone.inc',
     'page callback'     => 'drupal_get_form',
     'page arguments'    => array('_openx_node_zone_link_banner', 1),
     'title'             => 'Link to Banners',
-    'type'              => MENU_LOCAL_TASK,
-    'weight'            => 1,
+    'type'              => MENU_CALLBACK,
   );
-  $items['node/%node/link-campaign'] = array(
-    'access arguments'  => array('link zone to campaigns', 1),
+  $items['node/%node/link-banner-zone'] = array(
+    'access arguments'  => array('link zone to banners', 1, 'banner'),
+    'file'              => 'openx_manager.zone.inc',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('_openx_node_zone_link_banner', 1),
+    'title'             => 'Link to Banners',
+    'type'              => MENU_CALLBACK,
+  );
+  $items['node/%node/link-zone-campaign'] = array(
+    'access arguments'  => array('link zone to campaigns', 1, 'zone'),
     'file'              => 'openx_manager.zone.inc',
     'page callback'     => 'drupal_get_form',
     'page arguments'    => array('_openx_node_zone_link_campaign', 1),
     'title'             => 'Link to Campaigns',
-    'type'              => MENU_LOCAL_TASK,
-    'weight'            => 1,
+    'type'              => MENU_CALLBACK,
+  );
+  $items['node/%node/link-campaign-zone'] = array(
+    'access arguments'  => array('link zone to campaigns', 1, 'campaign'),
+    'file'              => 'openx_manager.zone.inc',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('_openx_node_zone_link_campaign', 1),
+    'title'             => 'Link to Campaigns',
+    'type'              => MENU_CALLBACK,
   );
   return $items;
 }
