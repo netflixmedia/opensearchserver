@@ -106,8 +106,8 @@ function _openx_node_banner_form(&$node, $form_state) {
   $options = array(
     'sql'   => t('OpenX server banner (stored as a SQL data)'),
     'web'   => t('OpenX server banner (stored as a file)'),
-    'url'   => t('Local banner'),
-    'url2'  => t('External banner'),
+    'url2'  => t('Local banner'),
+    'url'   => t('External banner'),
     'html'  => t('HTML banner'),
     'txt'   => t('Text ad'),
   );
@@ -147,7 +147,7 @@ function _openx_node_banner_form(&$node, $form_state) {
     '#value'          => $node->data_image,
     '#type'           => 'value',
   );
-  if ($node->btype == 'sql' or $node->btype == 'web') {
+  if ($node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url2') {
     $url = db_result(db_query("SELECT filepath FROM {files} WHERE fid = %d", $node->data_image));
     $form['data_image_preview'] = array(
       '#value'          => theme('image', $url, $node->title),
@@ -155,7 +155,7 @@ function _openx_node_banner_form(&$node, $form_state) {
       '#type'           => 'item',
     );
   }
-  if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web') {
+  if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url2') {
     $form['new_data_image'] = array(
       '#title'          => t('Image'),
       '#type'           => 'file',
@@ -177,9 +177,9 @@ function _openx_node_banner_form(&$node, $form_state) {
     );
   }
   if (empty($node->nid) or $node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
-    $form['text_all'] = array(
-      '#default_value'  => $node->text_all,
-      '#title'          => t('All Text'),
+    $form['text_alt'] = array(
+      '#default_value'  => $node->text_alt,
+      '#title'          => t('Alternative Text'),
       '#type'           => 'textfield',
     );
     $form['text_below'] = array(
@@ -368,8 +368,8 @@ function theme_openx_banner(&$node) {
   $options = array(
     'sql'   => t('OpenX server banner (stored as a SQL data)'),
     'web'   => t('OpenX server banner (stored as a file)'),
-    'url'   => t('Local banner'),
-    'url2'  => t('External banner'),
+    'url2'  => t('Local banner'),
+    'url'   => t('External banner'),
     'html'  => t('HTML banner'),
     'txt'   => t('Text ad'),
   );
@@ -409,9 +409,9 @@ function theme_openx_banner(&$node) {
     );
   }
   if ($node->btype == 'sql' or $node->btype == 'web' or $node->btype == 'url') {
-    $fields['text_all'] = array(
-      '#value'          => check_plain($node->text_all),
-      '#title'          => t('All Text'),
+    $fields['text_alt'] = array(
+      '#value'          => check_plain($node->text_alt),
+      '#title'          => t('Alternative Text'),
       '#type'           => 'item',
     );
     $fields['text_below'] = array(

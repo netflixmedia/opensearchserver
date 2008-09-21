@@ -66,8 +66,8 @@ function _openx_manager_settings() {
   $options = array(
     'sql'   => t('OpenX server banner (stored as a SQL data)'),
     'web'   => t('OpenX server banner (stored as a file)'),
-    'url'   => t('Local banner'),
-    'url2'  => t('External banner'),
+    'url2'  => t('Local banner'),
+    'url'   => t('External banner'),
     'html'  => t('HTML banner'),
     'txt'   => t('Text ad'),
   );

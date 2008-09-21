@@ -175,9 +175,9 @@ function openx_manager_schema() {
         'length'      => 255,
         'not null'    => TRUE,
       ),
-      'text_all' => array(
-        'title'       => t('Text all'),
-        'description' => t('Banner Text all'),
+      'text_alt' => array(
+        'title'       => t('Alternative Text'),
+        'description' => t('Banner alternative text'),
         'type'        => 'varchar',
         'length'      => 255,
         'not null'    => TRUE,
