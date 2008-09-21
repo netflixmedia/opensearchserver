@@ -84,19 +84,22 @@ function _openx_node_campaign_form(&$node, $form_state) {
   );
   $form['inventory']['inventory_impressions'] = array(
     '#default_value'  => empty($node->inventory_impressions) ? '' : $node->inventory_impressions,
-    '#title'          => t('Impressions booked'),
+    '#description'    => t('Limit the campaign by number of impressions. Leave the values blank for unlimited.'),
+    '#title'          => t('Impressions'),
     '#type'           => 'textfield',
     '#size'           => 10
   );
   $form['inventory']['inventory_clicks'] = array(
     '#default_value'  => empty($node->inventory_clicks) ? '' : $node->inventory_clicks,
-    '#title'          => t('Clicks booked'),
+    '#description'    => t('Limit the campaign by number of clicks. Leave the values blank for unlimited.'),
+    '#title'          => t('Clicks'),
     '#type'           => 'textfield',
     '#size'           => 10
   );
   $form['inventory']['inventory_conversions'] = array(
     '#default_value'  => empty($node->inventory_conversions) ? '' : $node->inventory_conversions,
-    '#title'          => t('Conversions booked'),
+    '#description'    => t('Limit the campaign by number of conversions. Leave the values blank for unlimited.'),
+    '#title'          => t('Conversions'),
     '#type'           => 'textfield',
     '#size'           => 10
   );
