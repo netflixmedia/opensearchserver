@@ -45,15 +45,36 @@ function _openx_manager_settings() {
     '#title'          => t('Campaign'),
     '#type'           => 'fieldset',
   );
+  $options = array(
+    'impressions' => t('Impressions'),
+    'clicks'      => t('Clicks'),
+    'conversions' => t('Conversions'),
+  );
   $form['campaign']['openx_manager_campaign_inventory'] = array(
-    '#default_value'  => variable_get('openx_manager_campaign_inventory', array('impressions' => 'impressions')),
+    '#default_value'  => variable_get('openx_manager_campaign_inventory', drupal_map_assoc(array_keys($options))),
     '#description'    => t('What types of limitations the campaigns might use?'),
-    '#options'        => array(
-      'impressions' => t('Impressions'),
-      'clicks'      => t('Clicks'),
-      'conversions' => t('Conversions'),
-    ),
+    '#options'        => $options,
     '#title'          => t('Inventory'),
+    '#type'           => 'checkboxes',
+  );
+
+  // Banner settings
+  $form['banner'] = array(
+    '#title'          => t('Banner'),
+    '#type'           => 'fieldset',
+  );
+  $options = array(
+    'sql'   => t('Local banner (SQL)'),
+    'web'   => t('Local banner (Webserver)'),
+    'url'   => t('External banner'),
+    'html'  => t('HTML banner'),
+    'txt'   => t('Text ad'),
+  );
+  $form['banner']['openx_manager_banner_types'] = array(
+    '#default_value'  => variable_get('openx_manager_banner_types', drupal_map_assoc(array_keys($options))),
+    '#description'    => t('What banner types you allow on your server?'),
+    '#options'        => $options,
+    '#title'          => t('Types'),
     '#type'           => 'checkboxes',
   );
 

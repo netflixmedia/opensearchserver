@@ -144,7 +144,7 @@ function _openx_node_zone_insert(&$node) {
  *
  * @ingroup form
  */
-function _openx_node_zone_link_banner($forn_state, $zone) {
+function _openx_node_zone_link_banner($forn_state, $zone, $type) {
   $nid_sql = db_query("SELECT banner.nid FROM {openx_manager_banner} banner
     INNER JOIN {openx_manager_link} link ON link.obid = banner.obid
     WHERE link.ozid = %d", $zone->ozid);

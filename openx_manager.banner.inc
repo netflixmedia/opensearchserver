@@ -122,6 +122,11 @@ function _openx_node_banner_form(&$node, $form_state) {
     );
   }
   else {
+    foreach (variable_get('openx_manager_banner_types', drupal_map_assoc(array_keys($options))) as $index => $value) {
+      if (empty($value)) {
+        unset($options[$index]);
+      }
+    }
     $form['btype'] = array(
       '#default_value'  => empty($node->btype) ? 'sql' : $node->btype,
       '#options'        => $options,
