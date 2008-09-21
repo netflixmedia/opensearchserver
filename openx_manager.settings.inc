@@ -64,9 +64,10 @@ function _openx_manager_settings() {
     '#type'           => 'fieldset',
   );
   $options = array(
-    'sql'   => t('Local banner (SQL)'),
-    'web'   => t('Local banner (Webserver)'),
-    'url'   => t('External banner'),
+    'sql'   => t('OpenX server banner (stored as a SQL data)'),
+    'web'   => t('OpenX server banner (stored as a file)'),
+    'url'   => t('Local banner'),
+    'url2'  => t('External banner'),
     'html'  => t('HTML banner'),
     'txt'   => t('Text ad'),
   );
