@@ -222,18 +222,18 @@ function _openx_node_campaign_form(&$node, $form_state) {
     }
   }
   $form['delivery'] = array(
-    '#title'          => t('Delivery'),
+    '#title'          => t('Delivery capping per visitor'),
     '#type'           => 'fieldset',
   );
   $form['delivery']['delivery_limit_total'] = array(
     '#default_value'  => $node->delivery_limit_total,
-    '#title'          => t('Limit campaign views in total'),
+    '#title'          => t('Total limit'),
     '#type'           => 'textfield',
     '#size'           => 10
   );
   $form['delivery']['delivery_limit_session'] = array(
     '#default_value'  => $node->delivery_limit_session,
-    '#title'          => t('Limit campaign views per session'),
+    '#title'          => t('Per session'),
     '#type'           => 'textfield',
     '#size'           => 10
   );
@@ -393,21 +393,21 @@ function theme_openx_campaign(&$node) {
   $inventory = variable_get('openx_manager_campaign_inventory', array('impressions' => 'impressions'));
   if ($inventory['impressions']) {
     $fields['inventory']['inventory_impressions'] = array(
-      '#value'          => empty($node->inventory_impressions) ? 'unlimited' : $node->inventory_impressions,
+      '#value'          => empty($node->inventory_impressions) ? t('unlimited') : $node->inventory_impressions,
       '#title'          => t('Impressions'),
       '#type'           => 'item',
     );
   }
   if ($inventory['clicks']) {
     $fields['inventory']['inventory_clicks'] = array(
-      '#value'          => empty($node->inventory_clicks) ? 'unlimited' : $node->inventory_clicks,
+      '#value'          => empty($node->inventory_clicks) ? t('unlimited') : $node->inventory_clicks,
       '#title'          => t('Clicks'),
       '#type'           => 'item',
     );
   }
   if ($inventory['conversions']) {
     $fields['inventory']['inventory_conversions'] = array(
-      '#value'          => empty($node->inventory_conversions) ? 'unlimited' : $node->inventory_conversions,
+      '#value'          => empty($node->inventory_conversions) ? t('unlimited') : $node->inventory_conversions,
       '#title'          => t('Conversions'),
       '#type'           => 'item',
     );
@@ -489,22 +489,22 @@ function theme_openx_campaign(&$node) {
     );
   }
   $fields['delivery'] = array(
-    '#title'          => t('Delivery'),
+    '#title'          => t('Delivery capping per visitor'),
     '#type'           => 'fieldset',
     '#weight'         => 4,
   );
   $fields['delivery']['delivery_limit_total'] = array(
-    '#value'          => $node->delivery_limit_total,
-    '#title'          => t('Limit campaign views in total'),
+    '#value'          => empty($node->delivery_limit_total) ? t('unlimited') : $node->delivery_limit_total,
+    '#title'          => t('Total limit'),
     '#type'           => 'item',
   );
   $fields['delivery']['delivery_limit_session'] = array(
-    '#value'          => $node->delivery_limit_session,
-    '#title'          => t('Limit campaign views per session'),
+    '#value'          => empty($node->delivery_limit_session) ? t('unlimited') : $node->delivery_limit_session,
+    '#title'          => t('Per session'),
     '#type'           => 'item',
   );
   $fields['delivery']['delivery_reset_view'] = array(
-    '#value'          => $node->delivery_reset_view,
+    '#value'          => empty($node->delivery_reset_view) ? t('never') : $node->delivery_reset_view,
     '#title'          => t('Reset view counters after'),
     '#type'           => 'item',
   );
