@@ -115,6 +115,7 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#title'          => t('Contract'),
     '#type'           => 'fieldset',
   );
+  $contract_activation = $node->contract_activation;
   if (is_numeric($node->contract_activation)) {
     $node->contract_activation = array(
       'day'   => date('j', $node->contract_activation),
@@ -128,10 +129,11 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#type'           => 'date',
   );
   $form['contract']['contract_activation_unlimited'] = array(
-    '#default_value'  => !$node->contract_activation,
+    '#default_value'  => !$contract_activation,
     '#title'          => t('Activate this campaign immediately'),
     '#type'           => 'checkbox',
   );
+  $contract_expiration = $node->contract_expiration;
   if (is_numeric($node->contract_expiration)) {
     $node->contract_expiration = array(
       'day'   => date('j', $node->contract_expiration),
@@ -145,7 +147,7 @@ function _openx_node_campaign_form(&$node, $form_state) {
     '#type'           => 'date',
   );
   $form['contract']['contract_expiration_unlimited'] = array(
-    '#default_value'  => !$node->contract_expiration,
+    '#default_value'  => !$contract_expiration,
     '#title'          => t("Don't expire this campaign on a specific date"),
     '#type'           => 'checkbox',
   );
@@ -275,29 +277,34 @@ function _openx_node_campaign_submit(&$form, &$form_state) {
   if ($form_state['values']['op'] != t('Preview')) {
     $node = &$form_state['values'];
 
-    if (empty($node['contract_activation_unlimited'])) {
-      $node['contract_activation'] = mktime(0, 0, 0, $node['contract_activation']['month'],
-        $node['contract_activation']['day'], $node['contract_activation']['year']);
-    }
-    else {
-      $node['contract_activation'] = 0;
-    }
-    if (empty($node['contract_expiration_unlimited'])) {
-      $node['contract_expiration'] = mktime(0, 0, 0, $node['contract_expiration']['month'],
-        $node['contract_expiration']['day'], $node['contract_expiration']['year']);
-    }
-    else {
-      $node['contract_expiration'] = 0;
-    }
 
     // Required and optional values on OpenX server
     $data = array(
       'campaignName'  => $node['title'],
       'advertiserId'  => (int) $node['oaid'],
     );
+
+    // Deal XML RPC dates
     include_once './includes/xmlrpc.inc';
-    $data['startDate'] = xmlrpc_date($node['contract_activation']);
-    $data['endDate'] = xmlrpc_date($node['contract_expiration']);
+    if (empty($node['contract_activation_unlimited'])) {
+      $node['contract_activation'] = mktime(0, 0, 0, $node['contract_activation']['month'],
+        $node['contract_activation']['day'], $node['contract_activation']['year']);
+      $data['startDate'] = xmlrpc_date($node['contract_activation']);
+    }
+    else {
+      $node['contract_activation'] = 0;
+      $data['startDate'] = xmlrpc_date('00000000T00:00:00');
+    }
+    if (empty($node['contract_expiration_unlimited'])) {
+      $node['contract_expiration'] = mktime(0, 0, 0, $node['contract_expiration']['month'],
+        $node['contract_expiration']['day'], $node['contract_expiration']['year']);
+      $data['endDate'] = xmlrpc_date($node['contract_expiration']);
+    }
+    else {
+      $node['contract_expiration'] = 0;
+      $data['endDate'] = xmlrpc_date('00000000T00:00:00');
+    }
+
     if (!empty($node['inventory_impressions'])) {
       $data['impressions'] = (int) $node['inventory_impressions'];
     }
