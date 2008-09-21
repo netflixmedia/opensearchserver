@@ -477,13 +477,14 @@ function theme_openx_campaign(&$node) {
       '#title'          => t('Distribution'),
       '#type'           => 'item',
     );
+    $options = array(t('No'), t('Yes'));
     $fields['priority']['priority_misc_hide'] = array(
-      '#value'          => $node->priority_misc_hide,
+      '#value'          => $options[$node->priority_misc_hide],
       '#title'          => t('Hide the advertiser and websites of this campaign'),
       '#type'           => 'item',
     );
     $fields['priority']['priority_misc_positioning'] = array(
-      '#value'          => $node->priority_misc_positioning,
+      '#value'          => $options[$node->priority_misc_positioning],
       '#title'          => t('Companion positioning'),
       '#type'           => 'item',
     );
