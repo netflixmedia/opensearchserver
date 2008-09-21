@@ -181,35 +181,35 @@ function openx_manager_menu() {
   );
 
   // Link Zone to Campaign and Banner pages
-  $items['node/%node/link-zone-banner'] = array(
-    'access arguments'  => array('link zone to banners', 1, 'zone'),
+  $items['node/%node/link-banner-zone'] = array(
+    'access arguments'  => array('link zone to banners', 1),
     'file'              => 'openx_manager.zone.inc',
     'page callback'     => 'drupal_get_form',
-    'page arguments'    => array('_openx_node_zone_link_banner', 1),
+    'page arguments'    => array('_openx_node_zone_link_banner', 1, 'banner'),
     'title'             => 'Link to Banners',
     'type'              => MENU_CALLBACK,
   );
-  $items['node/%node/link-banner-zone'] = array(
-    'access arguments'  => array('link zone to banners', 1, 'banner'),
+  $items['node/%node/link-campaign-zone'] = array(
+    'access arguments'  => array('link zone to campaigns', 1),
     'file'              => 'openx_manager.zone.inc',
     'page callback'     => 'drupal_get_form',
-    'page arguments'    => array('_openx_node_zone_link_banner', 1),
+    'page arguments'    => array('_openx_node_zone_link_campaign', 1, 'campaign'),
+    'title'             => 'Link to Campaigns',
+    'type'              => MENU_CALLBACK,
+  );
+  $items['node/%node/link-zone-banner'] = array(
+    'access arguments'  => array('link zone to banners', 1),
+    'file'              => 'openx_manager.zone.inc',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('_openx_node_zone_link_banner', 1, 'zone'),
     'title'             => 'Link to Banners',
     'type'              => MENU_CALLBACK,
   );
   $items['node/%node/link-zone-campaign'] = array(
-    'access arguments'  => array('link zone to campaigns', 1, 'zone'),
+    'access arguments'  => array('link zone to campaigns', 1),
     'file'              => 'openx_manager.zone.inc',
     'page callback'     => 'drupal_get_form',
-    'page arguments'    => array('_openx_node_zone_link_campaign', 1),
-    'title'             => 'Link to Campaigns',
-    'type'              => MENU_CALLBACK,
-  );
-  $items['node/%node/link-campaign-zone'] = array(
-    'access arguments'  => array('link zone to campaigns', 1, 'campaign'),
-    'file'              => 'openx_manager.zone.inc',
-    'page callback'     => 'drupal_get_form',
-    'page arguments'    => array('_openx_node_zone_link_campaign', 1),
+    'page arguments'    => array('_openx_node_zone_link_campaign', 1, 'zone'),
     'title'             => 'Link to Campaigns',
     'type'              => MENU_CALLBACK,
   );

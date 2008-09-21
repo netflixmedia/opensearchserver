@@ -219,9 +219,15 @@ function _openx_node_zone_link_banner_submit(&$form, &$forn_state) {
 /**
  * List all banners that might get linked to this zone
  *
+ * @param $forn_state
+ *   Array. Sent to all forms.
+ * @param $object_id
+ *   Number. Zone, campaign or banner ID, depending on the the $type.
+ * @param $type
+ *   String. What object is the the base: 'zone', 'banner', 'campaign'.
  * @ingroup form
  */
-function _openx_node_zone_link_campaign($forn_state, $zone) {
+function _openx_node_zone_link_campaign($forn_state, $zone, $type) {
   $nid_sql = db_query("SELECT campaign.nid FROM {openx_manager_campaign} campaign
     INNER JOIN {openx_manager_link} link ON link.ocid = campaign.ocid
     WHERE link.ozid = %d", $zone->ozid);
