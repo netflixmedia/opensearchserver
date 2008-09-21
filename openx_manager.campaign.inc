@@ -444,11 +444,12 @@ function theme_openx_campaign(&$node) {
     '#weight'         => 3,
   );
   if (user_access('create openx campaigns - priority')) {
-    $options = array(
-      -1  => t('Exclusive (Overrides other linked campaigns)'),
-      5   => t('High (Paid campaigns)'),
-      0   => t('Low (House and unpaid campaigns)'),
-    );
+    $options = array();
+    $options[-1] = t('Exclusive (Overrides other linked campaigns)');
+    for ($index = 10; $index > 0; $index--) {
+      $options[$index] = t('High (Paid campaigns level !level)', array('!level' => $index));
+    }
+    $options[0] = t('Low (House and unpaid campaigns)');
     $fields['priority']['priority_level_level'] = array(
       '#value'          => $options[$node->priority_level_level],
       '#title'          => t('Priority'),
