@@ -124,7 +124,6 @@ function openx_manager_schema() {
         'description' => t('Higher weight means it has more priority'),
         'type'        => 'int',
         'size'        => 'small',
-        'unsigned'    => TRUE,
         'not null'    => TRUE,
       ),
       'destination_url' => array(
