@@ -116,7 +116,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
 function openx_manager_menu() {
   // Settings pages
   $items['admin/settings/openx-manager'] = array(
-    'access arguments'  => array('administer a OpenX server'),
+    'access arguments'  => array('administer site configuration'),
     'description'       => 'Control a OpenX server from here',
     'file'              => 'openx_manager.settings.inc',
     'page callback'     => 'drupal_get_form',
@@ -129,7 +129,7 @@ function openx_manager_menu() {
     'weight'            => -10
   );
   $items['admin/settings/openx-manager/import'] = array(
-    'access arguments'  => array('administer a OpenX server'),
+    'access arguments'  => array('administer site configuration'),
     'description'       => 'Import data from OpenX server',
     'file'              => 'openx_manager.settings.inc',
     'page callback'     => 'drupal_get_form',
