@@ -565,6 +565,9 @@ function openx_manager_uninstall() {
  * Change the "text_all" column name from {banner table to "text_alt"
  */
 function openx_manager_update_6000() {
+  $update = array();
+  db_change_field($update, 'openx_manager_banner', 'text_all', 'text_alt',
+    array('type' => 'varchar', 'length' => 255, 'not null' => true));
   $update[] = update_sql('ALTER TABLE {openx_manager_banner} CHANGE text_all text_alt VARCHAR(255)');
   return $update;
 }
