@@ -24,20 +24,21 @@ function openx_manager_views_data() {
   $data['openx_manager_campaign']['contract_revenue_unit']['field']['handler']        = 'openx_manager_handler_field_list';
   $data['openx_manager_campaign']['priority_level_level']['field']['handler']         = 'openx_manager_handler_field_list';
   $data['openx_manager_campaign']['priority_distribution_level']['field']['handler']  = 'openx_manager_handler_field_list';
-  $data['openx_manager_zone']['priority_level_level']['field']['handler']             = 'openx_manager_handler_field_list';
-  $data['openx_manager_zone']['size_preset']['field']['handler']                      = 'openx_manager_handler_field_list';
+  $data['openx_manager_zone']['zone_type']['field']['handler']                        = 'openx_manager_handler_field_list';
+//   $data['openx_manager_zone']['size_preset']['field']['handler']                      = 'openx_manager_handler_field_list';
 
   $data['openx_manager_banner']['btype']['filter']['handler']                         = 'openx_manager_handler_filter_list';
   $data['openx_manager_campaign']['contract_revenue_unit']['filter']['handler']       = 'openx_manager_handler_filter_list';
   $data['openx_manager_campaign']['priority_level_level']['filter']['handler']        = 'openx_manager_handler_filter_list';
   $data['openx_manager_campaign']['priority_distribution_level']['filter']['handler'] = 'openx_manager_handler_filter_list';
-  $data['openx_manager_zone']['priority_level_level']['filter']['handler']            = 'openx_manager_handler_filter_list';
-  $data['openx_manager_zone']['size_preset']['filter']['handler']                     = 'openx_manager_handler_filter_list';
+  $data['openx_manager_zone']['zone_type']['filter']['handler']                       = 'openx_manager_handler_filter_list';
+//   $data['openx_manager_zone']['size_preset']['filter']['handler']                     = 'openx_manager_handler_filter_list';
 
   // Banner image
   $data['openx_manager_banner']['data_image']['field']['handler']                     = 'openx_manager_handler_image';
   unset($data['openx_manager_banner']['data_image']['filter']);
   unset($data['openx_manager_banner']['data_image']['sort']);
+  unset($data['openx_manager_banner']['data_image']['argument']);
 
   return $data;
 }
