@@ -411,6 +411,16 @@ function _openx_manager_user_integration($permission, $user) {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function openx_manager_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'openx_manager') .'/views',
+  );
+}
+
+/**
  * Implementation of hook_access().
  *
  * For Advertisers
