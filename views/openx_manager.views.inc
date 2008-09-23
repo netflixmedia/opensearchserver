@@ -129,7 +129,7 @@ function _openx_manager_views_data() {
 function openx_manager_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'openx_manager') . '/views',
+      'path' => drupal_get_path('module', 'openx_manager') .'/views',
     ),
     'handlers' => array(
       'openx_manager_handler_field_list' => array(

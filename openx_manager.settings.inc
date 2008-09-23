@@ -100,8 +100,8 @@ function _openx_manager_settings_validate(&$form, &$form_state) {
   }
 
   // Filter the server URL
-  if (substr($form_state['values']['openx_manager_server'], -1, 1) == '/') {
-    $url = substr($form_state['values']['openx_manager_server'], 0, -1);
+  if (drupal_substr($form_state['values']['openx_manager_server'], -1, 1) == '/') {
+    $url = drupal_substr($form_state['values']['openx_manager_server'], 0, -1);
     form_set_value($form['openx_manager_server'], $url, $form_state);
   }
 
@@ -144,7 +144,7 @@ function _openx_manager_import() {
  */
 function _openx_manager_import_submit(&$form, &$form_state) {
   $ntype = $ntype2 = $form_state['values']['ntype'];
-  $sql_id     = 'o'. substr($ntype, 0, 1) .'id';
+  $sql_id     = 'o'. drupal_substr($ntype, 0, 1) .'id';
   $sql_table  = 'openx_manager_'. $ntype;
   switch ($ntype) {
     case 'advertiser':
