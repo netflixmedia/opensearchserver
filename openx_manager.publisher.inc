@@ -248,6 +248,19 @@ function theme_openx_publisher(&$node) {
     '#type'           => 'item',
   );
 
+  // Zones list
+  $fields['zones'] = array(
+    '#collapsible'    => TRUE,
+    '#title'          => t('Zones'),
+    '#type'           => 'fieldset',
+    '#weight'         => 10,
+  );
+  $view = views_get_view('openx_manager_zones');
+  $fields['zones'][] = array(
+    '#value'          => $view->execute_display(NULL, array($node->opid)),
+    '#type'           => 'item',
+  );
+
   // Print all field in the right order
   $output = '';
   foreach ($fields as $field) {
