@@ -274,6 +274,19 @@ function theme_openx_advertiser(&$node) {
     );
   }
 
+  // Campaigns list
+  $fields['campaigns'] = array(
+    '#collapsible'    => TRUE,
+    '#title'          => t('Campaigns'),
+    '#type'           => 'fieldset',
+    '#weight'         => 10,
+  );
+  $view = views_get_view('openx_manager_campaigns');
+  $fields['campaigns'][] = array(
+    '#value'          => $view->execute_display(NULL, array($node->oaid)),
+    '#type'           => 'item',
+  );
+
   // Print all field in the right order
   $output = '';
   foreach ($fields as $field) {
