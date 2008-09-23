@@ -34,7 +34,7 @@ function _openx_manager_default_views_banner(&$views) {
   $handler->override_option('fields', array(
     'title' => array(
       'label' => 'Title',
-      'link_to_node' => 1,
+      'link_to_node' => TRUE,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
@@ -119,7 +119,7 @@ function _openx_manager_default_views_banner(&$views) {
   ));
   $handler->override_option('access', array(
     'type' => 'perm',
-    'perm' => 'view openx campaigns',
+    'perm' => 'view openx banners',
   ));
   $handler->override_option('empty', 'None created.');
   $handler->override_option('empty_format', '1');
@@ -182,7 +182,7 @@ function _openx_manager_default_views_campaign(&$views) {
   $handler->override_option('fields', array(
     'title' => array(
       'label' => 'Title',
-      'link_to_node' => 1,
+      'link_to_node' => TRUE,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
@@ -366,7 +366,7 @@ function _openx_manager_default_views_zone(&$views) {
   $handler->override_option('fields', array(
     'title' => array(
       'label' => 'Title',
-      'link_to_node' => 0,
+      'link_to_node' => TRUE,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
