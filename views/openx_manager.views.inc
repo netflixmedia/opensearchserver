@@ -77,21 +77,25 @@ function _openx_manager_views_data() {
           $handler_field  = 'views_handler_field_date';
           $handler_sort   = 'views_handler_sort_date';
           $handler_filter = 'views_handler_filter_date';
+          $handler_arg    = 'views_handler_argument_date';
         }
         elseif ($field_data['type'] == 'int' and $field_data['size'] == 'tiny') {
           $handler_field  = 'views_handler_field_boolean';
           $handler_sort   = 'views_handler_sort';
           $handler_filter = 'views_handler_filter_boolean_operator';
+          $handler_arg    = 'views_handler_argument';
         }
         elseif ($field_data['type'] == 'int') {
           $handler_field  = 'views_handler_field_numeric';
           $handler_sort   = 'views_handler_sort';
           $handler_filter = 'views_handler_filter_numeric';
+          $handler_arg    = 'views_handler_argument_numeric';
         }
         else {
           $handler_field  = 'views_handler_field';
           $handler_sort   = 'views_handler_sort';
           $handler_filter = 'views_handler_filter';
+          $handler_arg    = 'views_handler_argument_string';
         }
 
         // Use the default
@@ -108,12 +112,37 @@ function _openx_manager_views_data() {
           'filter'    => array(
             'handler'         => $handler_filter,
           ),
+          'argument'  => array(
+            'handler'         => $handler_arg,
+          ),
         );
       }
     }
   }
 
   return $data;
+}
+
+/**
+ * Implementation of hook_views_handlers().
+ */
+function openx_manager_views_handlers() {
+  return array(
+    'info' => array(
+      'path' => drupal_get_path('module', 'openx_manager') . '/views',
+    ),
+    'handlers' => array(
+      'openx_manager_handler_field_list' => array(
+        'parent' => 'views_handler_field',
+      ),
+      'openx_manager_handler_filter_list' => array(
+        'parent' => 'views_handler_filter_in_operator',
+      ),
+      'openx_manager_handler_image' => array(
+        'parent' => 'views_handler_field',
+      ),
+    ),
+  );
 }
 
 /**
@@ -189,26 +218,4 @@ function _openx_manager_views_list($field) {
       ''        => t('Custom'),
     );
   }
-}
-
-/**
- * Implementation of hook_views_handlers().
- */
-function openx_manager_views_handlers() {
-  return array(
-    'info' => array(
-      'path' => drupal_get_path('module', 'openx_manager') . '/views',
-    ),
-    'handlers' => array(
-      'openx_manager_handler_field_list' => array(
-        'parent' => 'views_handler_field',
-      ),
-      'openx_manager_handler_filter_list' => array(
-        'parent' => 'views_handler_filter_in_operator',
-      ),
-      'openx_manager_handler_image' => array(
-        'parent' => 'views_handler_field',
-      ),
-    ),
-  );
 }
