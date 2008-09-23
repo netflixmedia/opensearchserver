@@ -136,19 +136,21 @@ function _openx_manager_views_list($field) {
   }
   elseif ($field == 'btype') {
     return array(
-      'sql'   => t('Local banner (SQL)'),
-      'web'   => t('Local banner (Webserver)'),
+      'sql'   => t('OpenX server banner (stored as a SQL data)'),
+      'web'   => t('OpenX server banner (stored as a file)'),
+      'url2'  => t('Local banner'),
       'url'   => t('External banner'),
       'html'  => t('HTML banner'),
       'txt'   => t('Text ad'),
     );
   }
   elseif ($field == 'priority_level_level') {
-    return array(
-      -1  => t('Exclusive (Overrides other linked campaigns)'),
-      5   => t('High (Paid campaigns)'),
-      0   => t('Low (House and unpaid campaigns)'),
-    );
+    $options[-1] = t('Exclusive (Overrides other linked campaigns)');
+    for ($index = 10; $index > 0; $index--) {
+      $options[$index] = t('High (Paid campaigns level !level)', array('!level' => $index));
+    }
+    $options[0] = t('Low (House and unpaid campaigns)');
+    return $options;
   }
   elseif ($field == 'priority_distribution_level') {
     return array(
