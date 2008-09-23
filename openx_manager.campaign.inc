@@ -519,7 +519,7 @@ function theme_openx_campaign(&$node) {
   );
   $view = views_get_view('openx_manager_banners');
   $fields['banners'][] = array(
-    '#value'          => $view->execute_display(NULL, array()),
+    '#value'          => $view->execute_display(NULL, array($node->ocid)),
     '#type'           => 'item',
   );
 
