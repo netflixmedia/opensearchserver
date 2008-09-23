@@ -271,15 +271,28 @@ function openx_manager_node_info() {
  */
 function openx_manager_perm() {
   return array(
-    'create openx advertisers', 'edit own openx advertisers',   'view openx advertisers',
-    'create openx banners',     'edit own openx banners',       'view openx banners',
-    'create openx campaigns',   'edit own openx campaigns',     'view openx campaigns',
-    'create openx managers',    'edit own openx managers',      'view openx managers',
-    'create openx publishers',  'edit own openx publishers',    'view openx publishers',
-    'create openx users',       'edit own openx users',         'view openx users',
-    'create openx zones',       'edit own openx zones',         'view openx zones',
-
+    'create openx advertisers',
+    'create openx banners',
+    'create openx campaigns',
     'create openx campaigns - priority',
+    'create openx managers',
+    'create openx publishers',
+    'create openx users',
+    'create openx zones',
+    'edit own openx advertisers',
+    'edit own openx banners',
+    'edit own openx campaigns',
+    'edit own openx managers',
+    'edit own openx publishers',
+    'edit own openx users',
+    'edit own openx zones',
+    'view openx advertisers',
+    'view openx banners',
+    'view openx campaigns',
+    'view openx managers',
+    'view openx publishers',
+    'view openx users',
+    'view openx zones',
 
     'link zone to banners',
     'link zone to campaigns',
@@ -415,8 +428,8 @@ function _openx_manager_user_integration($permission, $user) {
  */
 function openx_manager_views_api() {
   return array(
-    'api' => 2,
-    'path' => drupal_get_path('module', 'openx_manager') .'/views',
+    'api'   => 2,
+    'path'  => drupal_get_path('module', 'openx_manager') .'/views',
   );
 }
 
