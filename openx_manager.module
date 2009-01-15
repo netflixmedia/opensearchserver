@@ -330,8 +330,21 @@ function _openx_manager_session($check_only = FALSE, $server = NULL, $username =
       $username,
       $password
     );
+    if (xmlrpc_errno()) {
+      drupal_set_message(t('Not possible to connect with the OpenX server.'), 'error');
+    }
   }
   return $session_id;
+}
+
+function _openx_manager_server_status() {
+  static $server_status;
+  if (!isset($server_status)) {
+    $server_status = variable_get('openx_manager_server', '')
+      and variable_get('openx_manager_username', '')
+      and variable_get('openx_manager_password', '');
+  }
+  return $server_status;
 }
 
 /**
@@ -378,6 +391,8 @@ function openx_manager_theme() {
  * Implementation of hook_user().
  */
 function openx_manager_user($type, &$edit, &$user, $category = NULL) {
+  // If the server is not set yet, dont do any operation
+
   if ($type == 'insert' or $type == 'update') {
     if (user_access('user-advertiser')) {
       module_load_include('advertiser.inc', 'openx_manager');
