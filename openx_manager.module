@@ -80,7 +80,7 @@ function openx_manager_link($type, $object, $teaser = FALSE) {
     elseif ($object->type == 'openx_publisher' and user_access('create openx zones')) {
       $links['create_zone'] = array(
         'title'       => t('Create a new Zone'),
-        'href'        => 'node/%node/link-zone-campaign',
+        'href'        => 'node/add/openx-zone',
         'query'       => array('opid' => $object->opid, 'nid' => $object->nid),
       );
     }
