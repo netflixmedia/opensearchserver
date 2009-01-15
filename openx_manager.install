@@ -588,6 +588,26 @@ function openx_manager_uninstall() {
 }
 
 /**
+ * Implementation of hook_requirements().
+ */
+function openx_manager_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    if (!_openx_manager_server_status()) {
+      $requirements['openx_manager'] = array(
+        'value'       => t('Not installed'),
+        'title'       => t('OpenX server'),
+        'severity'    => REQUIREMENT_ERROR,
+        'description' => t('In order to integrate Drupal with OpenX, you should enter <a href="@url">server url, username and password</a>.', array('@url' => url('admin/settings/openx-manager/settings'))),
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
  * Implementation of hook_uninstall().
  *
  * Change the "text_all" column name from {banner table to "text_alt"

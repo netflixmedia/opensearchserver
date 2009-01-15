@@ -346,9 +346,9 @@ function _openx_manager_session($check_only = FALSE, $server = NULL, $username =
 function _openx_manager_server_status() {
   static $server_status;
   if (!isset($server_status)) {
-    $server_status = variable_get('openx_manager_server', '')
+    $server_status = (variable_get('openx_manager_server', '')
       and variable_get('openx_manager_username', '')
-      and variable_get('openx_manager_password', '');
+      and variable_get('openx_manager_password', ''));
   }
   return $server_status;
 }
