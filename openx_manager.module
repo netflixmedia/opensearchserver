@@ -337,6 +337,12 @@ function _openx_manager_session($check_only = FALSE, $server = NULL, $username =
   return $session_id;
 }
 
+/**
+ * Check if the values needed to connect with OpenX server are all set.
+ *
+ * @return
+ *   Boolean. TRUE if all values are set.
+ */
 function _openx_manager_server_status() {
   static $server_status;
   if (!isset($server_status)) {
