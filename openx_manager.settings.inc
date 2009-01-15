@@ -29,8 +29,7 @@ function _openx_manager_settings() {
     '#type'           => 'textfield',
   );
   $form['openx_manager_password'] = array(
-    '#default_value'  => variable_get('openx_manager_password', ''),
-    '#title'          => t('Password'),
+    '#title'          => variable_get('openx_manager_password', '') ? t('Change password') : t('Password'),
     '#type'           => 'password',
   );
   $form['openx_manager_user_integration'] = array(
@@ -95,21 +94,26 @@ function _openx_manager_settings() {
  * @ingroup form
  */
 function _openx_manager_settings_validate(&$form, &$form_state) {
-  if (!valid_url($form_state['values']['openx_manager_server'], TRUE)) {
-    form_set_error('openx_manager_server', 'Invalid server URL');
-  }
+  if (!empty($form_state['values']['openx_manager_server'])) {
+    if (!valid_url($form_state['values']['openx_manager_server'], TRUE)) {
+      form_set_error('openx_manager_server', 'Invalid server URL');
+    }
 
-  // Filter the server URL
-  if (drupal_substr($form_state['values']['openx_manager_server'], -1, 1) == '/') {
-    $url = drupal_substr($form_state['values']['openx_manager_server'], 0, -1);
-    form_set_value($form['openx_manager_server'], $url, $form_state);
-  }
+    // Filter the server URL
+    if (drupal_substr($form_state['values']['openx_manager_server'], -1, 1) == '/') {
+      $url = drupal_substr($form_state['values']['openx_manager_server'], 0, -1);
+      form_set_value($form['openx_manager_server'], $url, $form_state);
+    }
 
-  // Check if all data are right by calling the API
-  if (!_openx_manager_session(FALSE, $form_state['values']['openx_manager_server'],
-      $form_state['values']['openx_manager_username'],
-      $form_state['values']['openx_manager_password'])) {
-    form_set_error('openx_manager_server', t('Not possible to connect with the OpenX server. Some of these values are wrong.'));
+    // Check if all data are right by calling the API
+    if (!empty($form_state['values']['openx_manager_username'])
+        and !empty($form_state['values']['openx_manager_password'])) {
+      if (!_openx_manager_session(FALSE, $form_state['values']['openx_manager_server'],
+          $form_state['values']['openx_manager_username'],
+          $form_state['values']['openx_manager_password'])) {
+        form_set_error('openx_manager_server', t('Some of these values are wrong.'));
+      }
+    }
   }
 }
 
