@@ -14,7 +14,7 @@
 function _openx_manager_settings() {
   $image_path = file_create_path(file_directory_path() .'/openx_manager_banners');
   if (!file_check_directory($image_path, FILE_CREATE_DIRECTORY)) {
-    drupal_set_message(t('It was not possible to crete the %dir directory. Check the permissons.', array(
+    drupal_set_message(t('It was not possible to create the %dir directory. Check the permissons.', array(
       '%dir' => $image_path)));
   }
 
