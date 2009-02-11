@@ -1,5 +1,6 @@
 ; $Id$
 core            = "6.x"
 dependencies[]  = "upload"
+dependencies[]  = "views"
 description     = "Control a OpenX from distance."
 name            = "OpenX Manager"
