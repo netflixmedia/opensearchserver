@@ -61,6 +61,7 @@ function _openx_manager_call_file($op) {
     case 'addBanner':
     case 'deleteBanner':
     case 'getBanner':
+    case 'getBannerListByCampaignId';
     case 'modifyBanner':
     case 'bannerDailyStatistics':
     case 'bannerListByCampaignId':
@@ -70,6 +71,7 @@ function _openx_manager_call_file($op) {
     case 'addCampaign':
     case 'deleteCampaign':
     case 'getCampaign':
+    case 'getCampaignListByAdvertiserId':
     case 'modifyCampaign':
     case 'campaignBannerStatistics':
     case 'campaignDailyStatistics':

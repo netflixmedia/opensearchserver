@@ -153,8 +153,8 @@ function _openx_manager_import_submit(&$form, &$form_state) {
   switch ($ntype) {
     case 'advertiser':
       $api_op     = 'getAdvertiserListByAgencyId';
-      $sql_id2    = 'omid';
-      $sql_table2 = 'openx_manager_manager';
+      $sql_id_parrent    = 'omid';
+      $sql_table_parrent = 'openx_manager_manager';
       $fields     = array(
         'title'                 => 'advertiserName',
         'info_contact'          => 'contactName',
@@ -164,8 +164,8 @@ function _openx_manager_import_submit(&$form, &$form_state) {
       break;
     case 'banner':
       $api_op     = 'getBannerListByCampaignId';
-      $sql_id2    = 'ocid';
-      $sql_table2 = 'openx_manager_campaign';
+      $sql_id_parrent    = 'ocid';
+      $sql_table_parrent = 'openx_manager_campaign';
       $fields     = array(
         'title'                 => 'bannerName',
         'obid'                  => 'bannerId',
@@ -174,17 +174,19 @@ function _openx_manager_import_submit(&$form, &$form_state) {
         'data_image'            => 'aImage',
         'data_url'              => 'imageURL',
         'data_text'             => 'htmlTemplate',
+        'destination_url'       => 'url',
         'size_height'           => 'height',
         'size_width'            => 'width',
       );
       break;
     case 'campaign':
       $api_op     = 'getCampaignListByAdvertiserId';
-      $sql_id2    = 'oaid';
-      $sql_table2 = 'openx_manager_advertiser';
+      $sql_id_parrent    = 'oaid';
+      $sql_table_parrent = 'openx_manager_advertiser';
       $fields     = array(
         'title'                 => 'campaignName',
         'ocid'                  => 'campaignId',
+        'oaid'                  => 'advertiserId',
         'contract_activation'   => 'startDate',
         'contract_expiration'   => 'endDate',
         'inventory_impressions' => 'impressions',
@@ -206,8 +208,8 @@ function _openx_manager_import_submit(&$form, &$form_state) {
       break;
     case 'publisher':
       $api_op     = 'getPublisherListByAgencyId';
-      $sql_id2    = 'omid';
-      $sql_table2 = 'openx_manager_manager';
+      $sql_id_parrent    = 'omid';
+      $sql_table_parrent = 'openx_manager_manager';
       $fields     = array(
         'title'                 => 'publisherName',
         'contact'               => 'contactName',
@@ -217,8 +219,8 @@ function _openx_manager_import_submit(&$form, &$form_state) {
       break;
     case 'user':
       $api_op     = 'getUserListByAccountId';
-      $sql_id2    = 'oacid';
-      $sql_table2 = 'openx_manager_manager';
+      $sql_id_parrent    = 'oacid';
+      $sql_table_parrent = 'openx_manager_manager';
       $fields     = array(
         'title'                 => 'userName',
         'contact'               => 'contactName',
@@ -228,8 +230,8 @@ function _openx_manager_import_submit(&$form, &$form_state) {
       break;
     case 'zone':
       $api_op     = 'getZoneListByPublisherId';
-      $sql_id2    = 'opid';
-      $sql_table2 = 'openx_manager_publisher';
+      $sql_id_parrent    = 'opid';
+      $sql_table_parrent = 'openx_manager_publisher';
       $fields     = array(
         'title'                 => 'zoneName',
         'ozid'                  => 'zoneId',
@@ -243,18 +245,18 @@ function _openx_manager_import_submit(&$form, &$form_state) {
 
   // Get the existing nodes
   $existing_oids = array();
-  if ($sql_existing_oids = db_query("SELECT %s FROM {%s}", $sql_id, $sql_table)) {
-    while ($sql_existing_oid = db_fetch_array($sql_existing_oids)) {
-      $existing_oids[$sql_existing_oid[$sql_id]] = $sql_existing_oid[$sql_id];
+  if ($sql_existing_oids = db_query("SELECT %s AS id FROM {%s}", $sql_id, $sql_table)) {
+    while ($id = db_fetch_object($sql_existing_oids)) {
+      $existing_oids[$id->id] = $id->id;
     }
   }
   unset($sql_existing_oids);
 
   // Check if it requires a upper ID
-  if ($sql_id2) {
-    $oids = db_query("SELECT %s FROM {%s}", $sql_id2, $sql_table2);
-    while ($oid = db_result($oids)) {
-      if ($nodes = _openx_manager_api($api_op, (int) $oid)) {
+  if (isset($sql_id_parrent)) {
+    $oids = db_query("SELECT %s AS id FROM {%s}", $sql_id_parrent, $sql_table_parrent);
+    while ($id = db_fetch_object($oids)) {
+      if ($nodes = _openx_manager_api($api_op, (int) $id->id)) {
         _openx_manager_import_submit_save($nodes, $existing_oids, $fields, $ntype, $ntype2);
       }
     }
@@ -271,7 +273,7 @@ function _openx_manager_import_submit(&$form, &$form_state) {
  */
 function _openx_manager_import_submit_save(&$nodes, &$existing_oids, &$fields, &$ntype, &$ntype2) {
   global $user;
-
+dpm($nodes);
   foreach ($nodes as $node) {
     if (empty($existing_oids[$node[$ntype2 .'Id']])) {
       $new_node = array(

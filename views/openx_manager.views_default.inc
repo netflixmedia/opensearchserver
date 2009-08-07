@@ -60,7 +60,7 @@ function _openx_manager_default_views_banner(&$views) {
   ));
   $handler->override_option('arguments', array(
     'ocid' => array(
-      'default_action' => 'ignore',
+      'default_action' => 'empty',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
       'wildcard' => 'all',
@@ -244,7 +244,7 @@ function _openx_manager_default_views_campaign(&$views) {
   ));
   $handler->override_option('arguments', array(
     'oaid' => array(
-      'default_action' => 'ignore',
+      'default_action' => 'empty',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
       'wildcard' => 'all',
@@ -418,7 +418,7 @@ function _openx_manager_default_views_zone(&$views) {
   ));
   $handler->override_option('arguments', array(
     'opid' => array(
-      'default_action' => 'ignore',
+      'default_action' => 'empty',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
       'wildcard' => 'all',
