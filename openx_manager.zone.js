@@ -1,4 +1,3 @@
-// $Id$
 /**
  * Use the Zone size presets.
  */

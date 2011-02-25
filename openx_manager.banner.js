@@ -1,4 +1,3 @@
-// $Id$
 /**
  * Disable some form fields, depending on what banner type is selected.
  */
